@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # 🗄️ BASE DE DATOS: MySQL 8.0
+  db:
+    image: mysql:8.0
+    container_name: techmovil_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: techmovil_db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - techmovil-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # 🔍 CALIDAD DE CÓDIGO: SonarQube
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    restart: always
+    ports:
+      - "9000:9000"
+    networks:
+      - techmovil-net
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+
+  # 🚀 AUTOMATIZACIÓN: Jenkins
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    restart: always
+    privileged: true
+    user: root
+    ports:
+      - "8081:8080"  # Acceso por el puerto 8081 para no chocar con Spring
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock # Permite a Jenkins usar Docker
+    networks:
+      - techmovil-net
+
+networks:
+  techmovil-net:
+    driver: bridge
+
+volumes:
+  jenkins_home:

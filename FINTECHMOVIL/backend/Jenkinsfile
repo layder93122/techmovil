@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    stages {
+        stage('Compilación y Tests') {
+            steps {
+                // Esto ejecuta los tests unitarios que creamos
+                sh './mvnw clean test'
+            }
+        }
+        stage('Análisis SonarQube') {
+            steps {
+                // Esto manda el reporte de calidad a localhost:9000
+                sh './mvnw sonar:sonar -Dsonar.projectKey=techmovil -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=admin -Dsonar.password=admin'
+            }
+        }
+        stage('Construcción Docker') {
+            steps {
+                // Empaqueta la App en una imagen
+                sh 'docker build -t techmovil-app .'
+            }
+        }
+    }
+}

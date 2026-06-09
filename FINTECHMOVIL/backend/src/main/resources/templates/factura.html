@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMovil - Comprobante de Venta</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; }
+        nav { background: #1a1a2e; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+        nav h1 { font-size: 1.4rem; }
+        nav a { color: #a0c4ff; text-decoration: none; margin-left: 20px; }
+        nav a:hover { color: white; }
+        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 12px; padding: 36px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); text-align: center; }
+        .success-icon { font-size: 3rem; margin-bottom: 16px; }
+        h2 { color: #1a1a2e; margin-bottom: 8px; font-size: 1.5rem; }
+        .subtitle { color: #666; margin-bottom: 28px; }
+        .detail-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; text-align: left; }
+        .detail-table td { padding: 10px 0; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+        .detail-table td:first-child { color: #666; }
+        .detail-table td:last-child { font-weight: bold; color: #1a1a2e; text-align: right; }
+        .total-row td { font-size: 1.1rem; color: #4361ee !important; border-bottom: none !important; }
+        .btn-nuevo { display: inline-block; padding: 12px 28px; background: #4361ee; color: white; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 8px; }
+        .btn-nuevo:hover { background: #3451d1; }
+        .btn-inv { display: inline-block; padding: 12px 28px; background: #e5e7eb; color: #333; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 8px; margin-left: 12px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>📱 TechMovil</h1>
+        <div>
+            <a th:href="@{/home}">Inicio</a>
+            <a th:href="@{/inventario}">Inventario</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card">
+            <div class="success-icon">✅</div>
+            <h2>Venta Registrada</h2>
+            <p class="subtitle">Comprobante de venta generado correctamente</p>
+
+            <table class="detail-table" th:if="${venta != null}">
+                <tr>
+                    <td>ID Venta</td>
+                    <td th:text="${venta.idVenta}"></td>
+                </tr>
+                <tr th:if="${venta.producto != null}">
+                    <td>Producto</td>
+                    <td th:text="${venta.producto.marca + ' ' + venta.producto.modelo}"></td>
+                </tr>
+                <tr th:if="${venta.usuario != null}">
+                    <td>Vendedor</td>
+                    <td th:text="${venta.usuario.nombre}"></td>
+                </tr>
+                <tr th:if="${venta.cantidad != null}">
+                    <td>Cantidad</td>
+                    <td th:text="${venta.cantidad}"></td>
+                </tr>
+                <tr th:if="${venta.fecha != null}">
+                    <td>Fecha</td>
+                    <td th:text="${#temporals.format(venta.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+                <tr class="total-row" th:if="${venta.total != null}">
+                    <td>Total</td>
+                    <td th:text="'S/ ' + ${#numbers.formatDecimal(venta.total, 1, 2)}"></td>
+                </tr>
+            </table>
+
+            <a th:href="@{/ventas/nueva}" class="btn-nuevo">Nueva Venta</a>
+            <a th:href="@{/inventario}" class="btn-inv">Ver Inventario</a>
+        </div>
+    </div>
+</body>
+</html>

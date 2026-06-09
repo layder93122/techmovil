@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMovil - Iniciar Sesión</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .login-card { background: #fff; border-radius: 12px; padding: 40px; width: 100%; max-width: 400px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        h1 { text-align: center; color: #1a1a2e; margin-bottom: 8px; font-size: 1.8rem; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 28px; font-size: 0.9rem; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; color: #333; font-weight: bold; font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s; }
+        input:focus { outline: none; border-color: #4361ee; }
+        .btn-login { width: 100%; padding: 12px; background: #4361ee; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 8px; }
+        .btn-login:hover { background: #3451d1; }
+        .info { text-align: center; margin-top: 16px; font-size: 0.85rem; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>📱 TechMovil</h1>
+        <p class="subtitle">Sistema de Gestión de Celulares</p>
+        <form th:action="@{/home}" method="get">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" placeholder="admin" value="admin">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-login">Iniciar Sesión</button>
+        </form>
+        <p class="info">Usuario: admin | Contraseña: admin123</p>
+    </div>
+</body>
+</html>
