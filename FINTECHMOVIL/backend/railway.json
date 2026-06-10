@@ -5,7 +5,7 @@
     "buildCommand": "./mvnw clean package -DskipTests"
   },
   "deploy": {
-    "startCommand": "java -jar target/techmovil-0.0.1-SNAPSHOT.jar",
+    "startCommand": "java -jar app.jar",
     "healthcheckPath": "/api/productos",
     "healthcheckTimeout": 60,
     "restartPolicyType": "ON_FAILURE"
