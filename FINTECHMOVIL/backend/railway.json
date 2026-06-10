@@ -5,7 +5,6 @@
     "dockerfilePath": "FINTECHMOVIL/backend/Dockerfile"
   },
   "deploy": {
-    "startCommand": "java -jar app.jar",
     "healthcheckPath": "/api/productos",
     "healthcheckTimeout": 60,
     "restartPolicyType": "ON_FAILURE"
