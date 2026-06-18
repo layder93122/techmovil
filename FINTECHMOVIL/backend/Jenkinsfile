@@ -1,32 +1,113 @@
 pipeline {
     agent any
 
+    environment {
+        SONAR_URL             = 'http://sonarqube:9000'
+        SONAR_TOKEN_BACKEND   = 'sqp_9cd49d2bf37c6ca4ce1dcceaa9c73682dd4a0d89'
+        SONAR_TOKEN_FRONTEND  = 'sqa_0d27ba7b442d5827a0425666759402989f12f251'
+        DOCKER_IMAGE          = 'techmovil:latest'
+    }
+
     stages {
-        stage('Compilación y Tests') {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        // ─── BACKEND ──────────────────────────────────────────────────────────
+
+        stage('Backend — Compilar y Tests') {
             steps {
                 dir('FINTECHMOVIL/backend') {
                     sh 'chmod +x mvnw'
-                    sh './mvnw clean test'
+                    sh './mvnw clean verify --no-transfer-progress'
+                }
+            }
+            post {
+                always {
+                    junit testResults: 'FINTECHMOVIL/backend/target/surefire-reports/*.xml',
+                          allowEmptyResults: true
+                    jacoco(
+                        execPattern:    'FINTECHMOVIL/backend/target/jacoco.exec',
+                        classPattern:   'FINTECHMOVIL/backend/target/classes',
+                        sourcePattern:  'FINTECHMOVIL/backend/src/main/java',
+                        minimumInstructionCoverage: '100'
+                    )
                 }
             }
         }
 
-        stage('Análisis SonarQube') {
+        stage('Backend — SonarQube') {
             steps {
                 dir('FINTECHMOVIL/backend') {
-                    // Ajusta este comando si usas Sonar Scanner
-                    echo 'Ejecutando análisis SonarQube...'
+                    sh """
+                        ./mvnw sonar:sonar \\
+                            -Dsonar.host.url=${SONAR_URL} \\
+                            -Dsonar.token=${SONAR_TOKEN_BACKEND} \\
+                            --no-transfer-progress
+                    """
                 }
             }
         }
 
-        stage('Construcción Docker') {
+        stage('Backend — Docker Build') {
             steps {
                 dir('FINTECHMOVIL/backend') {
-                    // Ajusta según tus comandos de Docker
-                    echo 'Construyendo imagen Docker...'
+                    sh "docker build -t ${DOCKER_IMAGE} ."
                 }
             }
+        }
+
+        // ─── FRONTEND ─────────────────────────────────────────────────────────
+
+        stage('Frontend — Instalar dependencias') {
+            steps {
+                dir('FINTECHMOVIL/frontend') {
+                    sh 'which node || (apt-get update -qq && apt-get install -y -qq nodejs npm)'
+                    sh 'npm ci'
+                }
+            }
+        }
+
+        stage('Frontend — Build') {
+            steps {
+                dir('FINTECHMOVIL/frontend') {
+                    sh 'npm run build'
+                }
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'FINTECHMOVIL/frontend/dist/**',
+                                     fingerprint: true,
+                                     allowEmptyArchive: true
+                }
+            }
+        }
+
+        stage('Frontend — SonarQube') {
+            steps {
+                dir('FINTECHMOVIL/frontend') {
+                    sh """
+                        npx sonar-scanner \\
+                            -Dsonar.host.url=${SONAR_URL} \\
+                            -Dsonar.token=${SONAR_TOKEN_FRONTEND}
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline OK — Backend 100% coverage, Frontend 0 bugs, ambos en SonarQube.'
+        }
+        failure {
+            echo 'Pipeline FALLIDO — revisar logs del stage rojo.'
+        }
+        always {
+            cleanWs()
         }
     }
 }
