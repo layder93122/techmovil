@@ -51,7 +51,7 @@ pipeline {
                 dir('FINTECHMOVIL/backend') {
                     sh '''
                         if ! which docker > /dev/null 2>&1; then
-                            curl -fsSL https://get.docker.com | sh
+                            apt-get update -qq && apt-get install -y -qq docker.io
                         fi
                         docker build -t techmovil:latest .
                     '''
