@@ -49,7 +49,12 @@ pipeline {
         stage('Backend — Docker Build') {
             steps {
                 dir('FINTECHMOVIL/backend') {
-                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                    sh '''
+                        if ! which docker > /dev/null 2>&1; then
+                            curl -fsSL https://get.docker.com | sh
+                        fi
+                        docker build -t techmovil:latest .
+                    '''
                 }
             }
         }
@@ -59,8 +64,14 @@ pipeline {
         stage('Frontend — Instalar dependencias') {
             steps {
                 dir('FINTECHMOVIL/frontend') {
-                    sh 'which node || (apt-get update -qq && apt-get install -y -qq nodejs npm)'
-                    sh 'npm ci'
+                    sh '''
+                        if ! which node > /dev/null 2>&1; then
+                            curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+                            apt-get install -y -qq nodejs
+                        fi
+                        node --version
+                        npm ci
+                    '''
                 }
             }
         }
