@@ -14,11 +14,12 @@ const authHeader = () => {
 const apisHeader = () => ({ "Authorization": `Bearer ${APIS_TOKEN}` });
 
 const parseApiRes = async (res) => {
-  if (res.status === 429) throw new Error("Límite de consultas alcanzado, espera un momento");
-  if (res.status === 401) throw new Error("Token inválido");
-  if (res.status === 404) throw new Error("No encontrado");
   const text = await res.text();
-  try { return JSON.parse(text); } catch { throw new Error("Error de conexión con la API"); }
+  if (res.status === 429) throw new Error("Demasiadas consultas seguidas, espera 1 minuto");
+  if (res.status === 401) throw new Error("Token inválido — contacta al profesor");
+  if (res.status === 404) throw new Error("No registrado en RENIEC/SUNAT");
+  if (!text || text.trim().startsWith("<")) throw new Error("Error de conexión con la API");
+  try { return JSON.parse(text); } catch { throw new Error(`Respuesta inesperada: ${text.slice(0,60)}`); }
 };
 
 const consultarDNI = async (dni) => {
@@ -1611,7 +1612,7 @@ export default function App() {
         <div className={`sidebar ${collapsed?"collapsed":""}`}>
           <div className="sidebar-logo" style={{cursor:"pointer"}} onClick={()=>setCollapsed(!collapsed)}>
             <div className="logo-icon">📱</div>
-            {!collapsed&&<div><div className="logo-text">TechMovil</div><div className="logo-sub">Sistema ERP v1.0</div></div>}
+            {!collapsed&&<div><div className="logo-text">TechMovil</div><div className="logo-sub">Sistema ERP v2.1</div></div>}
           </div>
           {sections.map(sec=>(
             <div key={sec}>
