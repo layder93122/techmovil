@@ -1,3 +1,5 @@
+name: techmovil
+
 services:
 
   db:
@@ -13,6 +15,10 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - techmovil-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
 
   sonarqube:
     image: sonarqube:community

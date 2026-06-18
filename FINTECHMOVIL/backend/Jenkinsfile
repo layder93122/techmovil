@@ -6,6 +6,7 @@ pipeline {
         SONAR_TOKEN_BACKEND  = 'sqp_9cd49d2bf37c6ca4ce1dcceaa9c73682dd4a0d89'
         SONAR_TOKEN_FRONTEND = 'sqa_0d27ba7b442d5827a0425666759402989f12f251'
         DOCKER_IMAGE         = 'techmovil:latest'
+        JAVA_TOOL_OPTIONS    = '-Xmx1g'
     }
 
     stages {
@@ -16,9 +17,29 @@ pipeline {
             }
         }
 
-        // ── BACKEND ────────────────────────────────────────────────────────────
+        // ── TOOLS SETUP ────────────────────────────────────────────────────────
+        stage('Setup — Docker + Node') {
+            steps {
+                sh '''
+                    # Docker CLI
+                    if ! which docker > /dev/null 2>&1; then
+                        apt-get update -qq && apt-get install -y -qq docker.io
+                    fi
+                    docker --version
 
-        stage('Backend — Compilar y Tests') {
+                    # Node 20
+                    if ! node --version 2>/dev/null | grep -q "v20"; then
+                        curl -fsSL https://deb.nodesource.com/setup_20.x | bash - > /dev/null 2>&1
+                        apt-get install -y -qq nodejs
+                    fi
+                    node --version
+                    npm --version
+                '''
+            }
+        }
+
+        // ── BACKEND ────────────────────────────────────────────────────────────
+        stage('Backend — Tests + Cobertura') {
             steps {
                 dir('FINTECHMOVIL/backend') {
                     sh 'chmod +x mvnw'
@@ -49,37 +70,19 @@ pipeline {
         stage('Backend — Docker Build') {
             steps {
                 dir('FINTECHMOVIL/backend') {
-                    sh '''
-                        if ! which docker > /dev/null 2>&1; then
-                            apt-get update -qq && apt-get install -y -qq docker.io
-                        fi
-                        docker build -t techmovil:latest .
-                    '''
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
                 }
             }
         }
 
         // ── FRONTEND ───────────────────────────────────────────────────────────
-
-        stage('Frontend — Instalar dependencias') {
+        stage('Frontend — Instalar y Build') {
             steps {
                 dir('FINTECHMOVIL/frontend') {
                     sh '''
-                        if ! which node > /dev/null 2>&1; then
-                            curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-                            apt-get install -y -qq nodejs
-                        fi
-                        node --version
-                        npm ci
+                        npm ci --prefer-offline 2>/dev/null || npm install
+                        npm run build
                     '''
-                }
-            }
-        }
-
-        stage('Frontend — Build') {
-            steps {
-                dir('FINTECHMOVIL/frontend') {
-                    sh 'npm run build'
                 }
             }
         }
@@ -88,9 +91,12 @@ pipeline {
             steps {
                 dir('FINTECHMOVIL/frontend') {
                     sh """
-                        npx sonar-scanner \
+                        npx --yes sonar-scanner@6 \
                             -Dsonar.host.url=${SONAR_URL} \
-                            -Dsonar.token=${SONAR_TOKEN_FRONTEND}
+                            -Dsonar.token=${SONAR_TOKEN_FRONTEND} \
+                            -Dsonar.projectKey=fintechmovil-frontend \
+                            -Dsonar.sources=src \
+                            -Dsonar.exclusions=node_modules/**,dist/**
                     """
                 }
             }
@@ -100,10 +106,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline OK — Backend 100% coverage, Frontend 0 bugs.'
+            echo '✅ Pipeline OK — Backend + Frontend analizados en SonarQube.'
         }
         failure {
-            echo 'Pipeline FALLIDO — revisar el stage rojo en el log.'
+            echo '❌ Pipeline FALLIDO — revisar el stage rojo.'
         }
         always {
             cleanWs()
