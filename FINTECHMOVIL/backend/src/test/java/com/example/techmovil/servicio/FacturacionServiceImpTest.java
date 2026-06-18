@@ -112,6 +112,12 @@ class FacturacionServiceImpTest {
     }
 
     @Test
+    void procesarVentaFacturada_ProductoIdNulo_LanzaCarritoVacioException() {
+        detalle.setProducto(Producto.builder().build());
+        assertThrows(CarritoVacioException.class, () -> facturacionService.procesarVentaFacturada(factura));
+    }
+
+    @Test
     void procesarVentaFacturada_FechaEmisionNull_SetFechaActual() {
         factura.setFechaEmision(null);
         when(productoRepository.findById(1L)).thenReturn(Optional.of(producto));

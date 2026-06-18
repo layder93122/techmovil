@@ -61,6 +61,19 @@ class JwtFilterTest {
     }
 
     @Test
+    void doFilterInternal_TokenSinSubject_NoEstableceAutenticacion() throws Exception {
+        JwtService realService = new JwtService();
+        String noSubjectToken = io.jsonwebtoken.Jwts.builder()
+                .setIssuer("test")
+                .signWith(realService.getKey())
+                .compact();
+        when(request.getHeader("Authorization")).thenReturn("Bearer " + noSubjectToken);
+        when(jwtService.getKey()).thenReturn(realService.getKey());
+        jwtFilter.doFilter(request, response, filterChain);
+        assertNull(SecurityContextHolder.getContext().getAuthentication());
+    }
+
+    @Test
     void jwtFilter_EsInstanciable() {
         assertDoesNotThrow(() -> new JwtFilter(jwtService));
     }

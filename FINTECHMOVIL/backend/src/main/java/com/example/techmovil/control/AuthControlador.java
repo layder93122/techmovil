@@ -39,8 +39,8 @@ public class AuthControlador {
         @ApiResponse(responseCode = "401", description = "Credenciales incorrectas")
     })
     public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest loginRequest) {
-        if (adminUsername != null && adminUsername.equals(loginRequest.getUsername())
-                && adminPassword != null && adminPassword.equals(loginRequest.getPassword())) {
+        if (adminUsername.equals(loginRequest.getUsername())
+                && adminPassword.equals(loginRequest.getPassword())) {
             String token = jwtService.generateToken(loginRequest.getUsername());
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");

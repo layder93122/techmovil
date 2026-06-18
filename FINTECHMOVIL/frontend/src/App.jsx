@@ -1092,7 +1092,7 @@ function Ventas({productos, setProductos}) {
                   <tr key={v.id}>
                     <td><span style={{fontFamily:"var(--mono)",color:"var(--blue)",fontWeight:700}}>{v.id}</span></td>
                     <td>{v.cliente}</td>
-                    <td>{v.productos.map(p=>`${p.nombre}(x${p.qty||p.qty})`).join(", ").slice(0,40)}...</td>
+                    <td>{v.productos.map(p=>`${p.nombre}(x${p.qty||p.cantidad})`).join(", ").slice(0,40)}...</td>
                     <td>S/ {v.subtotal.toFixed(2)}</td>
                     <td>S/ {v.igv.toFixed(2)}</td>
                     <td><strong style={{color:"var(--blue)"}}>S/ {v.total.toFixed(2)}</strong></td>
