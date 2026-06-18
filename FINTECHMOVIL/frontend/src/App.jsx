@@ -6,9 +6,33 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+const APIS_TOKEN = import.meta.env.VITE_APIS_TOKEN || "";
 const authHeader = () => {
   const t = localStorage.getItem("techmovil_token");
   return t ? { "Authorization": `Bearer ${t}`, "Content-Type": "application/json" } : { "Content-Type": "application/json" };
+};
+const apisHeader = () => ({ "Authorization": `Bearer ${APIS_TOKEN}` });
+
+const parseApiRes = async (res) => {
+  if (res.status === 429) throw new Error("Límite de consultas alcanzado, espera un momento");
+  if (res.status === 401) throw new Error("Token inválido");
+  if (res.status === 404) throw new Error("No encontrado");
+  const text = await res.text();
+  try { return JSON.parse(text); } catch { throw new Error("Error de conexión con la API"); }
+};
+
+const consultarDNI = async (dni) => {
+  const res = await fetch(`/api/dni?numero=${dni}`);
+  const d = await parseApiRes(res);
+  if (d.message || d.error) throw new Error(d.message || d.error);
+  return d.nombre || `${d.nombres} ${d.apellidoPaterno} ${d.apellidoMaterno}`.trim();
+};
+
+const consultarRUC = async (ruc) => {
+  const res = await fetch(`/api/ruc?numero=${ruc}`);
+  const d = await parseApiRes(res);
+  if (d.message || d.error) throw new Error(d.message || d.error);
+  return d;
 };
 
 /* ── Estilos ──────────────────────────────────────────────────── */
@@ -245,7 +269,7 @@ tbody tr:hover td{background:var(--bg)}
 .pos-product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
 .pos-prod-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .2s}
 .pos-prod-card:hover{border-color:var(--blue);box-shadow:var(--shadow2)}
-.pos-prod-card.out{opacity:.5;cursor:not-allowed}
+.pos-prod-card.out{opacity:.5;cursor:not-allowed;pointer-events:none}
 .pos-prod-img{width:100%;height:100px;object-fit:cover;background:var(--bg)}
 .pos-prod-body{padding:10px}
 .pos-prod-name{font-size:12px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -264,6 +288,21 @@ tbody tr:hover td{background:var(--bg)}
 .pos-total-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;color:var(--text2)}
 .pos-total-row.grand{font-size:18px;font-weight:800;color:var(--text);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 .pos-btn-pagar{width:100%;margin-top:12px;padding:14px;font-size:15px}
+
+/* BOLETA */
+.boleta-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s ease}
+.boleta-card{background:white;border-radius:16px;width:400px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px rgba(0,0,0,.4);animation:fadeUp .3s ease}
+.boleta-header{background:var(--blue);color:white;padding:24px;border-radius:16px 16px 0 0;text-align:center}
+.boleta-empresa{font-size:16px;font-weight:800;letter-spacing:.5px;margin-bottom:2px}
+.boleta-ruc{font-size:11px;opacity:.8;font-family:var(--mono);margin-bottom:8px}
+.boleta-titulo{background:rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:inline-block}
+.boleta-body{padding:20px}
+.boleta-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--border);font-size:13px}
+.boleta-row:last-child{border-bottom:none}
+.boleta-section{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px}
+.boleta-total-row{display:flex;justify-content:space-between;padding:10px 0;font-size:16px;font-weight:800;color:var(--blue);border-top:2px solid var(--blue);margin-top:6px}
+.boleta-footer{padding:0 20px 20px;display:flex;gap:8px}
+@media print{.boleta-overlay{position:absolute}.boleta-footer{display:none}}
 
 /* INVENTARIO MOVEMENT */
 .movement-entry{display:flex;align-items:center;gap:12px;padding:12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);margin-bottom:8px}
@@ -957,19 +996,23 @@ function Ventas({productos, setProductos}) {
   const [cart, setCart] = useState([]);
   const [ventas, setVentas] = useState(VENTAS_MOCK);
   const [cliente, setCliente] = useState("");
+  const [dniCliente, setDniCliente] = useState("");
+  const [buscandoDNIPos, setBuscandoDNIPos] = useState(false);
   const [metodo, setMetodo] = useState("Efectivo");
   const [paying, setPaying] = useState(false);
   const [search, setSearch] = useState("");
   const [marcaFilter, setMarcaFilter] = useState("");
+  const [boletaVenta, setBoletaVenta] = useState(null);
 
   const subtotal = cart.reduce((s,i) => s+i.precio*i.qty, 0);
   const igv = subtotal * 0.18;
   const total = subtotal * 1.18;
 
   const addToCart = (p) => {
-    if (p.stock === 0) { toast("Producto agotado","error"); return; }
+    const prodActual = productos.find(pr=>pr.id===p.id);
+    if (!prodActual || prodActual.stock === 0) { toast("Producto agotado — sin stock disponible","error"); return; }
     const inCart = cart.find(i=>i.id===p.id);
-    if (inCart && inCart.qty >= p.stock) { toast("Stock máximo alcanzado","error"); return; }
+    if (inCart && inCart.qty >= prodActual.stock) { toast(`Stock máximo alcanzado (${prodActual.stock} unid.)`, "error"); return; }
     setCart(c => {
       const ex = c.find(i=>i.id===p.id);
       if (ex) return c.map(i=>i.id===p.id?{...i,qty:i.qty+1}:i);
@@ -978,21 +1021,42 @@ function Ventas({productos, setProductos}) {
   };
 
   const updateQty = (id, qty) => {
-    if (qty<=0) setCart(c=>c.filter(i=>i.id!==id));
-    else setCart(c=>c.map(i=>i.id===id?{...i,qty}:i));
+    if (qty<=0) { setCart(c=>c.filter(i=>i.id!==id)); return; }
+    const prod = productos.find(p=>p.id===id);
+    if (prod && qty > prod.stock) { toast(`Stock máximo disponible: ${prod.stock} unidad(es)`,"error"); return; }
+    setCart(c=>c.map(i=>i.id===id?{...i,qty}:i));
+  };
+
+  const buscarDNIPos = async () => {
+    if (dniCliente.length !== 8) { toast("El DNI debe tener 8 dígitos","error"); return; }
+    setBuscandoDNIPos(true);
+    try {
+      const nombre = await consultarDNI(dniCliente);
+      setCliente(nombre);
+      toast(`✅ ${nombre}`);
+    } catch(e) {
+      toast(`DNI no encontrado (${e.message})`,"error");
+    } finally {
+      setBuscandoDNIPos(false);
+    }
   };
 
   const procesarVenta = () => {
     if (cart.length===0) { toast("Carrito vacío","error"); return; }
-    if (!cliente) { toast("Ingrese el nombre del cliente","error"); return; }
+    if (!cliente.trim()) { toast("Ingrese el cliente (busca por DNI o escríbelo)","error"); return; }
+    for (const item of cart) {
+      const prod = productos.find(p=>p.id===item.id);
+      if (!prod) { toast(`Producto no encontrado: ${item.nombre}`,"error"); return; }
+      if (prod.stock < item.qty) { toast(`Stock insuficiente para "${prod.nombre}" — disponible: ${prod.stock}`,"error"); return; }
+    }
     setPaying(true);
     setTimeout(()=>{
       const id = `VTA-${String(ventas.length+1).padStart(4,"0")}`;
-      const nv = {id,cliente,productos:cart.map(i=>({nombre:i.nombre,qty:i.qty,precio:i.precio})),subtotal,igv,total,metodo,fecha:new Date().toLocaleString("es-PE"),estado:"Completada"};
+      const nv = {id,cliente:cliente.trim(),productos:cart.map(i=>({nombre:i.nombre,qty:i.qty,precio:i.precio})),subtotal,igv,total,metodo,fecha:new Date().toLocaleString("es-PE"),estado:"Completada"};
       setVentas(v=>[nv,...v]);
       setProductos(ps=>ps.map(p=>{const ci=cart.find(c=>c.id===p.id);return ci?{...p,stock:p.stock-ci.qty,ventas:p.ventas+ci.qty}:p;}));
       setCart([]);setCliente("");setPaying(false);
-      toast(`💰 Venta ${id} completada — Total: S/ ${total.toFixed(2)}`);
+      setBoletaVenta(nv);
     },800);
   };
 
@@ -1055,9 +1119,30 @@ function Ventas({productos, setProductos}) {
               ))}
             </div>
             <div className="pos-cart-footer">
+              <div className="form-group" style={{marginBottom:8}}>
+                <label className="form-label">DNI del cliente</label>
+                <div style={{display:"flex",gap:6}}>
+                  <input
+                    className="form-input"
+                    value={dniCliente}
+                    onChange={e=>setDniCliente(e.target.value.replace(/\D/g,"").slice(0,8))}
+                    placeholder="00000000"
+                    maxLength={8}
+                    style={{letterSpacing:"2px",fontFamily:"var(--mono)"}}
+                  />
+                  <button
+                    className="btn btn-primary"
+                    style={{whiteSpace:"nowrap",padding:"0 12px",fontSize:12}}
+                    onClick={buscarDNIPos}
+                    disabled={buscandoDNIPos||dniCliente.length!==8}
+                  >
+                    {buscandoDNIPos?"⏳":"🔍"}
+                  </button>
+                </div>
+              </div>
               <div className="form-group" style={{marginBottom:10}}>
-                <label className="form-label">Cliente *</label>
-                <input className="form-input" value={cliente} onChange={e=>setCliente(e.target.value)} placeholder="Nombre del cliente"/>
+                <label className="form-label">Nombre del cliente *</label>
+                <input className="form-input" value={cliente} onChange={e=>setCliente(e.target.value)} placeholder="O escríbelo manualmente"/>
               </div>
               <div className="form-group" style={{marginBottom:12}}>
                 <label className="form-label">Método de Pago</label>
@@ -1103,6 +1188,62 @@ function Ventas({productos, setProductos}) {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {boletaVenta && (
+        <div className="boleta-overlay" onClick={()=>setBoletaVenta(null)}>
+          <div className="boleta-card" onClick={e=>e.stopPropagation()}>
+            <div className="boleta-header">
+              <div className="boleta-empresa">FinTechmovil S.A.C.</div>
+              <div className="boleta-ruc">RUC: 20601234567 · Jr. Tecnología 123, Lima</div>
+              <span className="boleta-titulo">📄 Boleta de Venta</span>
+            </div>
+            <div className="boleta-body">
+              <div className="boleta-row">
+                <span style={{color:"var(--text3)"}}>N° Venta</span>
+                <span style={{fontFamily:"var(--mono)",fontWeight:700,color:"var(--blue)"}}>{boletaVenta.id}</span>
+              </div>
+              <div className="boleta-row">
+                <span style={{color:"var(--text3)"}}>Fecha</span>
+                <span style={{fontFamily:"var(--mono)",fontSize:12}}>{boletaVenta.fecha}</span>
+              </div>
+              <div className="boleta-row">
+                <span style={{color:"var(--text3)"}}>Cliente</span>
+                <span style={{fontWeight:600}}>{boletaVenta.cliente}</span>
+              </div>
+              <div className="boleta-row">
+                <span style={{color:"var(--text3)"}}>Método de Pago</span>
+                <span className="tag">{boletaVenta.metodo}</span>
+              </div>
+              <div className="boleta-section">Detalle de Productos</div>
+              {boletaVenta.productos.map((p,i)=>(
+                <div key={i} className="boleta-row">
+                  <span style={{maxWidth:"60%"}}>{p.nombre} <span style={{color:"var(--text3)"}}>x{p.qty}</span></span>
+                  <span style={{fontWeight:600}}>S/ {(p.precio*p.qty).toFixed(2)}</span>
+                </div>
+              ))}
+              <div className="boleta-row" style={{marginTop:10}}>
+                <span style={{color:"var(--text3)"}}>Subtotal</span>
+                <span>S/ {boletaVenta.subtotal.toFixed(2)}</span>
+              </div>
+              <div className="boleta-row">
+                <span style={{color:"var(--text3)"}}>IGV (18%)</span>
+                <span>S/ {boletaVenta.igv.toFixed(2)}</span>
+              </div>
+              <div className="boleta-total-row">
+                <span>TOTAL A PAGAR</span>
+                <span>S/ {boletaVenta.total.toFixed(2)}</span>
+              </div>
+              <div style={{textAlign:"center",marginTop:16,fontSize:11,color:"var(--text3)"}}>
+                ¡Gracias por su compra! · Conserve este comprobante
+              </div>
+            </div>
+            <div className="boleta-footer">
+              <button className="btn btn-primary" style={{flex:1}} onClick={()=>window.print()}>🖨️ Imprimir</button>
+              <button className="btn btn-secondary" style={{flex:1}} onClick={()=>setBoletaVenta(null)}>✓ Cerrar</button>
+            </div>
           </div>
         </div>
       )}
@@ -1228,12 +1369,42 @@ function Clientes() {
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editCli, setEditCli] = useState(null);
-  const [form, setForm] = useState({nombre:"",email:"",telefono:"",dni:"",ciudad:"Lima"});
+  const [form, setForm] = useState({nombre:"",email:"",telefono:"",dni:"",ruc:"",ciudad:"Lima"});
+  const [buscandoDNI, setBuscandoDNI] = useState(false);
+  const [buscandoRUC, setBuscandoRUC] = useState(false);
 
   const filtered = clientes.filter(c => !search || c.nombre.toLowerCase().includes(search.toLowerCase()) || c.email.toLowerCase().includes(search.toLowerCase()));
 
-  const openAdd = () => { setEditCli(null); setForm({nombre:"",email:"",telefono:"",dni:"",ciudad:"Lima"}); setModalOpen(true); };
+  const openAdd = () => { setEditCli(null); setForm({nombre:"",email:"",telefono:"",dni:"",ruc:"",ciudad:"Lima"}); setModalOpen(true); };
   const openEdit = (c) => { setEditCli(c); setForm({...c}); setModalOpen(true); };
+
+  const buscarDNI = async () => {
+    if (form.dni.length !== 8) { toast("El DNI debe tener 8 dígitos","error"); return; }
+    setBuscandoDNI(true);
+    try {
+      const nombre = await consultarDNI(form.dni);
+      setForm(f => ({...f, nombre}));
+      toast(`✅ ${nombre}`);
+    } catch(e) {
+      toast(`DNI no encontrado (${e.message})`,"error");
+    } finally {
+      setBuscandoDNI(false);
+    }
+  };
+
+  const buscarRUC = async () => {
+    if (form.ruc.length !== 11) { toast("El RUC debe tener 11 dígitos","error"); return; }
+    setBuscandoRUC(true);
+    try {
+      const data = await consultarRUC(form.ruc);
+      setForm(f => ({...f, nombre: data.nombre || f.nombre, ciudad: data.departamento || data.provincia || f.ciudad}));
+      toast(`✅ ${data.nombre}`);
+    } catch(e) {
+      toast(`RUC no encontrado (${e.message})`,"error");
+    } finally {
+      setBuscandoRUC(false);
+    }
+  };
 
   const save = () => {
     if (!form.nombre || !form.email) { toast("Complete nombre y email","error"); return; }
@@ -1277,7 +1448,7 @@ function Clientes() {
                       <div style={{width:32,height:32,borderRadius:"50%",background:"var(--blue3)",color:"var(--blue)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,flexShrink:0}}>{c.nombre.charAt(0)}</div>
                       <div>
                         <div style={{fontWeight:600}}>{c.nombre}</div>
-                        <div style={{fontSize:10,color:"var(--text3)",fontFamily:"var(--mono)"}}>DNI: {c.dni}</div>
+                        <div style={{fontSize:10,color:"var(--text3)",fontFamily:"var(--mono)"}}>{c.ruc?`RUC: ${c.ruc}`:`DNI: ${c.dni}`}</div>
                       </div>
                     </div>
                   </td>
@@ -1304,21 +1475,42 @@ function Clientes() {
 
       {modalOpen && (
         <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setModalOpen(false)}>
-          <div className="modal" style={{maxWidth:480}}>
+          <div className="modal" style={{maxWidth:500}}>
             <div className="modal-header">
               <span className="modal-title">{editCli?"✏️ Editar Cliente":"➕ Nuevo Cliente"}</span>
               <button className="modal-close" onClick={()=>setModalOpen(false)}>✕</button>
             </div>
             <div className="modal-body">
               <div className="form-grid">
-                <div className="form-group full"><label className="form-label">Nombre completo *</label><input className="form-input" value={form.nombre} onChange={e=>setForm({...form,nombre:e.target.value})} placeholder="Juan García López"/></div>
+                <div className="form-group">
+                  <label className="form-label">DNI <span style={{color:"var(--text3)",fontWeight:400}}>(8 dígitos)</span></label>
+                  <div style={{display:"flex",gap:6}}>
+                    <input className="form-input" value={form.dni} onChange={e=>setForm({...form,dni:e.target.value.replace(/\D/g,"").slice(0,8)})} placeholder="00000000" maxLength={8}/>
+                    <button className="btn btn-primary" style={{whiteSpace:"nowrap",padding:"0 14px"}} onClick={buscarDNI} disabled={buscandoDNI}>
+                      {buscandoDNI?"⏳":"🔍"} {buscandoDNI?"Buscando...":"Buscar"}
+                    </button>
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">RUC <span style={{color:"var(--text3)",fontWeight:400}}>(11 dígitos)</span></label>
+                  <div style={{display:"flex",gap:6}}>
+                    <input className="form-input" value={form.ruc} onChange={e=>setForm({...form,ruc:e.target.value.replace(/\D/g,"").slice(0,11)})} placeholder="20000000000" maxLength={11}/>
+                    <button className="btn btn-primary" style={{whiteSpace:"nowrap",padding:"0 14px"}} onClick={buscarRUC} disabled={buscandoRUC}>
+                      {buscandoRUC?"⏳":"🔍"} {buscandoRUC?"Buscando...":"Buscar"}
+                    </button>
+                  </div>
+                </div>
+                <div className="form-group full">
+                  <label className="form-label">Nombre / Razón Social *</label>
+                  <input className="form-input" value={form.nombre} onChange={e=>setForm({...form,nombre:e.target.value})} placeholder="Se completa automáticamente con DNI/RUC"/>
+                </div>
                 <div className="form-group"><label className="form-label">Email *</label><input className="form-input" type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="juan@email.com"/></div>
                 <div className="form-group"><label className="form-label">Teléfono</label><input className="form-input" value={form.telefono} onChange={e=>setForm({...form,telefono:e.target.value})} placeholder="999 000 000"/></div>
-                <div className="form-group"><label className="form-label">DNI</label><input className="form-input" value={form.dni} onChange={e=>setForm({...form,dni:e.target.value})} placeholder="00000000"/></div>
                 <div className="form-group"><label className="form-label">Ciudad</label>
                   <select className="form-input form-select" value={form.ciudad} onChange={e=>setForm({...form,ciudad:e.target.value})}>
                     {["Lima","Arequipa","Trujillo","Cusco","Piura","Chiclayo","Iquitos","Puno"].map(c=><option key={c}>{c}</option>)}
-                  </select></div>
+                  </select>
+                </div>
               </div>
             </div>
             <div className="modal-footer">
