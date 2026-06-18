@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONAR_URL            = 'http://host.docker.internal:9000'
+        SONAR_URL            = 'http://sonarqube:9000'
         SONAR_TOKEN_BACKEND  = 'sqp_9cd49d2bf37c6ca4ce1dcceaa9c73682dd4a0d89'
         SONAR_TOKEN_FRONTEND = 'sqa_0d27ba7b442d5827a0425666759402989f12f251'
         DOCKER_IMAGE         = 'techmovil:latest'
