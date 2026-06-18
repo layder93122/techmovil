@@ -95,7 +95,7 @@ class VentaServiceImplTest {
 
     @Test
     void findAll_RetornaLista() {
-        when(repo.findAll()).thenReturn(Arrays.asList(venta));
+        when(repo.findAllByActivoTrue()).thenReturn(Arrays.asList(venta));
         List<Venta> lista = service.findAll();
         assertEquals(1, lista.size());
     }
@@ -127,15 +127,15 @@ class VentaServiceImplTest {
 
     @Test
     void delete_Existente_RetornaCustomResponse200() {
-        when(repo.existsById(1L)).thenReturn(true);
-        doNothing().when(repo).deleteById(1L);
+        when(repo.findById(1L)).thenReturn(Optional.of(venta));
+        when(repo.save(any())).thenReturn(venta);
         CustomResponse r = service.delete(1L);
         assertEquals(200, r.getStatusCode());
     }
 
     @Test
     void delete_NoExistente_LanzaEntityNotFoundException() {
-        when(repo.existsById(99L)).thenReturn(false);
+        when(repo.findById(99L)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> service.delete(99L));
     }
 }

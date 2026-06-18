@@ -6,6 +6,8 @@ import com.example.techmovil.repositorio.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UsuarioServiceImp extends CrudGenericoServiceImp<Usuario, Long> implements UsuarioService {
@@ -15,5 +17,10 @@ public class UsuarioServiceImp extends CrudGenericoServiceImp<Usuario, Long> imp
     @Override
     protected CrudGenericoRepository<Usuario, Long> getRepo() {
         return repo;
+    }
+
+    @Override
+    public List<Usuario> findAll() {
+        return repo.findAllByActivoTrue();
     }
 }

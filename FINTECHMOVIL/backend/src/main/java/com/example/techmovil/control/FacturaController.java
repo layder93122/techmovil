@@ -7,6 +7,7 @@ import com.example.techmovil.servicio.FacturacionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class FacturaController {
 
     @PostMapping("/emitir")
     @Operation(summary = "Emitir Factura")
-    public ResponseEntity<Object> emitirFactura(@RequestBody Factura solicitudFactura) {
+    public ResponseEntity<Object> emitirFactura(@Valid @RequestBody Factura solicitudFactura) {
         try {
             return ResponseEntity.ok(facturacionService.procesarVentaFacturada(solicitudFactura));
         } catch (CarritoVacioException | StockInsuficienteException | EntityNotFoundException e) {

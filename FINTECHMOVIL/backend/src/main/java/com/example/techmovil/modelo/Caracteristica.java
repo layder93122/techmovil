@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "caracteristicas")
-public class Caracteristica {
+public class Caracteristica implements Activable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,4 +17,7 @@ public class Caracteristica {
     private String bateria;
     private String camaras;
     private String pantalla;
+
+    @Column(name = "activo", nullable = false)
+    private Boolean activo = true;
 }

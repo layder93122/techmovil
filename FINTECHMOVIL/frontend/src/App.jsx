@@ -6,6 +6,10 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+const authHeader = () => {
+  const t = localStorage.getItem("techmovil_token");
+  return t ? { "Authorization": `Bearer ${t}`, "Content-Type": "application/json" } : { "Content-Type": "application/json" };
+};
 
 /* ── Estilos ──────────────────────────────────────────────────── */
 const CSS = `
@@ -461,6 +465,28 @@ function DonutChart({ segments }) {
   );
 }
 
+/* ── Utilidad: exportar a CSV (abre en Excel) ─────────────────── */
+function exportCSV(rows, filename) {
+  if (!rows || rows.length === 0) { toast("Sin datos para exportar", "error"); return; }
+  const headers = Object.keys(rows[0]);
+  const csvContent = [
+    headers.join(","),
+    ...rows.map(row =>
+      headers.map(h => {
+        const val = row[h] ?? "";
+        const str = String(val).replace(/"/g, '""');
+        return str.includes(",") || str.includes("\n") || str.includes('"') ? `"${str}"` : str;
+      }).join(",")
+    )
+  ].join("\n");
+  const blob = new Blob(["﻿" + csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+  toast(`📥 ${filename} descargado`);
+}
+
 /* ── Components ───────────────────────────────────────────────── */
 function StockBadge({stock, min=3}) {
   if (stock === 0) return <span className="badge badge-red">Agotado</span>;
@@ -619,12 +645,19 @@ function Productos({productos, setProductos}) {
   const openEdit = (p) => { setEditProd(p); setForm({...p}); setModalOpen(true); };
 
   const save = () => {
-    if (!form.nombre || !form.precio || !form.stock) { toast("Complete los campos obligatorios", "error"); return; }
+    const precioNum = Number(form.precio);
+    const stockNum = Number(form.stock);
+    const stockMinNum = Number(form.stockMinimo);
+    if (!form.nombre?.trim()) { toast("El nombre del producto es obligatorio", "error"); return; }
+    if (!form.marca?.trim()) { toast("La marca es obligatoria", "error"); return; }
+    if (!form.modelo?.trim()) { toast("El modelo es obligatorio", "error"); return; }
+    if (form.precio === "" || isNaN(precioNum) || precioNum <= 0) { toast("El precio debe ser mayor a S/ 0.00", "error"); return; }
+    if (form.stock === "" || isNaN(stockNum) || stockNum < 0) { toast("El stock no puede ser negativo", "error"); return; }
     if (editProd) {
-      setProductos(ps => ps.map(p => p.id===editProd.id ? {...p,...form,precio:+form.precio,stock:+form.stock,stockMinimo:+form.stockMinimo} : p));
+      setProductos(ps => ps.map(p => p.id===editProd.id ? {...p,...form,precio:precioNum,stock:stockNum,stockMinimo:stockMinNum} : p));
       toast(`✏️ ${form.nombre} actualizado`);
     } else {
-      const np = {...form,id:Date.now(),precio:+form.precio,stock:+form.stock,stockMinimo:+form.stockMinimo,ventas:0,rating:0,activo:true,img:""};
+      const np = {...form,id:Date.now(),precio:precioNum,stock:stockNum,stockMinimo:stockMinNum,ventas:0,rating:0,activo:true,img:""};
       setProductos(ps => [...ps, np]);
       toast(`➕ ${form.nombre} registrado`);
     }
@@ -640,7 +673,10 @@ function Productos({productos, setProductos}) {
     <div style={{animation:"fadeUp .4s ease"}}>
       <div className="page-header">
         <div><div className="page-title">Gestión de Productos</div><div className="page-sub">{filtered.length} de {productos.length} productos</div></div>
-        <button className="btn btn-primary" onClick={openAdd}>➕ Nuevo Producto</button>
+        <div style={{display:"flex",gap:8}}>
+          <button className="btn btn-secondary" onClick={()=>exportCSV(filtered.map(p=>({Marca:p.marca,Modelo:p.modelo,Categoria:p.categoria,"Precio (S/)":p.precio,Stock:p.stock,"Stock Minimo":p.stockMinimo,Ventas:p.ventas,Estado:p.activo?"Activo":"Inactivo"})),`FinTechMovil_Productos_${new Date().toLocaleDateString("es-PE").replace(/\//g,"-")}.csv`)}>📥 Exportar CSV</button>
+          <button className="btn btn-primary" onClick={openAdd}>➕ Nuevo Producto</button>
+        </div>
       </div>
 
       <div className="card">
@@ -1080,11 +1116,38 @@ function Reportes({productos}) {
   const prodsVendidos = VENTAS_MOCK.reduce((s,v)=>s+v.productos.reduce((ss,p)=>ss+(p.qty||1),0),0);
   const ticketProm = totalVentas / VENTAS_MOCK.length;
 
+  const exportarReporteCompleto = () => {
+    const hoy = new Date().toLocaleDateString("es-PE").replace(/\//g,"-");
+    // Exportar productos
+    exportCSV(
+      productos.map(p=>({
+        Marca: p.marca, Modelo: p.modelo, Categoria: p.categoria,
+        "Precio (S/)": p.precio, Stock: p.stock, "Stock Minimo": p.stockMinimo,
+        Ventas: p.ventas, "Ingreso Estimado (S/)": (p.precio*p.ventas).toFixed(2),
+        Estado: p.activo ? "Activo" : "Inactivo"
+      })),
+      `FinTechMovil_Productos_${hoy}.csv`
+    );
+    // Exportar ventas
+    exportCSV(
+      VENTAS_MOCK.map(v=>({
+        "ID Venta": v.id, Cliente: v.cliente,
+        "Subtotal (S/)": v.subtotal.toFixed(2),
+        "IGV (S/)": v.igv.toFixed(2),
+        "Total (S/)": v.total.toFixed(2),
+        "Metodo de Pago": v.metodo, Fecha: v.fecha, Estado: v.estado
+      })),
+      `FinTechMovil_Ventas_${hoy}.csv`
+    );
+  };
+
   return (
     <div style={{animation:"fadeUp .4s ease"}}>
       <div className="page-header">
         <div><div className="page-title">Reportes y Estadísticas</div><div className="page-sub">Análisis del rendimiento del negocio</div></div>
-        <button className="btn btn-secondary" onClick={()=>toast("📊 Exportando reporte a Excel...")}>📥 Exportar Excel</button>
+        <div style={{display:"flex",gap:8}}>
+          <button className="btn btn-secondary" onClick={exportarReporteCompleto}>📥 Exportar a Excel (CSV)</button>
+        </div>
       </div>
 
       <div className="kpi-grid">
@@ -1272,16 +1335,28 @@ function Clientes() {
 /* ── LOGIN ────────────────────────────────────────────────────── */
 function Login({onLogin}) {
   const [u,setU]=useState(""); const [p,setP]=useState(""); const [err,setErr]=useState(""); const [loading,setLoading]=useState(false);
-  const submit=e=>{
+  const submit=async e=>{
     e.preventDefault(); setErr(""); setLoading(true);
-    setTimeout(()=>{
-      if((u==="admin"&&p==="1234")||(u==="admin@techmovil.com"&&p==="Admin123!")){
-        onLogin({nombre:"Administrador",email:u,rol:"ADMIN"});
+    try {
+      const res=await fetch(`${API}/auth/login`,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({username:u,password:p})
+      });
+      if(res.ok){
+        const data=await res.json();
+        onLogin({nombre:data.nombre||u,email:u,rol:data.role||"ADMIN"},data.token);
+      } else {
+        setErr("Credenciales incorrectas");
+      }
+    } catch {
+      if((u==="admin"&&p==="admin123")){
+        onLogin({nombre:"Administrador",email:u,rol:"ADMIN"},null);
       } else if(u&&p) {
-        onLogin({nombre:u.split("@")[0]||u,email:u,rol:"USER"});
-      } else { setErr("Credenciales incorrectas"); }
-      setLoading(false);
-    },600);
+        setErr("No se pudo conectar al servidor");
+      } else { setErr("Completa usuario y contraseña"); }
+    }
+    setLoading(false);
   };
   return (
     <div className="login-bg">
@@ -1299,7 +1374,7 @@ function Login({onLogin}) {
           {err&&<div style={{color:"var(--red3)",fontSize:12,marginBottom:8,fontFamily:"var(--mono)"}}>⚠️ {err}</div>}
           <button className="login-btn" type="submit" disabled={loading}>{loading?"⏳ Verificando...":"Ingresar al Sistema →"}</button>
         </form>
-        <div className="login-hint">admin / 1234 · admin@techmovil.com / Admin123!</div>
+        <div className="login-hint">usuario: admin · contraseña: admin123</div>
       </div>
     </div>
   );
@@ -1328,8 +1403,8 @@ export default function App() {
     return ()=>document.head.removeChild(s);
   },[]);
 
-  const onLogin=(u)=>{ setUser(u); localStorage.setItem("techmovil_user",JSON.stringify(u)); };
-  const onLogout=()=>{ setUser(null); localStorage.removeItem("techmovil_user"); setPage("dashboard"); toast("Sesión cerrada","info"); };
+  const onLogin=(u,token)=>{ setUser(u); localStorage.setItem("techmovil_user",JSON.stringify(u)); if(token) localStorage.setItem("techmovil_token",token); };
+  const onLogout=()=>{ setUser(null); localStorage.removeItem("techmovil_user"); localStorage.removeItem("techmovil_token"); setPage("dashboard"); toast("Sesión cerrada","info"); };
 
   const alertas = productos.filter(p=>p.stock<=p.stockMinimo).length;
 

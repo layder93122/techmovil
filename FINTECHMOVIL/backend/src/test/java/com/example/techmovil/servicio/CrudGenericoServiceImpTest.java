@@ -2,6 +2,7 @@ package com.example.techmovil.servicio;
 
 import com.example.techmovil.excepciones.CustomResponse;
 import com.example.techmovil.modelo.Producto;
+import com.example.techmovil.repositorio.CrudGenericoRepository;
 import com.example.techmovil.repositorio.ProductoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,13 +39,13 @@ class CrudGenericoServiceImpTest {
 
     @Test
     void findAll_RetornaLista() {
-        when(repo.findAll()).thenReturn(Arrays.asList(producto));
+        when(repo.findAllByActivoTrue()).thenReturn(Arrays.asList(producto));
         assertEquals(1, service.findAll().size());
     }
 
     @Test
     void findAll_ListaVacia() {
-        when(repo.findAll()).thenReturn(Arrays.asList());
+        when(repo.findAllByActivoTrue()).thenReturn(Arrays.asList());
         assertTrue(service.findAll().isEmpty());
     }
 
@@ -89,8 +90,8 @@ class CrudGenericoServiceImpTest {
 
     @Test
     void delete_Existente_Retorna200() {
-        when(repo.existsById(1L)).thenReturn(true);
-        doNothing().when(repo).deleteById(1L);
+        when(repo.findById(1L)).thenReturn(Optional.of(producto));
+        when(repo.save(any())).thenReturn(producto);
         CustomResponse r = service.delete(1L);
         assertEquals(200, r.getStatusCode());
         assertEquals("Exito", r.getMessage());
@@ -98,21 +99,49 @@ class CrudGenericoServiceImpTest {
 
     @Test
     void delete_NoExistente_LanzaException() {
-        when(repo.existsById(99L)).thenReturn(false);
+        when(repo.findById(99L)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> service.delete(99L));
     }
 
     @Test
     void delete_MensajeContieneId() {
-        when(repo.existsById(77L)).thenReturn(false);
+        when(repo.findById(77L)).thenReturn(Optional.empty());
         EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.delete(77L));
         assertTrue(ex.getMessage().contains("77"));
     }
 
     @Test
     void delete_ResponseTieneFechaNoNula() {
-        when(repo.existsById(1L)).thenReturn(true);
-        doNothing().when(repo).deleteById(1L);
+        when(repo.findById(1L)).thenReturn(Optional.of(producto));
+        when(repo.save(any())).thenReturn(producto);
         assertNotNull(service.delete(1L).getDatetime());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void findAll_ImplementacionBase_UsaRepoFindAll() {
+        CrudGenericoRepository<Producto, Long> baseRepo = mock(CrudGenericoRepository.class);
+        CrudGenericoServiceImp<Producto, Long> baseService = new CrudGenericoServiceImp<>() {
+            @Override
+            protected CrudGenericoRepository<Producto, Long> getRepo() { return baseRepo; }
+        };
+        when(baseRepo.findAll()).thenReturn(Arrays.asList(producto));
+        assertEquals(1, baseService.findAll().size());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void delete_EntidadNoActivable_LlamaDeleteById() {
+        CrudGenericoRepository<Object, Long> baseRepo = mock(CrudGenericoRepository.class);
+        CrudGenericoServiceImp<Object, Long> baseService = new CrudGenericoServiceImp<>() {
+            @Override
+            protected CrudGenericoRepository<Object, Long> getRepo() { return baseRepo; }
+        };
+        Object entity = new Object();
+        when(baseRepo.findById(1L)).thenReturn(Optional.of(entity));
+
+        baseService.delete(1L);
+
+        verify(baseRepo).deleteById(1L);
     }
 }

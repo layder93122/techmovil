@@ -54,7 +54,7 @@ class ProductoServiceImpTest {
 
     @Test
     void findAll_RetornaListaCompleta() {
-        when(repo.findAll()).thenReturn(Arrays.asList(producto));
+        when(repo.findAllByActivoTrue()).thenReturn(Arrays.asList(producto));
 
         List<Producto> lista = service.findAll();
 
@@ -64,7 +64,7 @@ class ProductoServiceImpTest {
 
     @Test
     void findAll_ListaVacia_RetornaVacia() {
-        when(repo.findAll()).thenReturn(Collections.emptyList());
+        when(repo.findAllByActivoTrue()).thenReturn(Collections.emptyList());
 
         List<Producto> lista = service.findAll();
 
@@ -108,18 +108,18 @@ class ProductoServiceImpTest {
 
     @Test
     void delete_Existente_RetornaCustomResponse200() {
-        when(repo.existsById(1L)).thenReturn(true);
-        doNothing().when(repo).deleteById(1L);
+        when(repo.findById(1L)).thenReturn(Optional.of(producto));
+        when(repo.save(any(Producto.class))).thenReturn(producto);
 
         CustomResponse response = service.delete(1L);
 
         assertEquals(200, response.getStatusCode());
-        verify(repo, times(1)).deleteById(1L);
+        verify(repo).save(argThat(p -> !((Producto) p).getActivo()));
     }
 
     @Test
     void delete_NoExistente_LanzaEntityNotFoundException() {
-        when(repo.existsById(99L)).thenReturn(false);
+        when(repo.findById(99L)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> service.delete(99L));
     }

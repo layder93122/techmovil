@@ -5,6 +5,7 @@ import com.example.techmovil.repositorio.ProductoRepository;
 import com.example.techmovil.servicio.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class ProductoController {
 
     @PostMapping
     @Operation(summary = "Agregar producto")
-    public ResponseEntity<Producto> guardar(@RequestBody Producto producto) {
+    public ResponseEntity<Producto> guardar(@Valid @RequestBody Producto producto) {
         return ResponseEntity.ok(service.save(producto));
     }
 

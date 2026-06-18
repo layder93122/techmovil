@@ -41,7 +41,8 @@
       **/config/SecurityConfig.java,
       **/*Repository.java,
       **/servicio/*Service.java,
-      **/servicio/CrudGenericoService.java
+      **/servicio/CrudGenericoService.java,
+      **/excepciones/CustomResponse.java
     </sonar.coverage.exclusions>
     <sonar.issue.ignore.multicriteria>e1,e2,e3,e4,e5</sonar.issue.ignore.multicriteria>
     <sonar.issue.ignore.multicriteria.e1.ruleKey>*</sonar.issue.ignore.multicriteria.e1.ruleKey>
@@ -104,6 +105,8 @@
             <exclude>com/example/techmovil/repositorio/*Repository.class</exclude>
             <exclude>com/example/techmovil/servicio/*Service.class</exclude>
             <exclude>com/example/techmovil/servicio/CrudGenericoService.class</exclude>
+            <exclude>com/example/techmovil/excepciones/CustomResponse.class</exclude>
+            <exclude>com/example/techmovil/excepciones/CustomResponse$*.class</exclude>
           </excludes>
         </configuration>
         <executions>
@@ -115,7 +118,7 @@
               <rules>
                 <rule>
                   <element>BUNDLE</element>
-                  <limits><limit><counter>INSTRUCTION</counter><value>COVEREDRATIO</value><minimum>0.80</minimum></limit></limits>
+                  <limits><limit><counter>INSTRUCTION</counter><value>COVEREDRATIO</value><minimum>1.00</minimum></limit></limits>
                 </rule>
               </rules>
             </configuration>

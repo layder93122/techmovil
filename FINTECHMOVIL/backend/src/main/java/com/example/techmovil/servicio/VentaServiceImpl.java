@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class VentaServiceImpl extends CrudGenericoServiceImp<Venta, Long> implements VentaService {
@@ -20,6 +22,11 @@ public class VentaServiceImpl extends CrudGenericoServiceImp<Venta, Long> implem
 
     @Override
     protected CrudGenericoRepository<Venta, Long> getRepo() { return repo; }
+
+    @Override
+    public List<Venta> findAll() {
+        return repo.findAllByActivoTrue();
+    }
 
     @Override
     @Transactional

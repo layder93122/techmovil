@@ -52,7 +52,7 @@ class UsuarioServiceImpTest {
 
     @Test
     void findAll_RetornaLista() {
-        when(repo.findAll()).thenReturn(Arrays.asList(usuario));
+        when(repo.findAllByActivoTrue()).thenReturn(Arrays.asList(usuario));
 
         List<Usuario> lista = service.findAll();
 
@@ -94,8 +94,8 @@ class UsuarioServiceImpTest {
 
     @Test
     void delete_Existente_RetornaExito() {
-        when(repo.existsById(1L)).thenReturn(true);
-        doNothing().when(repo).deleteById(1L);
+        when(repo.findById(1L)).thenReturn(Optional.of(usuario));
+        when(repo.save(any(Usuario.class))).thenReturn(usuario);
 
         CustomResponse response = service.delete(1L);
 
@@ -104,7 +104,7 @@ class UsuarioServiceImpTest {
 
     @Test
     void delete_NoExistente_LanzaException() {
-        when(repo.existsById(99L)).thenReturn(false);
+        when(repo.findById(99L)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> service.delete(99L));
     }

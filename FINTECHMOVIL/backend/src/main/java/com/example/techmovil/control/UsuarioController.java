@@ -4,6 +4,7 @@ import com.example.techmovil.modelo.Usuario;
 import com.example.techmovil.servicio.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class UsuarioController {
 
     @PostMapping
     @Operation(summary = "Crear cuenta")
-    public ResponseEntity<Usuario> guardar(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> guardar(@Valid @RequestBody Usuario usuario) {
         return ResponseEntity.ok(service.save(usuario));
     }
 }

@@ -4,10 +4,10 @@
 # ================================================================
 
 $SonarUrl   = "http://localhost:9000"
-$SonarToken = "squ_139a206a39b96f8c257c3e1a1529252d4fb9015c"
+$SonarToken = "sqa_0d27ba7b442d5827a0425666759402989f12f251"
 $SonarUser  = "admin"
 $SonarPass  = "admin"
-$SonarKey   = "techmovil"
+$SonarKey   = "fintechmovil"
 $GateName   = "TechMovil-Cobertura-OK"
 
 Write-Host ""

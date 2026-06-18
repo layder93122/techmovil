@@ -6,6 +6,8 @@ import com.example.techmovil.repositorio.ProductoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductoServiceImp extends CrudGenericoServiceImp<Producto, Long> implements ProductoService {
@@ -15,5 +17,10 @@ public class ProductoServiceImp extends CrudGenericoServiceImp<Producto, Long> i
     @Override
     protected CrudGenericoRepository<Producto, Long> getRepo() {
         return repo;
+    }
+
+    @Override
+    public List<Producto> findAll() {
+        return repo.findAllByActivoTrue();
     }
 }

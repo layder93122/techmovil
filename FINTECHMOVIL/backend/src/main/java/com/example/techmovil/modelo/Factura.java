@@ -1,6 +1,8 @@
 package com.example.techmovil.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,15 +13,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Factura {
+public class Factura implements Activable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String numeroFactura; // Formato "FAC-XXXXXX"
+    private String numeroFactura;
 
+    @NotBlank(message = "El nombre del cliente es obligatorio")
     private String cliente;
     private LocalDateTime fechaEmision;
     private Double subtotal;
@@ -30,7 +33,12 @@ public class Factura {
     @JoinColumn(name = "pago_id", referencedColumnName = "id")
     private Pago detallePago;
 
+    @NotEmpty(message = "La factura debe tener al menos un producto")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "factura_id") // Une la llave foránea en detalles_factura
+    @JoinColumn(name = "factura_id")
     private List<DetalleFactura> detalles;
+
+    @Builder.Default
+    @Column(name = "activo", nullable = false)
+    private Boolean activo = true;
 }

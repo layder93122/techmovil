@@ -1,6 +1,7 @@
 package com.example.techmovil.servicio;
 
 import com.example.techmovil.excepciones.CustomResponse;
+import com.example.techmovil.modelo.Activable;
 import com.example.techmovil.repositorio.CrudGenericoRepository;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -37,15 +38,18 @@ public abstract class CrudGenericoServiceImp<T, K> implements CrudGenericoServic
 
     @Override
     public CustomResponse delete(K id) {
-        if (!getRepo().existsById(id)) {
-            throw new EntityNotFoundException("No se puede eliminar. " + ID_LABEL + id + SUFIJO_NO_EXISTE);
+        T entity = findById(id);
+        if (entity instanceof Activable activable) {
+            activable.setActivo(false);
+            getRepo().save(entity);
+        } else {
+            getRepo().deleteById(id);
         }
-        getRepo().deleteById(id);
         return CustomResponse.builder()
                 .statusCode(200)
                 .datetime(LocalDateTime.now())
                 .message("Exito")
-                .details("El registro con ID " + id + " fue eliminado correctamente.")
+                .details("El registro con ID " + id + " fue eliminado logicamente correctamente.")
                 .build();
     }
 }

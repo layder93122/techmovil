@@ -7,6 +7,14 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import java.util.Arrays;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,6 +94,34 @@ class GlobalExceptionHandlerTest {
                 new IllegalArgumentException("Dato inválido"));
         assertEquals(HttpStatus.BAD_REQUEST, r.getStatusCode());
         assertEquals("Dato inválido", r.getBody().getDetails());
+    }
+
+    @Test
+    void handleValidation_RetornaStatus400() {
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        BindingResult bindingResult = mock(BindingResult.class);
+        FieldError fieldError = new FieldError("producto", "marca", "no puede estar vacia");
+        when(ex.getBindingResult()).thenReturn(bindingResult);
+        when(bindingResult.getFieldErrors()).thenReturn(Arrays.asList(fieldError));
+
+        ResponseEntity<CustomResponse> r = handler.handleValidation(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, r.getStatusCode());
+        assertEquals("Error de validacion", r.getBody().getMessage());
+        assertTrue(r.getBody().getDetails().contains("marca"));
+    }
+
+    @Test
+    void handleValidation_SinErrores_RetornaDetalleVacio() {
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(ex.getBindingResult()).thenReturn(bindingResult);
+        when(bindingResult.getFieldErrors()).thenReturn(java.util.Collections.emptyList());
+
+        ResponseEntity<CustomResponse> r = handler.handleValidation(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, r.getStatusCode());
+        assertEquals("", r.getBody().getDetails());
     }
 
     @Test

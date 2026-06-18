@@ -5,6 +5,10 @@
     "dockerfilePath": "FINTECHMOVIL/backend/Dockerfile"
   },
   "deploy": {
-    "restartPolicyType": "ON_FAILURE"
+    "startCommand": "java -Dserver.port=$PORT -jar target/techmovil-0.0.1-SNAPSHOT.jar",
+    "healthcheckPath": "/api/productos",
+    "healthcheckTimeout": 120,
+    "restartPolicyType": "ON_FAILURE",
+    "numReplicas": 1
   }
 }
