@@ -20,6 +20,9 @@
     <org.projectlombok.version>1.18.30</org.projectlombok.version>
     <jjwt.version>0.11.5</jjwt.version>
     <jacoco.version>0.8.11</jacoco.version>
+    <sonar.host.url>http://localhost:9000</sonar.host.url>
+    <sonar.projectKey>fintechmovil</sonar.projectKey>
+    <sonar.token>sqa_0d27ba7b442d5827a0425666759402989f12f251</sonar.token>
     <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
