@@ -18,6 +18,9 @@ services:
     image: sonarqube:community
     container_name: sonarqube
     restart: always
+    environment:
+      SONAR_CE_JAVAOPTS: "-Xmx512m -Xms256m"
+      SONAR_WEB_JAVAOPTS: "-Xmx512m -Xms256m"
     ports:
       - "9000:9000"
     volumes:
