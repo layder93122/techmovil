@@ -127,6 +127,18 @@ class FacturacionServiceImpTest {
     }
 
     @Test
+    void findAll_RetornaListaDeFacturasActivas() {
+        when(facturaRepository.findAllByActivoTrue()).thenReturn(Arrays.asList(factura));
+        assertEquals(1, facturacionService.findAll().size());
+    }
+
+    @Test
+    void findAll_SinFacturas_RetornaListaVacia() {
+        when(facturaRepository.findAllByActivoTrue()).thenReturn(Collections.emptyList());
+        assertTrue(facturacionService.findAll().isEmpty());
+    }
+
+    @Test
     void procesarVentaFacturada_FechaExistente_NoSePisa() {
         LocalDateTime fechaFija = LocalDateTime.of(2026, 1, 15, 10, 30);
         factura.setFechaEmision(fechaFija);

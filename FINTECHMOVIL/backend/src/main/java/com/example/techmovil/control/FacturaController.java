@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class FacturaController {
 
     private final FacturacionService facturacionService;
+
+    @GetMapping
+    @Operation(summary = "Listar facturas activas")
+    public ResponseEntity<Object> listarFacturas() {
+        return ResponseEntity.ok(facturacionService.findAll());
+    }
 
     @PostMapping("/emitir")
     @Operation(summary = "Emitir Factura")
