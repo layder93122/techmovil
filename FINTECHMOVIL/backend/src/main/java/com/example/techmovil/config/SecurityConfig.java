@@ -34,7 +34,11 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/home", "/inventario", "/personal", "/ventas/**").permitAll()
                         // Lectura libre de datos (permite fallback mock en frontend)
                         .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                        // Operaciones de escritura requieren JWT valido
+                        // Escritura de clientes y productos: publico para facilitar demo
+                        .requestMatchers(HttpMethod.POST, "/api/clientes/**", "/api/productos/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/clientes/**", "/api/productos/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/clientes/**", "/api/productos/**").permitAll()
+                        // Resto de operaciones requieren JWT
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

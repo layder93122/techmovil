@@ -704,11 +704,11 @@ function Productos({productos, setProductos}) {
       if (editProd) {
         const r = await fetch(`${API}/productos/${editProd.id}`,{method:"PUT",headers:authHeader(),body:JSON.stringify({...body,id:editProd.id,activo:true})});
         if(r.ok){ setProductos(ps=>ps.map(p=>p.id===editProd.id?{...p,...form,precio:precioNum,stock:stockNum,stockMinimo:stockMinNum}:p)); toast(`✏️ ${form.nombre} actualizado`); }
-        else toast("Error al actualizar","error");
+        else { const msg=r.status===401||r.status===403?"Sesión expirada, vuelve a iniciar sesión":"Error al actualizar ("+r.status+")"; toast(msg,"error"); }
       } else {
         const r = await fetch(`${API}/productos`,{method:"POST",headers:authHeader(),body:JSON.stringify(body)});
         if(r.ok){ const created=await r.json(); setProductos(ps=>[...ps,{...form,id:created.id,precio:precioNum,stock:stockNum,stockMinimo:stockMinNum,ventas:0,rating:0,activo:true,img:""}]); toast(`➕ ${form.nombre} registrado`); }
-        else toast("Error al registrar","error");
+        else { const msg=r.status===401||r.status===403?"Sesión expirada, vuelve a iniciar sesión":"Error al registrar ("+r.status+")"; toast(msg,"error"); }
       }
     } catch(e){ toast("Sin conexión al backend","warn"); }
     setModalOpen(false);
@@ -1454,11 +1454,11 @@ function Clientes() {
       if(editCli){
         const r=await fetch(`${API}/clientes/${editCli.id}`,{method:"PUT",headers:authHeader(),body:JSON.stringify({...body,id:editCli.id,activo:true})});
         if(r.ok){ setClientes(cs=>cs.map(c=>c.id===editCli.id?{...c,...form}:c)); toast(`✏️ Cliente ${form.nombre} actualizado`); }
-        else toast("Error al actualizar","error");
+        else { const msg=r.status===401||r.status===403?"Sesión expirada, vuelve a iniciar sesión":"Error al actualizar ("+r.status+")"; toast(msg,"error"); }
       } else {
         const r=await fetch(`${API}/clientes`,{method:"POST",headers:authHeader(),body:JSON.stringify(body)});
         if(r.ok){ const created=await r.json(); setClientes(cs=>[...cs,fromBackend(created)]); toast(`✅ Cliente ${form.nombre} registrado`); }
-        else toast("Error al registrar","error");
+        else { const msg=r.status===401||r.status===403?"Sesión expirada, vuelve a iniciar sesión":"Error al registrar ("+r.status+")"; toast(msg,"error"); }
       }
     } catch(e){ toast("Sin conexión al backend","warn"); }
     setModalOpen(false);
