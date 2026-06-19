@@ -684,7 +684,7 @@ function Productos({productos, setProductos}) {
   const openAdd = () => { setEditProd(null); setForm({nombre:"",marca:"Apple",modelo:"",precio:"",stock:"",stockMinimo:3,categoria:"Gama Alta",descripcion:"",procesador:"",ram:"",almacenamiento:"",camaras:"",pantalla:"",bateria:"",so:""}); setModalOpen(true); };
   const openEdit = (p) => { setEditProd(p); setForm({...p}); setModalOpen(true); };
 
-  const save = () => {
+  const save = async () => {
     const precioNum = Number(form.precio);
     const stockNum = Number(form.stock);
     const stockMinNum = Number(form.stockMinimo);
@@ -693,19 +693,33 @@ function Productos({productos, setProductos}) {
     if (!form.modelo?.trim()) { toast("El modelo es obligatorio", "error"); return; }
     if (form.precio === "" || isNaN(precioNum) || precioNum <= 0) { toast("El precio debe ser mayor a S/ 0.00", "error"); return; }
     if (form.stock === "" || isNaN(stockNum) || stockNum < 0) { toast("El stock no puede ser negativo", "error"); return; }
-    if (editProd) {
-      setProductos(ps => ps.map(p => p.id===editProd.id ? {...p,...form,precio:precioNum,stock:stockNum,stockMinimo:stockMinNum} : p));
-      toast(`✏️ ${form.nombre} actualizado`);
-    } else {
-      const np = {...form,id:Date.now(),precio:precioNum,stock:stockNum,stockMinimo:stockMinNum,ventas:0,rating:0,activo:true,img:""};
-      setProductos(ps => [...ps, np]);
-      toast(`➕ ${form.nombre} registrado`);
-    }
+    const body = {
+      marca:form.marca, modelo:form.modelo, precio:precioNum, stock:stockNum,
+      stockMinimo:stockMinNum, imagenUrl:form.img||null,
+      caracteristicas:{procesador:form.procesador||null,ram:form.ram||null,
+        almacenamiento:form.almacenamiento||null,camaras:form.camaras||null,
+        pantalla:form.pantalla||null,bateria:form.bateria||null}
+    };
+    try {
+      if (editProd) {
+        const r = await fetch(`${API}/productos/${editProd.id}`,{method:"PUT",headers:authHeader(),body:JSON.stringify({...body,id:editProd.id,activo:true})});
+        if(r.ok){ setProductos(ps=>ps.map(p=>p.id===editProd.id?{...p,...form,precio:precioNum,stock:stockNum,stockMinimo:stockMinNum}:p)); toast(`✏️ ${form.nombre} actualizado`); }
+        else toast("Error al actualizar","error");
+      } else {
+        const r = await fetch(`${API}/productos`,{method:"POST",headers:authHeader(),body:JSON.stringify(body)});
+        if(r.ok){ const created=await r.json(); setProductos(ps=>[...ps,{...form,id:created.id,precio:precioNum,stock:stockNum,stockMinimo:stockMinNum,ventas:0,rating:0,activo:true,img:""}]); toast(`➕ ${form.nombre} registrado`); }
+        else toast("Error al registrar","error");
+      }
+    } catch(e){ toast("Sin conexión al backend","warn"); }
     setModalOpen(false);
   };
 
-  const toggle = (p) => {
-    setProductos(ps => ps.map(x => x.id===p.id ? {...x,activo:!x.activo} : x));
+  const toggle = async (p) => {
+    try {
+      if(p.activo) await fetch(`${API}/productos/${p.id}`,{method:"DELETE",headers:authHeader()});
+      else await fetch(`${API}/productos/${p.id}`,{method:"PUT",headers:authHeader(),body:JSON.stringify({...p,activo:true,imagenUrl:p.img||null})});
+    } catch(e){}
+    setProductos(ps=>ps.map(x=>x.id===p.id?{...x,activo:!x.activo}:x));
     toast(`${p.activo?"❌ Desactivado":"✅ Activado"}: ${p.nombre}`);
   };
 
@@ -1374,6 +1388,23 @@ function Clientes() {
   const [buscandoDNI, setBuscandoDNI] = useState(false);
   const [buscandoRUC, setBuscandoRUC] = useState(false);
 
+  const fromBackend = c => ({
+    ...c,
+    nombre:`${c.nombre||""} ${c.apellido||""}`.trim(),
+    dni:c.tipoDocumento==="DNI"?c.numeroDocumento:"",
+    ruc:c.tipoDocumento==="RUC"?c.numeroDocumento:"",
+    ciudad:c.direccion||"Lima",
+    compras:0, total:0,
+    fechaReg:new Date().toLocaleDateString("es-PE")
+  });
+
+  useEffect(()=>{
+    fetch(`${API}/clientes`,{headers:authHeader()})
+      .then(r=>r.ok?r.json():null)
+      .then(data=>{ if(data&&Array.isArray(data)) setClientes(data.map(fromBackend)); })
+      .catch(()=>{});
+  },[]);
+
   const filtered = clientes.filter(c => !search || c.nombre.toLowerCase().includes(search.toLowerCase()) || c.email.toLowerCase().includes(search.toLowerCase()));
 
   const openAdd = () => { setEditCli(null); setForm({nombre:"",email:"",telefono:"",dni:"",ruc:"",ciudad:"Lima"}); setModalOpen(true); };
@@ -1407,15 +1438,29 @@ function Clientes() {
     }
   };
 
-  const save = () => {
+  const save = async () => {
     if (!form.nombre || !form.email) { toast("Complete nombre y email","error"); return; }
-    if (editCli) {
-      setClientes(cs=>cs.map(c=>c.id===editCli.id?{...c,...form}:c));
-      toast(`✏️ Cliente ${form.nombre} actualizado`);
-    } else {
-      setClientes(cs=>[...cs,{...form,id:Date.now(),compras:0,total:0,fechaReg:new Date().toLocaleDateString("es-PE"),activo:true}]);
-      toast(`✅ Cliente ${form.nombre} registrado`);
-    }
+    const partes = form.nombre.trim().split(" ");
+    const body = {
+      nombre:partes[0]||form.nombre,
+      apellido:partes.slice(1).join(" ")||"",
+      numeroDocumento:form.ruc||form.dni||"",
+      tipoDocumento:form.ruc?"RUC":"DNI",
+      telefono:form.telefono||"",
+      email:form.email||"",
+      direccion:form.ciudad||""
+    };
+    try {
+      if(editCli){
+        const r=await fetch(`${API}/clientes/${editCli.id}`,{method:"PUT",headers:authHeader(),body:JSON.stringify({...body,id:editCli.id,activo:true})});
+        if(r.ok){ setClientes(cs=>cs.map(c=>c.id===editCli.id?{...c,...form}:c)); toast(`✏️ Cliente ${form.nombre} actualizado`); }
+        else toast("Error al actualizar","error");
+      } else {
+        const r=await fetch(`${API}/clientes`,{method:"POST",headers:authHeader(),body:JSON.stringify(body)});
+        if(r.ok){ const created=await r.json(); setClientes(cs=>[...cs,fromBackend(created)]); toast(`✅ Cliente ${form.nombre} registrado`); }
+        else toast("Error al registrar","error");
+      }
+    } catch(e){ toast("Sin conexión al backend","warn"); }
     setModalOpen(false);
   };
 
@@ -1463,7 +1508,14 @@ function Clientes() {
                   <td>
                     <div style={{display:"flex",gap:4}}>
                       <button className="btn-icon" onClick={()=>openEdit(c)}>✏️</button>
-                      <button className="btn-icon" onClick={()=>{setClientes(cs=>cs.map(x=>x.id===c.id?{...x,activo:!x.activo}:x));toast(`${c.activo?"❌":"✅"} ${c.nombre}`)}}>{c.activo?"🔴":"🟢"}</button>
+                      <button className="btn-icon" onClick={async()=>{
+                        try{
+                          if(c.activo) await fetch(`${API}/clientes/${c.id}`,{method:"DELETE",headers:authHeader()});
+                          else await fetch(`${API}/clientes/${c.id}`,{method:"PUT",headers:authHeader(),body:JSON.stringify({nombre:c.nombre.split(" ")[0],apellido:c.nombre.split(" ").slice(1).join(" "),numeroDocumento:c.ruc||c.dni||"",tipoDocumento:c.ruc?"RUC":"DNI",telefono:c.telefono||"",email:c.email||"",direccion:c.ciudad||"",activo:true})});
+                        }catch(e){}
+                        setClientes(cs=>cs.map(x=>x.id===c.id?{...x,activo:!x.activo}:x));
+                        toast(`${c.activo?"❌":"✅"} ${c.nombre}`);
+                      }}>{c.activo?"🔴":"🟢"}</button>
                     </div>
                   </td>
                 </tr>
@@ -1595,6 +1647,31 @@ export default function App() {
     if(saved) try { setUser(JSON.parse(saved)); } catch{}
     return ()=>document.head.removeChild(s);
   },[]);
+
+  useEffect(()=>{
+    if(!user) return;
+    fetch(`${API}/productos`,{headers:authHeader()})
+      .then(r=>r.ok?r.json():null)
+      .then(data=>{
+        if(data&&Array.isArray(data))
+          setProductos(data.map(p=>({
+            ...p,
+            nombre:`${p.marca} ${p.modelo}`,
+            img:p.imagenUrl||"",
+            categoria:p.categoria||"Gama Alta",
+            ventas:p.ventas||0,
+            rating:p.rating||0,
+            procesador:p.caracteristicas?.procesador||"",
+            ram:p.caracteristicas?.ram||"",
+            almacenamiento:p.caracteristicas?.almacenamiento||"",
+            camaras:p.caracteristicas?.camaras||"",
+            pantalla:p.caracteristicas?.pantalla||"",
+            bateria:p.caracteristicas?.bateria||"",
+            so:""
+          })));
+      })
+      .catch(()=>{});
+  },[user]);
 
   const onLogin=(u,token)=>{ setUser(u); localStorage.setItem("techmovil_user",JSON.stringify(u)); if(token) localStorage.setItem("techmovil_token",token); };
   const onLogout=()=>{ setUser(null); localStorage.removeItem("techmovil_user"); localStorage.removeItem("techmovil_token"); setPage("dashboard"); toast("Sesión cerrada","info"); };
