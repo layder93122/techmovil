@@ -1,6 +1,7 @@
 package com.example.techmovil.servicio;
 
 import com.example.techmovil.excepciones.CarritoVacioException;
+import com.example.techmovil.excepciones.CustomResponse;
 import com.example.techmovil.excepciones.StockInsuficienteException;
 import com.example.techmovil.modelo.DetalleFactura;
 import com.example.techmovil.modelo.Factura;
@@ -68,5 +69,24 @@ public class FacturacionServiceImp implements FacturacionService {
     @Override
     public List<Factura> findAll() {
         return facturaRepository.findAllByActivoTrue();
+    }
+
+    @Override
+    public Factura findById(Long id) {
+        return facturaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Factura no encontrada con ID: " + id));
+    }
+
+    @Override
+    @Transactional
+    public CustomResponse delete(Long id) {
+        Factura factura = findById(id);
+        factura.setActivo(false);
+        facturaRepository.save(factura);
+        return CustomResponse.builder()
+                .statusCode(200)
+                .datetime(java.time.LocalDateTime.now())
+                .message("Factura anulada correctamente")
+                .build();
     }
 }
