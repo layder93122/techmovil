@@ -36,6 +36,7 @@ jobs:
       - name: Compilar proyecto
         run: |
           cd FINTECHMOVIL/backend
+          chmod +x mvnw
           ./mvnw clean compile test-compile -DskipTests
 
       - name: Snyk — escaneo de dependencias Maven (SARIF)
@@ -52,13 +53,14 @@ jobs:
 
       - name: Subir SARIF backend deps a GitHub Security
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && hashFiles('snyk-backend-deps.sarif') != ''
         with:
           sarif_file: snyk-backend-deps.sarif
           category: snyk-backend-dependencies
 
       - name: Snyk — monitoreo continuo backend
         uses: snyk/actions/maven@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -85,6 +87,7 @@ jobs:
         run: npm install -g snyk
 
       - name: Snyk Code — análisis estático SAST (SARIF)
+        continue-on-error: true
         run: |
           cd FINTECHMOVIL/backend
           snyk code test --sarif > ../../snyk-backend-code.sarif || true
@@ -93,7 +96,7 @@ jobs:
 
       - name: Subir SARIF SAST backend a GitHub Security
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && hashFiles('snyk-backend-code.sarif') != ''
         with:
           sarif_file: snyk-backend-code.sarif
           category: snyk-backend-code
@@ -121,6 +124,7 @@ jobs:
       - name: Compilar JAR para imagen Docker
         run: |
           cd FINTECHMOVIL/backend
+          chmod +x mvnw
           ./mvnw clean package -DskipTests
 
       - name: Construir imagen Docker
@@ -142,7 +146,7 @@ jobs:
 
       - name: Subir SARIF contenedor a GitHub Security
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && hashFiles('snyk-container.sarif') != ''
         with:
           sarif_file: snyk-container.sarif
           category: snyk-container
@@ -180,13 +184,14 @@ jobs:
 
       - name: Subir SARIF frontend a GitHub Security
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && hashFiles('snyk-frontend-deps.sarif') != ''
         with:
           sarif_file: snyk-frontend-deps.sarif
           category: snyk-frontend-dependencies
 
       - name: Snyk — monitoreo continuo frontend
         uses: snyk/actions/node@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -212,6 +217,7 @@ jobs:
         run: npm install -g snyk
 
       - name: Snyk Code — análisis estático frontend (SARIF)
+        continue-on-error: true
         run: |
           cd FINTECHMOVIL/frontend
           snyk code test --sarif > ../../snyk-frontend-code.sarif || true
@@ -220,7 +226,7 @@ jobs:
 
       - name: Subir SARIF SAST frontend a GitHub Security
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && hashFiles('snyk-frontend-code.sarif') != ''
         with:
           sarif_file: snyk-frontend-code.sarif
           category: snyk-frontend-code
