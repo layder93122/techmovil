@@ -3,12 +3,14 @@
 #  Uso: cd PROJ && .\EJECUTAR.ps1
 # ================================================================
 
-$SonarUrl   = "http://localhost:9000"
-$SonarToken = "sqa_0d27ba7b442d5827a0425666759402989f12f251"
-$SonarUser  = "admin"
-$SonarPass  = "admin"
-$SonarKey   = "fintechmovil"
-$GateName   = "TechMovil-Cobertura-OK"
+$SonarUrl          = "http://localhost:9000"
+$SonarToken        = "sqa_1efa256077a964dec20556df0ae035b5c7f8b527"
+$SonarTokenFront   = "sqa_200fd7c4c2d5b1cd8c00124db83f9b1e03736699"
+$SonarUser         = "admin"
+$SonarPass         = "admin"
+$SonarKey          = "fintechmovil"
+$SonarKeyFront     = "fintechmovil-frontend"
+$GateName          = "TechMovil-Cobertura-OK"
 
 Write-Host ""
 Write-Host "==========================================" -ForegroundColor Cyan
@@ -18,7 +20,7 @@ Write-Host "==========================================" -ForegroundColor Cyan
 Set-Location $PSScriptRoot
 
 function Call-Sonar([string]$Path, [string]$Method="GET", [string]$Body="") {
-    $cred = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${SonarUser}:${SonarPass}"))
+    $cred = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${SonarToken}:"))
     $h = @{ Authorization=$cred; "Content-Type"="application/x-www-form-urlencoded" }
     try {
         if ($Method -eq "POST") {
@@ -32,7 +34,7 @@ function Call-Sonar([string]$Path, [string]$Method="GET", [string]$Body="") {
 }
 
 Write-Host ""
-Write-Host "[1/3] Configurando Quality Gate..." -ForegroundColor Yellow
+Write-Host "[1/4] Configurando Quality Gate..." -ForegroundColor Yellow
 
 $gates = Call-Sonar "/api/qualitygates/list"
 $exist = if ($gates) { $gates.qualitygates | Where-Object { $_.name -eq $GateName } } else { $null }
@@ -50,27 +52,13 @@ if ($exist) {
 }
 
 if ($gid) {
-    $sel = Call-Sonar "/api/qualitygates/select" "POST" "gateId=$gid&projectKey=$SonarKey"
-    if ($sel -ne $null -or $?) {
-        Write-Host "   [OK] Quality Gate '$GateName' asignado al proyecto" -ForegroundColor Green
-    }
-}
-
-if (-not $gid) {
-    Write-Host ""
-    Write-Host "   [ACCION REQUERIDA] El Quality Gate no se pudo crear automaticamente." -ForegroundColor Yellow
-    Write-Host "   Haz esto UNA SOLA VEZ en el navegador:" -ForegroundColor Yellow
-    Write-Host "   1. Ve a: $SonarUrl/quality_gates" -ForegroundColor Cyan
-    Write-Host "   2. Clic en 'Create' - nombre: $GateName" -ForegroundColor Cyan
-    Write-Host "   3. Add condition: Coverage < 80 (Error)" -ForegroundColor Cyan
-    Write-Host "   4. Ve a: $SonarUrl/dashboard?id=$SonarKey" -ForegroundColor Cyan
-    Write-Host "   5. Project Settings > Quality Gate > Selecciona $GateName" -ForegroundColor Cyan
-    Write-Host ""
-    Read-Host "Presiona ENTER cuando hayas hecho esos pasos"
+    Call-Sonar "/api/qualitygates/select" "POST" "gateId=$gid&projectKey=$SonarKey" | Out-Null
+    Call-Sonar "/api/qualitygates/select" "POST" "gateId=$gid&projectKey=$SonarKeyFront" | Out-Null
+    Write-Host "   [OK] Quality Gate '$GateName' asignado a backend y frontend" -ForegroundColor Green
 }
 
 Write-Host ""
-Write-Host "[2/3] Tests + cobertura JaCoCo (~35 seg)..." -ForegroundColor Yellow
+Write-Host "[2/4] Tests + cobertura JaCoCo (~35 seg)..." -ForegroundColor Yellow
 Write-Host ""
 
 & .\mvnw.cmd clean verify --no-transfer-progress
@@ -84,7 +72,7 @@ Write-Host ""
 Write-Host "   [OK] Tests PASARON - Cobertura >= 80%" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "[3/3] Enviando a SonarQube (~20 seg)..." -ForegroundColor Yellow
+Write-Host "[3/4] Backend - enviando a SonarQube..." -ForegroundColor Yellow
 Write-Host ""
 
 & .\mvnw.cmd sonar:sonar `
@@ -94,14 +82,49 @@ Write-Host ""
     "--no-transfer-progress"
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "ERROR al enviar a SonarQube." -ForegroundColor Red
+    Write-Host "ERROR: Backend SonarQube falló." -ForegroundColor Red
     exit 1
 }
 
 Write-Host ""
+Write-Host "   [OK] Backend analizado en SonarQube" -ForegroundColor Green
+
+Write-Host ""
+Write-Host "[4/4] Frontend — build + SonarQube..." -ForegroundColor Yellow
+Write-Host ""
+
+Push-Location ..\frontend
+
+if (-not (Test-Path "node_modules")) {
+    Write-Host "   Instalando dependencias npm..." -ForegroundColor DarkYellow
+    & npm install --silent
+}
+
+& npx sonar-scanner `
+    "-Dsonar.host.url=$SonarUrl" `
+    "-Dsonar.token=$SonarTokenFront" `
+    "-Dsonar.projectKey=$SonarKeyFront" `
+    "-Dsonar.projectName=FinTechMovil Frontend" `
+    "-Dsonar.sources=src" `
+    "-Dsonar.exclusions=node_modules/**,dist/**" `
+    "-Dsonar.javascript.node.maxspace=512"
+
+$exitFront = $LASTEXITCODE
+Pop-Location
+
+if ($exitFront -ne 0) {
+    Write-Host "ERROR: Frontend SonarQube falló." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host ""
+Write-Host "   [OK] Frontend analizado en SonarQube" -ForegroundColor Green
+
+Write-Host ""
 Write-Host "==========================================" -ForegroundColor Green
-Write-Host "   BUILD SUCCESS - QUALITY GATE: VERDE  " -ForegroundColor Green
+Write-Host "   BUILD SUCCESS - BACKEND + FRONTEND    " -ForegroundColor Green
 Write-Host "==========================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "   $SonarUrl/dashboard?id=$SonarKey" -ForegroundColor Cyan
+Write-Host "   Backend:  $SonarUrl/dashboard?id=$SonarKey" -ForegroundColor Cyan
+Write-Host "   Frontend: $SonarUrl/dashboard?id=$SonarKeyFront" -ForegroundColor Cyan
 Write-Host ""
