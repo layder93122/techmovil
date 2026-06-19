@@ -1,0 +1,365 @@
+{
+  "info": {
+    "_postman_id": "techmovil-2026-api-collection",
+    "name": "TechMovil API — Pruebas Integrales",
+    "description": "Colección completa de pruebas de integración para el sistema TechMovil. Cubre todos los endpoints REST: Autenticación, Productos, Ventas, Facturas, Usuarios y Reportes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    { "key": "BASE_URL", "value": "http://localhost:8080", "type": "string" },
+    { "key": "TOKEN", "value": "simulated-jwt-token-techmovil-2026", "type": "string" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{TOKEN}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "01 - Autenticación",
+      "item": [
+        {
+          "name": "POST Login Correcto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Body contiene token', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('token');",
+                  "  pm.expect(json.status).to.equal('success');",
+                  "  pm.expect(json.role).to.equal('ADMIN');",
+                  "  pm.collectionVariables.set('TOKEN', json.token);",
+                  "});",
+                  "pm.test('Tiempo de respuesta < 500ms', () => pm.expect(pm.response.responseTime).to.be.below(500));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{BASE_URL}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Login Credenciales Incorrectas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 401 Unauthorized', () => pm.response.to.have.status(401));",
+                  "pm.test('Body contiene mensaje de error', () => {",
+                  "  pm.expect(pm.response.text()).to.include('Credenciales incorrectas');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{BASE_URL}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"hacker\",\n  \"password\": \"wrong\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Productos",
+      "item": [
+        {
+          "name": "GET Listar Todos los Productos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response es un array', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.be.an('array');",
+                  "});",
+                  "pm.test('Content-Type es JSON', () => {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "pm.test('Tiempo de respuesta < 1000ms', () => pm.expect(pm.response.responseTime).to.be.below(1000));",
+                  "if (pm.response.json().length > 0) {",
+                  "  pm.collectionVariables.set('PRODUCTO_ID', pm.response.json()[0].id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{BASE_URL}}/api/productos"
+          }
+        },
+        {
+          "name": "POST Crear Nuevo Producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Producto creado con ID', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('id');",
+                  "  pm.expect(json.marca).to.equal('Samsung');",
+                  "  pm.expect(json.modelo).to.equal('Galaxy S24 Ultra');",
+                  "  pm.collectionVariables.set('PRODUCTO_ID', json.id);",
+                  "});",
+                  "pm.test('Precio correcto', () => pm.expect(pm.response.json().precio).to.equal(3499.99));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{BASE_URL}}/api/productos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"marca\": \"Samsung\",\n  \"modelo\": \"Galaxy S24 Ultra\",\n  \"precio\": 3499.99,\n  \"stock\": 15,\n  \"stockMinimo\": 3,\n  \"imagenUrl\": \"\"\n}"
+            }
+          }
+        },
+        {
+          "name": "GET Alertas de Stock Crítico",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response es array de alertas', () => pm.expect(pm.response.json()).to.be.an('array'));",
+                  "pm.test('Productos en alerta tienen stock <= stockMinimo', () => {",
+                  "  pm.response.json().forEach(p => {",
+                  "    pm.expect(p.stock).to.be.at.most(p.stockMinimo);",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{BASE_URL}}/api/productos/alertas"
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Ventas",
+      "item": [
+        {
+          "name": "GET Listar Todas las Ventas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response es array', () => pm.expect(pm.response.json()).to.be.an('array'));",
+                  "pm.test('Tiempo de respuesta < 1000ms', () => pm.expect(pm.response.responseTime).to.be.below(1000));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{BASE_URL}}/api/ventas"
+          }
+        },
+        {
+          "name": "POST Registrar Nueva Venta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Venta tiene ID generado', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('idVenta');",
+                  "  pm.expect(json.total).to.be.a('number');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{BASE_URL}}/api/ventas",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cantidad\": 1,\n  \"producto\": { \"id\": {{PRODUCTO_ID}} },\n  \"usuario\": { \"idUsuario\": 1 }\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Facturas",
+      "item": [
+        {
+          "name": "POST Emitir Factura Válida",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Factura tiene número generado', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('id');",
+                  "  pm.expect(json.total).to.be.a('number');",
+                  "  pm.expect(json.igv).to.be.a('number');",
+                  "  pm.expect(json.subtotal).to.be.a('number');",
+                  "});",
+                  "pm.test('IGV es 18% del subtotal', () => {",
+                  "  const json = pm.response.json();",
+                  "  const igvEsperado = json.total - json.subtotal;",
+                  "  pm.expect(Math.abs(json.igv - igvEsperado)).to.be.below(0.01);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{BASE_URL}}/api/facturas/emitir",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroFactura\": \"FAC-000099\",\n  \"cliente\": \"Juan Perez Garcia\",\n  \"detallePago\": {\n    \"metodoPago\": \"YAPE\",\n    \"estadoPago\": \"APROBADO\"\n  },\n  \"detalles\": [\n    {\n      \"producto\": { \"id\": {{PRODUCTO_ID}} },\n      \"cantidad\": 1\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Factura Sin Detalles (Error 400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400 Bad Request', () => pm.response.to.have.status(400));",
+                  "pm.test('Mensaje de error presente', () => {",
+                  "  pm.expect(pm.response.text()).to.include('detalle');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{BASE_URL}}/api/facturas/emitir",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroFactura\": \"FAC-ERR-001\",\n  \"cliente\": \"Test\",\n  \"detalles\": []\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Usuarios",
+      "item": [
+        {
+          "name": "GET Listar Usuarios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response es array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{BASE_URL}}/api/usuarios"
+          }
+        },
+        {
+          "name": "POST Crear Usuario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Usuario creado con ID', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('idUsuario');",
+                  "  pm.expect(json.username).to.equal('vendedor01');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{BASE_URL}}/api/usuarios",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Pedro Quispe\",\n  \"username\": \"vendedor01\",\n  \"password\": \"pass123\",\n  \"rol\": \"VENDEDOR\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - Reportes",
+      "item": [
+        {
+          "name": "GET Reporte Diario",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));", "pm.test('Array de datos', () => pm.expect(pm.response.json()).to.be.an('array'));"] } }],
+          "request": { "method": "GET", "url": "{{BASE_URL}}/api/reportes/diario" }
+        },
+        {
+          "name": "GET Reporte Semanal",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"] } }],
+          "request": { "method": "GET", "url": "{{BASE_URL}}/api/reportes/semanal" }
+        },
+        {
+          "name": "GET Reporte Mensual",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"] } }],
+          "request": { "method": "GET", "url": "{{BASE_URL}}/api/reportes/mensual" }
+        },
+        {
+          "name": "GET Reporte Anual",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"] } }],
+          "request": { "method": "GET", "url": "{{BASE_URL}}/api/reportes/anual" }
+        }
+      ]
+    },
+    {
+      "name": "07 - Swagger UI (Verificación)",
+      "item": [
+        {
+          "name": "GET Swagger JSON Docs",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Swagger disponible', () => pm.response.to.have.status(200));"] } }],
+          "request": { "method": "GET", "url": "{{BASE_URL}}/v3/api-docs" }
+        }
+      ]
+    }
+  ]
+}
