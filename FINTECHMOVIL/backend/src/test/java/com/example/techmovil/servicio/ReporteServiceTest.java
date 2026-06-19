@@ -25,34 +25,34 @@ class ReporteServiceTest {
     void calcularIngresosTotales_ConVentas_RetornaSuma() {
         Venta v1 = Venta.builder().cantidad(2).producto(Producto.builder().precio(1000.0).build()).build();
         Venta v2 = Venta.builder().cantidad(1).producto(Producto.builder().precio(2000.0).build()).build();
-        when(ventaRepository.findAll()).thenReturn(Arrays.asList(v1, v2));
+        when(ventaRepository.findAllByActivoTrue()).thenReturn(Arrays.asList(v1, v2));
         assertEquals(4000.0, reporteService.calcularIngresosTotales(), 0.01);
     }
 
     @Test
     void calcularIngresosTotales_SinVentas_RetornaCero() {
-        when(ventaRepository.findAll()).thenReturn(Collections.emptyList());
+        when(ventaRepository.findAllByActivoTrue()).thenReturn(Collections.emptyList());
         assertEquals(0.0, reporteService.calcularIngresosTotales(), 0.01);
     }
 
     @Test
     void calcularIngresosTotales_CantidadNula_UsaUno() {
         Venta v = Venta.builder().cantidad(null).producto(Producto.builder().precio(500.0).build()).build();
-        when(ventaRepository.findAll()).thenReturn(Arrays.asList(v));
+        when(ventaRepository.findAllByActivoTrue()).thenReturn(Arrays.asList(v));
         assertEquals(500.0, reporteService.calcularIngresosTotales(), 0.01);
     }
 
     @Test
     void calcularIngresosTotales_ProductoNull_ContribueCero() {
         Venta v = Venta.builder().cantidad(3).producto(null).build();
-        when(ventaRepository.findAll()).thenReturn(Arrays.asList(v));
+        when(ventaRepository.findAllByActivoTrue()).thenReturn(Arrays.asList(v));
         assertEquals(0.0, reporteService.calcularIngresosTotales(), 0.01);
     }
 
     @Test
     void calcularIngresosTotales_PrecioNull_ContribueCero() {
         Venta v = Venta.builder().cantidad(2).producto(Producto.builder().precio(null).build()).build();
-        when(ventaRepository.findAll()).thenReturn(Arrays.asList(v));
+        when(ventaRepository.findAllByActivoTrue()).thenReturn(Arrays.asList(v));
         assertEquals(0.0, reporteService.calcularIngresosTotales(), 0.01);
     }
 

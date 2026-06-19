@@ -11,7 +11,7 @@ public class ReporteService {
     private final VentaRepository ventaRepository;
 
     public Double calcularIngresosTotales() {
-        return ventaRepository.findAll().stream()
+        return ventaRepository.findAllByActivoTrue().stream()
                 .mapToDouble(v -> {
                     int cantidad = v.getCantidad() != null ? v.getCantidad() : 1;
                     double precio = (v.getProducto() != null && v.getProducto().getPrecio() != null)
