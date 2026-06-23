@@ -3,3 +3,7 @@ target/
 *.log
 .idea/
 *.iml
+test-reports/*.xml
+test-reports/*.html
+test-reports/*.json
+!test-reports/.gitkeep

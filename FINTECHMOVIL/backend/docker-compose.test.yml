@@ -1,0 +1,117 @@
+# Ambiente de Pruebas — FinTechMovil
+# Levanta: MySQL + Backend + Newman (Postman) + K6
+# Uso: docker-compose -f docker-compose.test.yml up --abort-on-container-exit
+#
+# Requisitos previos:
+#   1. Construir el JAR:  ./mvnw clean package -DskipTests
+#   2. docker-compose -f docker-compose.test.yml up --build
+
+name: techmovil-test
+
+services:
+
+  # ── Base de datos de pruebas ────────────────────────────────────────────────
+  db-test:
+    image: mysql:8.0
+    container_name: techmovil_db_test
+    environment:
+      MYSQL_DATABASE:      techmovil_test
+      MYSQL_ROOT_PASSWORD: roottest
+      MYSQL_USER:          testuser
+      MYSQL_PASSWORD:      testpass
+    ports:
+      - "3308:3306"
+    volumes:
+      - db_test_data:/var/lib/mysql
+      - ./src/main/resources/import.sql:/docker-entrypoint-initdb.d/01_seed.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proottest"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - test-net
+
+  # ── Backend Spring Boot (construido desde el JAR) ───────────────────────────
+  backend-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: techmovil_backend_test
+    environment:
+      MYSQLHOST:     db-test
+      MYSQLPORT:     3306
+      MYSQLDATABASE: techmovil_test
+      MYSQLUSER:     testuser
+      MYSQLPASSWORD: testpass
+      JWT_SECRET:    fintechmovil-test-secret-2026-ambiente-pruebas
+      ADMIN_USER:    admin
+      ADMIN_PASS:    admin123
+      PORT:          8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      db-test:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/productos || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 30s
+    networks:
+      - test-net
+
+  # ── Newman — Pruebas Integrales Postman ─────────────────────────────────────
+  newman:
+    image: postman/newman:latest
+    container_name: techmovil_newman
+    command: >
+      run /collection/FinTechmovil_Postman_Collection.json
+      --env-var BASE_URL=http://backend-test:8080
+      --reporters cli,junit
+      --reporter-junit-export /reports/newman-results.xml
+      --delay-request 300
+      --timeout-request 10000
+      --bail
+    volumes:
+      - ../FinTechmovil_Postman_Collection.json:/collection/FinTechmovil_Postman_Collection.json:ro
+      - ./test-reports:/reports
+    depends_on:
+      backend-test:
+        condition: service_healthy
+    networks:
+      - test-net
+
+  # ── K6 — Pruebas de Rendimiento (Smoke) ────────────────────────────────────
+  k6-smoke:
+    image: grafana/k6:latest
+    container_name: techmovil_k6_smoke
+    command: run --env BASE_URL=http://backend-test:8080 /scripts/smoke-test.js
+    volumes:
+      - ./K6:/scripts:ro
+    depends_on:
+      newman:
+        condition: service_completed_successfully
+    networks:
+      - test-net
+
+  # ── K6 — Pruebas de Carga (Load) ───────────────────────────────────────────
+  k6-load:
+    image: grafana/k6:latest
+    container_name: techmovil_k6_load
+    command: run --env BASE_URL=http://backend-test:8080 /scripts/all-controllers-test.js
+    volumes:
+      - ./K6:/scripts:ro
+    depends_on:
+      k6-smoke:
+        condition: service_completed_successfully
+    networks:
+      - test-net
+
+networks:
+  test-net:
+    driver: bridge
+
+volumes:
+  db_test_data:

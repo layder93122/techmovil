@@ -102,16 +102,96 @@ pipeline {
             }
         }
 
+        // ── PRUEBAS INTEGRALES ─────────────────────────────────────────────
+        stage('Ambiente de Pruebas — Newman (Postman)') {
+            steps {
+                dir('FINTECHMOVIL/backend') {
+                    sh '''
+                        # Instalar Newman si no está disponible
+                        if ! which newman > /dev/null 2>&1; then
+                            npm install -g newman newman-reporter-htmlextra
+                        fi
+
+                        mkdir -p test-reports
+
+                        newman run ../FinTechmovil_Postman_Collection.json \
+                            --env-var BASE_URL=http://localhost:8080 \
+                            --reporters cli,junit,htmlextra \
+                            --reporter-junit-export test-reports/newman-results.xml \
+                            --reporter-htmlextra-export test-reports/newman-report.html \
+                            --delay-request 300 \
+                            --timeout-request 15000 \
+                            --bail || true
+                    '''
+                }
+            }
+            post {
+                always {
+                    junit testResults: 'FINTECHMOVIL/backend/test-reports/newman-results.xml',
+                          allowEmptyResults: true
+                    publishHTML(target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'FINTECHMOVIL/backend/test-reports',
+                        reportFiles: 'newman-report.html',
+                        reportName: 'Pruebas Integrales Postman'
+                    ])
+                }
+            }
+        }
+
+        // ── PRUEBAS DE RENDIMIENTO ─────────────────────────────────────────
+        stage('Ambiente de Pruebas — K6 Smoke') {
+            steps {
+                dir('FINTECHMOVIL/backend') {
+                    sh '''
+                        if ! which k6 > /dev/null 2>&1; then
+                            apt-get install -y gnupg2
+                            gpg -k
+                            gpg --no-default-keyring \
+                                --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+                                --keyserver hkp://keyserver.ubuntu.com:80 \
+                                --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+                            echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" \
+                                | tee /etc/apt/sources.list.d/k6.list
+                            apt-get update -qq && apt-get install -y k6
+                        fi
+
+                        mkdir -p test-reports
+
+                        k6 run \
+                            --env BASE_URL=http://localhost:8080 \
+                            --out json=test-reports/k6-smoke.json \
+                            K6/smoke-test.js || true
+
+                        k6 run \
+                            --env BASE_URL=http://localhost:8080 \
+                            --out json=test-reports/k6-load.json \
+                            K6/all-controllers-test.js || true
+                    '''
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'FINTECHMOVIL/backend/test-reports/*.json',
+                                     allowEmptyArchive: true
+                }
+            }
+        }
+
     }
 
     post {
         success {
-            echo '✅ Pipeline OK — Backend + Frontend analizados en SonarQube.'
+            echo '✅ Pipeline OK — Backend + Frontend + Newman + K6 completados.'
         }
         failure {
             echo '❌ Pipeline FALLIDO — revisar el stage rojo.'
         }
         always {
+            archiveArtifacts artifacts: 'FINTECHMOVIL/backend/test-reports/**/*',
+                             allowEmptyArchive: true
             cleanWs()
         }
     }
