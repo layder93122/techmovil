@@ -55,7 +55,7 @@ public class ProductoController {
 
     @GetMapping("/alertas")
     @Operation(summary = "Productos con stock bajo")
-    public ResponseEntity<List<Producto>> alertasStock() {
+    public ResponseEntity<List<Producto>> obtenerAlertasStock() {
         return ResponseEntity.ok(productoRepository.obtenerProductosEnAlerta());
     }
 }

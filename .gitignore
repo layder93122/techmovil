@@ -4,3 +4,10 @@ target/
 .idea/
 .vscode/
 .env
+
+# Archivos basura generados por errores de terminal
+FINTECHMOVIL/backend/[ERROR]
+FINTECHMOVIL/backend/[Help
+FINTECHMOVIL/backend/cd
+FINTECHMOVIL/backend/log.txt
+reset_admin.groovy
