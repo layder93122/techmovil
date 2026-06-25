@@ -9,8 +9,6 @@ test-reports/*.json
 !test-reports/.gitkeep
 
 # Archivos basura generados por errores de terminal
-[ERROR]
-[Help
 cd
 log.txt
 reset_admin.groovy
