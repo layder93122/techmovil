@@ -1,11 +1,17 @@
 export default async function handler(req, res) {
   const { numero } = req.query;
-  if (!numero) return res.status(400).json({ error: "Falta el número de RUC" });
-
-  const r = await fetch(`https://api.apis.net.pe/v1/ruc?numero=${numero}`, {
-    headers: { Authorization: "Bearer sk_16558.F5SQcVQRLtkdhNZ6A4v6UdnNt7bI2EQz" },
-  });
-
-  const text = await r.text();
-  res.status(r.status).setHeader("Content-Type", "application/json").send(text);
+  if (!numero || !/^\d{11}$/.test(numero)) {
+    return res.status(400).json({ error: "RUC debe tener 11 dígitos" });
+  }
+  const token = process.env.APIS_TOKEN || process.env.VITE_APIS_TOKEN;
+  try {
+    const r = await fetch(
+      `https://api.apis.net.pe/v2/sunat/ruc?numero=${numero}`,
+      { headers: { Authorization: `Bearer ${token}`, Accept: "application/json" } }
+    );
+    const data = await r.json();
+    res.status(r.status).json(data);
+  } catch (e) {
+    res.status(500).json({ error: "Error de conexión con SUNAT" });
+  }
 }

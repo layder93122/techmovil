@@ -13,6 +13,16 @@ const authHeader = () => {
 };
 const apisHeader = () => ({ "Authorization": `Bearer ${APIS_TOKEN}` });
 
+/* formatea números con comas como separador de miles y punto decimal,
+   sin depender del soporte de locale del navegador */
+const fmt = (n, dec = 0) => {
+  const num = Number(n);
+  if (!isFinite(num)) return '0';
+  const parts = num.toFixed(dec).split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return dec > 0 ? parts.join('.') : parts[0];
+};
+
 const parseApiRes = async (res) => {
   const text = await res.text();
   if (res.status === 429) throw new Error("Demasiadas consultas seguidas, espera 1 minuto");
@@ -577,7 +587,7 @@ function Dashboard({productos}) {
       <div className="kpi-grid">
         {[
           {label:"Ventas Hoy",val:"23",change:"+12%",up:true,icon:"📈",cls:"kpi-blue"},
-          {label:"Ingresos Mes",val:`S/ ${(155000).toLocaleString("es-PE")}`,change:"+8.3%",up:true,icon:"💰",cls:"kpi-green"},
+          {label:"Ingresos Mes",val:`S/ ${fmt(155000)}`,change:"+8.3%",up:true,icon:"💰",cls:"kpi-green"},
           {label:"Productos en Stock",val:totalStock,change:`${productos.length} modelos`,up:true,icon:"📦",cls:"kpi-amber"},
           {label:"Alertas Stock",val:alertas.length,change:alertas.length>0?"Requiere acción":"OK",up:alertas.length===0,icon:"⚠️",cls:alertas.length>0?"kpi-red":"kpi-green"},
         ].map((k,i)=>(
@@ -710,7 +720,7 @@ function Productos({productos, setProductos}) {
         if(r.ok){ const created=await r.json(); setProductos(ps=>[...ps,{...form,id:created.id,precio:precioNum,stock:stockNum,stockMinimo:stockMinNum,ventas:0,rating:0,activo:true,img:""}]); toast(`➕ ${form.nombre} registrado`); }
         else { const msg=r.status===401||r.status===403?"Sesión expirada, vuelve a iniciar sesión":"Error al registrar ("+r.status+")"; toast(msg,"error"); }
       }
-    } catch(e){ toast("Sin conexión al backend","warn"); }
+    } catch(e){ toast("Sin conexión al backend","info"); }
     setModalOpen(false);
   };
 
@@ -761,7 +771,7 @@ function Productos({productos, setProductos}) {
                   </td>
                   <td><span className="tag">{p.marca}</span></td>
                   <td><EstadoBadge estado={p.categoria}/></td>
-                  <td><strong>S/ {p.precio.toLocaleString("es-PE")}</strong><div style={{fontSize:10,color:"var(--text3)"}}>+IGV: S/ {(p.precio*1.18).toLocaleString("es-PE",{maximumFractionDigits:0})}</div></td>
+                  <td><strong>S/ {fmt(p.precio)}</strong><div style={{fontSize:10,color:"var(--text3)"}}>+IGV: S/ {fmt(p.precio*1.18)}</div></td>
                   <td><StockBadge stock={p.stock} min={p.stockMinimo}/></td>
                   <td><strong>{p.ventas}</strong></td>
                   <td><EstadoBadge estado={p.activo?"Activo":"Inactivo"}/></td>
@@ -839,8 +849,8 @@ function Productos({productos, setProductos}) {
                     <EstadoBadge estado={detalle.categoria}/>
                     <StockBadge stock={detalle.stock} min={detalle.stockMinimo}/>
                   </div>
-                  <div style={{fontSize:24,fontWeight:800,color:"var(--blue)"}}>S/ {detalle.precio.toLocaleString("es-PE")}</div>
-                  <div style={{fontSize:11,color:"var(--text3)"}}>Con IGV: S/ {(detalle.precio*1.18).toFixed(2)}</div>
+                  <div style={{fontSize:24,fontWeight:800,color:"var(--blue)"}}>S/ {fmt(detalle.precio)}</div>
+                  <div style={{fontSize:11,color:"var(--text3)"}}>Con IGV: S/ {fmt(detalle.precio*1.18, 2)}</div>
                 </div>
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
@@ -897,7 +907,7 @@ function Inventario({productos, setProductos}) {
           {label:"Total Productos",val:productos.length,icon:"📱",cls:"kpi-blue"},
           {label:"Unidades en Stock",val:productos.reduce((s,p)=>s+p.stock,0),icon:"📦",cls:"kpi-green"},
           {label:"Stock Bajo / Agotado",val:productos.filter(p=>p.stock<=p.stockMinimo).length,icon:"⚠️",cls:"kpi-amber"},
-          {label:"Valor del Inventario",val:`S/ ${(productos.reduce((s,p)=>s+p.precio*p.stock,0)).toLocaleString("es-PE",{maximumFractionDigits:0})}`,icon:"💰",cls:"kpi-purple"},
+          {label:"Valor del Inventario",val:`S/ ${fmt(productos.reduce((s,p)=>s+(p.precio||0)*(p.stock||0),0))}`,icon:"💰",cls:"kpi-purple"},
         ].map((k,i)=>(
           <div key={i} className={`kpi-card ${k.cls}`}>
             <div className="kpi-icon-wrap">{k.icon}</div>
@@ -1108,7 +1118,7 @@ function Ventas({productos, setProductos}) {
                   <img src={p.img} alt="" className="pos-prod-img" onError={e=>{e.target.style.display="none"}}/>
                   <div className="pos-prod-body">
                     <div className="pos-prod-name">{p.nombre}</div>
-                    <div className="pos-prod-price">S/ {p.precio.toLocaleString("es-PE")}</div>
+                    <div className="pos-prod-price">S/ {fmt(p.precio)}</div>
                     <div className="pos-prod-stock">{p.stock===0?"Agotado":`${p.stock} disponibles`}</div>
                   </div>
                 </div>
@@ -1123,7 +1133,7 @@ function Ventas({productos, setProductos}) {
                 <div key={item.id} className="pos-cart-item">
                   <div style={{flex:1,minWidth:0}}>
                     <div className="pos-cart-item-name">{item.nombre}</div>
-                    <div className="pos-cart-item-price">S/ {(item.precio*item.qty).toLocaleString("es-PE")}</div>
+                    <div className="pos-cart-item-price">S/ {fmt(item.precio*item.qty)}</div>
                   </div>
                   <div style={{display:"flex",alignItems:"center",gap:4}}>
                     <button className="pos-qty-btn" onClick={()=>updateQty(item.id,item.qty-1)}>−</button>
@@ -1165,10 +1175,10 @@ function Ventas({productos, setProductos}) {
                   {["Efectivo","Tarjeta","Yape","Plin","Transferencia"].map(m=><option key={m}>{m}</option>)}
                 </select>
               </div>
-              <div className="pos-total-row"><span>Subtotal</span><span>S/ {subtotal.toFixed(2)}</span></div>
-              <div className="pos-total-row"><span>IGV (18%)</span><span>S/ {igv.toFixed(2)}</span></div>
+              <div className="pos-total-row"><span>Subtotal</span><span>S/ {fmt(subtotal, 2)}</span></div>
+              <div className="pos-total-row"><span>IGV (18%)</span><span>S/ {fmt(igv, 2)}</span></div>
               <div className="pos-total-row"><span>Descuento</span><span style={{color:"var(--green3)"}}>S/ 0.00</span></div>
-              <div className="pos-total-row grand"><span>TOTAL</span><span style={{color:"var(--blue)"}}>S/ {total.toFixed(2)}</span></div>
+              <div className="pos-total-row grand"><span>TOTAL</span><span style={{color:"var(--blue)"}}>S/ {fmt(total, 2)}</span></div>
               <button className="btn btn-success pos-btn-pagar" disabled={paying||cart.length===0||!cliente} onClick={procesarVenta}>
                 {paying?"⏳ Procesando...":"💳 Completar Venta"}
               </button>
@@ -1193,9 +1203,9 @@ function Ventas({productos, setProductos}) {
                     <td><span style={{fontFamily:"var(--mono)",color:"var(--blue)",fontWeight:700}}>{v.id}</span></td>
                     <td>{v.cliente}</td>
                     <td>{v.productos.map(p=>`${p.nombre}(x${p.qty||p.cantidad})`).join(", ").slice(0,40)}...</td>
-                    <td>S/ {v.subtotal.toFixed(2)}</td>
-                    <td>S/ {v.igv.toFixed(2)}</td>
-                    <td><strong style={{color:"var(--blue)"}}>S/ {v.total.toFixed(2)}</strong></td>
+                    <td>S/ {fmt(v.subtotal, 2)}</td>
+                    <td>S/ {fmt(v.igv, 2)}</td>
+                    <td><strong style={{color:"var(--blue)"}}>S/ {fmt(v.total, 2)}</strong></td>
                     <td><span className="tag">{v.metodo}</span></td>
                     <td style={{fontFamily:"var(--mono)",fontSize:11}}>{v.fecha}</td>
                     <td><EstadoBadge estado={v.estado}/></td>
@@ -1236,20 +1246,20 @@ function Ventas({productos, setProductos}) {
               {boletaVenta.productos.map((p,i)=>(
                 <div key={i} className="boleta-row">
                   <span style={{maxWidth:"60%"}}>{p.nombre} <span style={{color:"var(--text3)"}}>x{p.qty}</span></span>
-                  <span style={{fontWeight:600}}>S/ {(p.precio*p.qty).toFixed(2)}</span>
+                  <span style={{fontWeight:600}}>S/ {fmt(p.precio*p.qty, 2)}</span>
                 </div>
               ))}
               <div className="boleta-row" style={{marginTop:10}}>
                 <span style={{color:"var(--text3)"}}>Subtotal</span>
-                <span>S/ {boletaVenta.subtotal.toFixed(2)}</span>
+                <span>S/ {fmt(boletaVenta.subtotal, 2)}</span>
               </div>
               <div className="boleta-row">
                 <span style={{color:"var(--text3)"}}>IGV (18%)</span>
-                <span>S/ {boletaVenta.igv.toFixed(2)}</span>
+                <span>S/ {fmt(boletaVenta.igv, 2)}</span>
               </div>
               <div className="boleta-total-row">
                 <span>TOTAL A PAGAR</span>
-                <span>S/ {boletaVenta.total.toFixed(2)}</span>
+                <span>S/ {fmt(boletaVenta.total, 2)}</span>
               </div>
               <div style={{textAlign:"center",marginTop:16,fontSize:11,color:"var(--text3)"}}>
                 ¡Gracias por su compra! · Conserve este comprobante
@@ -1308,10 +1318,10 @@ function Reportes({productos}) {
 
       <div className="kpi-grid">
         {[
-          {label:"Ingresos Totales",val:`S/ ${totalVentas.toLocaleString("es-PE",{maximumFractionDigits:0})}`,icon:"💰",cls:"kpi-blue"},
+          {label:"Ingresos Totales",val:`S/ ${fmt(totalVentas)}`,icon:"💰",cls:"kpi-blue"},
           {label:"Ventas Completadas",val:VENTAS_MOCK.length,icon:"🧾",cls:"kpi-green"},
           {label:"Productos Vendidos",val:prodsVendidos,icon:"📦",cls:"kpi-amber"},
-          {label:"Ticket Promedio",val:`S/ ${ticketProm.toFixed(0)}`,icon:"📊",cls:"kpi-purple"},
+          {label:"Ticket Promedio",val:`S/ ${fmt(ticketProm)}`,icon:"📊",cls:"kpi-purple"},
         ].map((k,i)=>(
           <div key={i} className={`kpi-card ${k.cls}`}>
             <div className="kpi-icon-wrap">{k.icon}</div>
@@ -1341,9 +1351,9 @@ function Reportes({productos}) {
                 {[...productos].sort((a,b)=>b.precio*b.ventas-a.precio*a.ventas).slice(0,6).map(p=>(
                   <tr key={p.id}>
                     <td>{p.nombre}</td>
-                    <td>S/ {p.precio.toLocaleString("es-PE")}</td>
+                    <td>S/ {fmt(p.precio)}</td>
                     <td><strong>{p.ventas}</strong></td>
-                    <td style={{color:"var(--green3)",fontWeight:700}}>S/ {(p.precio*p.ventas*1.18).toLocaleString("es-PE",{maximumFractionDigits:0})}</td>
+                    <td style={{color:"var(--green3)",fontWeight:700}}>S/ {fmt(p.precio*p.ventas*1.18)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -1363,7 +1373,7 @@ function Reportes({productos}) {
                 <div key={m} style={{marginBottom:12}}>
                   <div style={{display:"flex",justifyContent:"space-between",fontSize:12,marginBottom:4}}>
                     <span style={{fontWeight:600}}>{m}</span>
-                    <span style={{color:"var(--text3)"}}>{count} ventas · S/ {total.toFixed(0)}</span>
+                    <span style={{color:"var(--text3)"}}>{count} ventas · S/ {fmt(total)}</span>
                   </div>
                   <div style={{height:8,background:"var(--bg)",borderRadius:4,overflow:"hidden"}}>
                     <div style={{height:"100%",width:`${pct}%`,background:colors[i],borderRadius:4}}/>
@@ -1460,7 +1470,7 @@ function Clientes() {
         if(r.ok){ const created=await r.json(); setClientes(cs=>[...cs,fromBackend(created)]); toast(`✅ Cliente ${form.nombre} registrado`); }
         else { const msg=r.status===401||r.status===403?"Sesión expirada, vuelve a iniciar sesión":"Error al registrar ("+r.status+")"; toast(msg,"error"); }
       }
-    } catch(e){ toast("Sin conexión al backend","warn"); }
+    } catch(e){ toast("Sin conexión al backend","info"); }
     setModalOpen(false);
   };
 
@@ -1474,7 +1484,7 @@ function Clientes() {
       <div className="kpi-grid" style={{gridTemplateColumns:"repeat(3,1fr)"}}>
         <div className="kpi-card kpi-blue"><div className="kpi-icon-wrap">👥</div><div><div className="kpi-label">Total Clientes</div><div className="kpi-val" style={{fontSize:22}}>{clientes.length}</div></div></div>
         <div className="kpi-card kpi-green"><div className="kpi-icon-wrap">✅</div><div><div className="kpi-label">Clientes Activos</div><div className="kpi-val" style={{fontSize:22}}>{clientes.filter(c=>c.activo).length}</div></div></div>
-        <div className="kpi-card kpi-amber"><div className="kpi-icon-wrap">💰</div><div><div className="kpi-label">Ventas Totales</div><div className="kpi-val" style={{fontSize:18}}>S/ {clientes.reduce((s,c)=>s+c.total,0).toLocaleString("es-PE",{maximumFractionDigits:0})}</div></div></div>
+        <div className="kpi-card kpi-amber"><div className="kpi-icon-wrap">💰</div><div><div className="kpi-label">Ventas Totales</div><div className="kpi-val" style={{fontSize:18}}>S/ {fmt(clientes.reduce((s,c)=>s+(c.total||0),0))}</div></div></div>
       </div>
 
       <div className="card">
@@ -1502,7 +1512,7 @@ function Clientes() {
                   <td>{c.telefono}</td>
                   <td><span className="tag">{c.ciudad}</span></td>
                   <td><strong>{c.compras}</strong></td>
-                  <td style={{color:"var(--green3)",fontWeight:700}}>S/ {c.total.toLocaleString("es-PE")}</td>
+                  <td style={{color:"var(--green3)",fontWeight:700}}>S/ {fmt(c.total)}</td>
                   <td style={{fontFamily:"var(--mono)",fontSize:11}}>{c.fechaReg}</td>
                   <td><EstadoBadge estado={c.activo?"Activo":"Inactivo"}/></td>
                   <td>
@@ -1656,9 +1666,12 @@ export default function App() {
         if(data&&Array.isArray(data))
           setProductos(data.map(p=>({
             ...p,
-            nombre:`${p.marca} ${p.modelo}`,
+            nombre:`${p.marca||""} ${p.modelo||""}`.trim()||"Producto",
             img:p.imagenUrl||"",
             categoria:p.categoria||"Gama Alta",
+            precio:Number(p.precio)||0,
+            stock:Number(p.stock)||0,
+            stockMinimo:Number(p.stockMinimo)??3,
             ventas:p.ventas||0,
             rating:p.rating||0,
             procesador:p.caracteristicas?.procesador||"",
