@@ -37,7 +37,7 @@ class CustomResponseTest {
         CustomResponse response = new CustomResponse(404, ahora, "No encontrado", "ID 99");
 
         assertEquals(404, response.getStatusCode());
-        assertEquals("No encontrado", response.getMessage());
+        assertEquals("No encontrado", response.getMessage(), "mensaje incorrecto");
     }
 
     @Test
@@ -73,13 +73,13 @@ class CustomResponseTest {
     @Test
     void equals_ConNull_RetornaFalse() {
         CustomResponse r = new CustomResponse(200, LocalDateTime.now(), "OK", "d");
-        assertNotEquals(r, null);
+        assertNotEquals(null, r);
     }
 
     @Test
     void equals_ConDistintoTipo_RetornaFalse() {
         CustomResponse r = new CustomResponse(200, LocalDateTime.now(), "OK", "d");
-        assertNotEquals(r, "string");
+        assertNotEquals("string", r);
     }
 
     @Test

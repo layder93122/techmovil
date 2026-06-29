@@ -102,6 +102,81 @@ class FacturaControllerTest {
     }
 
     @Test
+    void listar_RetornaListaFacturas() {
+        when(facturacionService.findAll()).thenReturn(java.util.Arrays.asList(factura));
+
+        ResponseEntity<Object> response = facturaController.listar();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
+
+    @Test
+    void listar_LlamaAlServicio() {
+        when(facturacionService.findAll()).thenReturn(java.util.Collections.emptyList());
+
+        facturaController.listar();
+
+        verify(facturacionService, times(1)).findAll();
+    }
+
+    @Test
+    void buscar_RetornaFacturaPorId() {
+        when(facturacionService.findById(1L)).thenReturn(factura);
+
+        ResponseEntity<Object> response = facturaController.buscar(1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Factura resultado = (Factura) response.getBody();
+        assertEquals("FAC-000001", resultado.getNumeroFactura());
+    }
+
+    @Test
+    void buscar_LlamaAlServicioConId() {
+        when(facturacionService.findById(1L)).thenReturn(factura);
+
+        facturaController.buscar(1L);
+
+        verify(facturacionService, times(1)).findById(1L);
+    }
+
+    @Test
+    void anular_RetornaCustomResponse() {
+        com.example.techmovil.excepciones.CustomResponse cr =
+            com.example.techmovil.excepciones.CustomResponse.builder()
+                .statusCode(200).message("Factura anulada correctamente").build();
+        when(facturacionService.delete(1L)).thenReturn(cr);
+
+        ResponseEntity<com.example.techmovil.excepciones.CustomResponse> response = facturaController.anular(1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Factura anulada correctamente", response.getBody().getMessage());
+    }
+
+    @Test
+    void anular_LlamaAlServicioConId() {
+        com.example.techmovil.excepciones.CustomResponse cr =
+            com.example.techmovil.excepciones.CustomResponse.builder()
+                .statusCode(200).message("OK").build();
+        when(facturacionService.delete(1L)).thenReturn(cr);
+
+        facturaController.anular(1L);
+
+        verify(facturacionService, times(1)).delete(1L);
+    }
+
+    @Test
+    void emitirFactura_EntityNotFound_Retorna400() {
+        when(facturacionService.procesarVentaFacturada(any(Factura.class)))
+                .thenThrow(new jakarta.persistence.EntityNotFoundException("Producto no encontrado"));
+
+        ResponseEntity<Object> response = facturaController.emitirFactura(factura);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Producto no encontrado", response.getBody());
+    }
+
+    @Test
     void facturaController_EsInstanciable() {
         assertNotNull(facturaController);
     }

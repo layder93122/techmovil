@@ -147,4 +147,43 @@ class FacturacionServiceImpTest {
         when(facturaRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
         assertEquals(fechaFija, facturacionService.procesarVentaFacturada(factura).getFechaEmision());
     }
+
+    @Test
+    void findById_FacturaExistente_RetornaFactura() {
+        when(facturaRepository.findById(1L)).thenReturn(Optional.of(factura));
+
+        Factura resultado = facturacionService.findById(1L);
+
+        assertNotNull(resultado);
+        assertEquals("FAC-000001", resultado.getNumeroFactura());
+    }
+
+    @Test
+    void findById_FacturaNoExistente_LanzaEntityNotFoundException() {
+        when(facturaRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThrows(jakarta.persistence.EntityNotFoundException.class,
+                () -> facturacionService.findById(99L));
+    }
+
+    @Test
+    void delete_FacturaExistente_AnulaYRetornaResponse() {
+        when(facturaRepository.findById(1L)).thenReturn(Optional.of(factura));
+        when(facturaRepository.save(any())).thenReturn(factura);
+
+        com.example.techmovil.excepciones.CustomResponse response = facturacionService.delete(1L);
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCode());
+        assertTrue(response.getMessage().contains("anulada"));
+        verify(facturaRepository).save(argThat(f -> Boolean.FALSE.equals(f.getActivo())));
+    }
+
+    @Test
+    void delete_FacturaNoExistente_LanzaEntityNotFoundException() {
+        when(facturaRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThrows(jakarta.persistence.EntityNotFoundException.class,
+                () -> facturacionService.delete(99L));
+    }
 }

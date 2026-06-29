@@ -4,7 +4,6 @@ import com.example.techmovil.config.JwtService;
 import com.example.techmovil.dtos.LoginRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +33,8 @@ public class AuthControlador {
 
     @PostMapping("/login")
     @Operation(summary = "Iniciar sesion", description = "Valida credenciales y retorna un token JWT firmado")
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Login exitoso, token retornado"),
-        @ApiResponse(responseCode = "401", description = "Credenciales incorrectas")
-    })
+    @ApiResponse(responseCode = "200", description = "Login exitoso, token retornado")
+    @ApiResponse(responseCode = "401", description = "Credenciales incorrectas")
     public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest loginRequest) {
         if (adminUsername.equals(loginRequest.getUsername())
                 && adminPassword.equals(loginRequest.getPassword())) {

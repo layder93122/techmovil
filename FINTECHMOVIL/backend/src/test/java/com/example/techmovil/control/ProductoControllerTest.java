@@ -18,6 +18,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 
 @ExtendWith(MockitoExtension.class)
 class ProductoControllerTest {
@@ -105,6 +107,70 @@ class ProductoControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(response.getBody().isEmpty());
+    }
+
+    @Test
+    void buscar_RetornaProductoPorId() {
+        when(service.findById(1L)).thenReturn(producto);
+
+        ResponseEntity<Producto> response = controller.buscar(1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(1L, response.getBody().getId());
+    }
+
+    @Test
+    void buscar_LlamaAlServicioConId() {
+        when(service.findById(1L)).thenReturn(producto);
+
+        controller.buscar(1L);
+
+        verify(service, times(1)).findById(1L);
+    }
+
+    @Test
+    void actualizar_ProductoValido_RetornaProductoActualizado() {
+        producto.setMarca("Apple");
+        when(service.update(any(Producto.class), eq(1L))).thenReturn(producto);
+
+        ResponseEntity<Producto> response = controller.actualizar(producto, 1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Apple", response.getBody().getMarca());
+    }
+
+    @Test
+    void actualizar_AsignaIdAlProducto() {
+        when(service.update(any(Producto.class), eq(1L))).thenReturn(producto);
+
+        controller.actualizar(producto, 1L);
+
+        verify(service, times(1)).update(argThat(p -> p.getId().equals(1L)), eq(1L));
+    }
+
+    @Test
+    void eliminar_RetornaCustomResponse() {
+        com.example.techmovil.excepciones.CustomResponse cr =
+            com.example.techmovil.excepciones.CustomResponse.builder()
+                .statusCode(200).message("Eliminado").build();
+        when(service.delete(1L)).thenReturn(cr);
+
+        ResponseEntity<com.example.techmovil.excepciones.CustomResponse> response = controller.eliminar(1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Eliminado", response.getBody().getMessage());
+    }
+
+    @Test
+    void eliminar_LlamaAlServicioConId() {
+        com.example.techmovil.excepciones.CustomResponse cr =
+            com.example.techmovil.excepciones.CustomResponse.builder()
+                .statusCode(200).message("OK").build();
+        when(service.delete(1L)).thenReturn(cr);
+
+        controller.eliminar(1L);
+
+        verify(service, times(1)).delete(1L);
     }
 
     @Test
