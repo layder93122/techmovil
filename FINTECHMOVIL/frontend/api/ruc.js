@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   try {
     const r = await fetch(
       `https://api.apis.net.pe/v1/ruc?numero=${numero}`,
-      { headers: { Authorization: `Bearer ${token}`, Accept: "application/json" } }
+      { headers: { Authorization: `Bearer ${token}`, Accept: "application/json", Origin: "https://decolecta.com", Referer: "https://decolecta.com/" } }
     );
     const data = await r.json();
     res.status(r.status).json(data);
