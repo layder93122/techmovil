@@ -3,7 +3,7 @@ export default async function handler(req, res) {
   if (!numero || !/^\d{8}$/.test(numero)) {
     return res.status(400).json({ error: "DNI debe tener 8 dígitos" });
   }
-  const token = "sk_16558.F5SQcVQRLtkdhNZ6A4v6UdnNt7bI2EQz";
+  const token = "sk_16558.36uckoUCQU8XLg2FTN4UnXTogrfsc4TI";
   try {
     const r = await fetch(
       `https://api.apis.net.pe/v2/reniec/dni?numero=${numero}`,
