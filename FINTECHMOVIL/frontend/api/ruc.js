@@ -3,10 +3,10 @@ export default async function handler(req, res) {
   if (!numero || !/^\d{11}$/.test(numero)) {
     return res.status(400).json({ error: "RUC debe tener 11 dígitos" });
   }
-  const token = "sk_16558.F5SQcVQRLtkdhNZ6A4v6UdnNt7bI2EQz";
+  const token = "sk_16558.36uckoUCQU8XLg2FTN4UnXTogrfsc4TI";
   try {
     const r = await fetch(
-      `https://api.apis.net.pe/v2/sunat/ruc?numero=${numero}`,
+      `https://api.apis.net.pe/v1/ruc?numero=${numero}`,
       { headers: { Authorization: `Bearer ${token}`, Accept: "application/json" } }
     );
     const data = await r.json();
