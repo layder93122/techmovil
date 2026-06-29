@@ -4,8 +4,8 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "healthcheckPath": "/api/productos",
-    "healthcheckTimeout": 120,
+    "healthcheckPath": "/swagger-ui/index.html",
+    "healthcheckTimeout": 180,
     "restartPolicyType": "ON_FAILURE",
     "numReplicas": 1
   }
