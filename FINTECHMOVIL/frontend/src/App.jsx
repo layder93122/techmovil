@@ -1656,7 +1656,7 @@ export default function App() {
     const s=document.createElement("style"); s.textContent=CSS; document.head.appendChild(s);
     const saved=localStorage.getItem("techmovil_user");
     if(saved) try { setUser(JSON.parse(saved)); } catch{}
-    return ()=>document.head.removeChild(s);
+    return ()=>s.remove();
   },[]);
 
   useEffect(()=>{
