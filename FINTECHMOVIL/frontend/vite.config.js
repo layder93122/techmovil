@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-const TOKEN = "Bearer sk_16558.36uckoUCQU8XLg2FTN4UnXTogrfsc4TI";
+const TOKEN = "Bearer sk_16558.F5SQcVQRLtkdhNZ6A4v6UdnNt7bI2EQz";
 
 export default defineConfig({
   plugins: [react()],
