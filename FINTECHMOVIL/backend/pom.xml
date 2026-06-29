@@ -22,7 +22,7 @@
     <jacoco.version>0.8.11</jacoco.version>
     <sonar.host.url>http://localhost:9000</sonar.host.url>
     <sonar.projectKey>fintechmovil</sonar.projectKey>
-    <sonar.token>sqp_9cd49d2bf37c6ca4ce1dcceaa9c73682dd4a0d89</sonar.token>
+    <sonar.token>sqa_1efa256077a964dec20556df0ae035b5c7f8b527</sonar.token>
     <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>

@@ -17,9 +17,9 @@ const apisHeader = () => ({ "Authorization": `Bearer ${APIS_TOKEN}` });
    sin depender del soporte de locale del navegador */
 const fmt = (n, dec = 0) => {
   const num = Number(n);
-  if (!isFinite(num)) return '0';
+  if (!Number.isFinite(num)) return '0';
   const parts = num.toFixed(dec).split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  parts[0] = parts[0].replaceAll(/\B(?=(\d{3})+(?!\d))/g, ',');
   return dec > 0 ? parts.join('.') : parts[0];
 };
 
@@ -524,7 +524,7 @@ function exportCSV(rows, filename) {
     ...rows.map(row =>
       headers.map(h => {
         const val = row[h] ?? "";
-        const str = String(val).replace(/"/g, '""');
+        const str = String(val).replaceAll(/"/g, '""');
         return str.includes(",") || str.includes("\n") || str.includes('"') ? `"${str}"` : str;
       }).join(",")
     )
@@ -701,8 +701,8 @@ function Productos({productos, setProductos}) {
     if (!form.nombre?.trim()) { toast("El nombre del producto es obligatorio", "error"); return; }
     if (!form.marca?.trim()) { toast("La marca es obligatoria", "error"); return; }
     if (!form.modelo?.trim()) { toast("El modelo es obligatorio", "error"); return; }
-    if (form.precio === "" || isNaN(precioNum) || precioNum <= 0) { toast("El precio debe ser mayor a S/ 0.00", "error"); return; }
-    if (form.stock === "" || isNaN(stockNum) || stockNum < 0) { toast("El stock no puede ser negativo", "error"); return; }
+    if (form.precio === "" || Number.isNaN(precioNum) || precioNum <= 0) { toast("El precio debe ser mayor a S/ 0.00", "error"); return; }
+    if (form.stock === "" || Number.isNaN(stockNum) || stockNum < 0) { toast("El stock no puede ser negativo", "error"); return; }
     const body = {
       marca:form.marca, modelo:form.modelo, precio:precioNum, stock:stockNum,
       stockMinimo:stockMinNum, imagenUrl:form.img||null,
@@ -720,7 +720,7 @@ function Productos({productos, setProductos}) {
         if(r.ok){ const created=await r.json(); setProductos(ps=>[...ps,{...form,id:created.id,precio:precioNum,stock:stockNum,stockMinimo:stockMinNum,ventas:0,rating:0,activo:true,img:""}]); toast(`➕ ${form.nombre} registrado`); }
         else { const msg=r.status===401||r.status===403?"Sesión expirada, vuelve a iniciar sesión":"Error al registrar ("+r.status+")"; toast(msg,"error"); }
       }
-    } catch(e){ toast("Sin conexión al backend","info"); }
+    } catch { toast("Sin conexión al backend","info"); }
     setModalOpen(false);
   };
 
@@ -728,7 +728,7 @@ function Productos({productos, setProductos}) {
     try {
       if(p.activo) await fetch(`${API}/productos/${p.id}`,{method:"DELETE",headers:authHeader()});
       else await fetch(`${API}/productos/${p.id}`,{method:"PUT",headers:authHeader(),body:JSON.stringify({...p,activo:true,imagenUrl:p.img||null})});
-    } catch(e){}
+    } catch { toast("Sin conexión al backend","info"); }
     setProductos(ps=>ps.map(x=>x.id===p.id?{...x,activo:!x.activo}:x));
     toast(`${p.activo?"❌ Desactivado":"✅ Activado"}: ${p.nombre}`);
   };
@@ -800,20 +800,20 @@ function Productos({productos, setProductos}) {
             </div>
             <div className="modal-body">
               <div className="form-grid">
-                <div className="form-group full"><label className="form-label">Nombre del Producto *</label><input className="form-input" value={form.nombre} onChange={e=>setForm({...form,nombre:e.target.value})} placeholder="Ej: iPhone 15 Pro"/></div>
-                <div className="form-group"><label className="form-label">Marca *</label>
-                  <select className="form-input form-select" value={form.marca} onChange={e=>setForm({...form,marca:e.target.value})}>
+                <div className="form-group full"><label className="form-label" htmlFor="p-nombre">Nombre del Producto *</label><input id="p-nombre" className="form-input" value={form.nombre} onChange={e=>setForm({...form,nombre:e.target.value})} placeholder="Ej: iPhone 15 Pro"/></div>
+                <div className="form-group"><label className="form-label" htmlFor="p-marca">Marca *</label>
+                  <select id="p-marca" className="form-input form-select" value={form.marca} onChange={e=>setForm({...form,marca:e.target.value})}>
                     {["Apple","Samsung","Xiaomi","Google","OnePlus","Huawei","Motorola","Nokia","Realme","Oppo"].map(m=><option key={m}>{m}</option>)}
                   </select></div>
-                <div className="form-group"><label className="form-label">Modelo</label><input className="form-input" value={form.modelo} onChange={e=>setForm({...form,modelo:e.target.value})} placeholder="Ej: A3101"/></div>
-                <div className="form-group"><label className="form-label">Precio Base (sin IGV) *</label><input className="form-input" type="number" value={form.precio} onChange={e=>setForm({...form,precio:e.target.value})} placeholder="0.00"/></div>
-                <div className="form-group"><label className="form-label">Stock Inicial *</label><input className="form-input" type="number" value={form.stock} onChange={e=>setForm({...form,stock:e.target.value})} placeholder="0"/></div>
-                <div className="form-group"><label className="form-label">Stock Mínimo</label><input className="form-input" type="number" value={form.stockMinimo} onChange={e=>setForm({...form,stockMinimo:e.target.value})}/></div>
-                <div className="form-group"><label className="form-label">Categoría</label>
-                  <select className="form-input form-select" value={form.categoria} onChange={e=>setForm({...form,categoria:e.target.value})}>
+                <div className="form-group"><label className="form-label" htmlFor="p-modelo">Modelo</label><input id="p-modelo" className="form-input" value={form.modelo} onChange={e=>setForm({...form,modelo:e.target.value})} placeholder="Ej: A3101"/></div>
+                <div className="form-group"><label className="form-label" htmlFor="p-precio">Precio Base (sin IGV) *</label><input id="p-precio" className="form-input" type="number" value={form.precio} onChange={e=>setForm({...form,precio:e.target.value})} placeholder="0.00"/></div>
+                <div className="form-group"><label className="form-label" htmlFor="p-stock">Stock Inicial *</label><input id="p-stock" className="form-input" type="number" value={form.stock} onChange={e=>setForm({...form,stock:e.target.value})} placeholder="0"/></div>
+                <div className="form-group"><label className="form-label" htmlFor="p-stockmin">Stock Mínimo</label><input id="p-stockmin" className="form-input" type="number" value={form.stockMinimo} onChange={e=>setForm({...form,stockMinimo:e.target.value})}/></div>
+                <div className="form-group"><label className="form-label" htmlFor="p-categoria">Categoría</label>
+                  <select id="p-categoria" className="form-input form-select" value={form.categoria} onChange={e=>setForm({...form,categoria:e.target.value})}>
                     <option>Gama Alta</option><option>Gama Media</option><option>Gama Básica</option>
                   </select></div>
-                <div className="form-group full"><label className="form-label">Descripción</label><input className="form-input" value={form.descripcion||""} onChange={e=>setForm({...form,descripcion:e.target.value})}/></div>
+                <div className="form-group full"><label className="form-label" htmlFor="p-desc">Descripción</label><input id="p-desc" className="form-input" value={form.descripcion||""} onChange={e=>setForm({...form,descripcion:e.target.value})}/></div>
               </div>
               <div className="divider"/>
               <div style={{fontSize:12,fontWeight:700,color:"var(--text3)",marginBottom:12,fontFamily:"var(--mono)"}}>ESPECIFICACIONES TÉCNICAS</div>
@@ -980,27 +980,27 @@ function Inventario({productos, setProductos}) {
             <div className="modal-body">
               <div className="form-grid">
                 <div className="form-group full">
-                  <label className="form-label">Producto *</label>
-                  <select className="form-input form-select" value={form.productoId} onChange={e=>setForm({...form,productoId:e.target.value})}>
+                  <label className="form-label" htmlFor="inv-prod">Producto *</label>
+                  <select id="inv-prod" className="form-input form-select" value={form.productoId} onChange={e=>setForm({...form,productoId:e.target.value})}>
                     <option value="">-- Seleccionar producto --</option>
                     {productos.map(p=><option key={p.id} value={p.id}>{p.nombre} (Stock: {p.stock})</option>)}
                   </select>
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Tipo de Movimiento *</label>
-                  <select className="form-input form-select" value={form.tipo} onChange={e=>setForm({...form,tipo:e.target.value})}>
+                  <label className="form-label" htmlFor="inv-tipo">Tipo de Movimiento *</label>
+                  <select id="inv-tipo" className="form-input form-select" value={form.tipo} onChange={e=>setForm({...form,tipo:e.target.value})}>
                     <option value="entrada">📥 Entrada</option>
                     <option value="salida">📤 Salida</option>
                     <option value="ajuste">🔧 Ajuste</option>
                   </select>
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Cantidad *</label>
-                  <input className="form-input" type="number" min="1" value={form.cantidad} onChange={e=>setForm({...form,cantidad:e.target.value})} placeholder="0"/>
+                  <label className="form-label" htmlFor="inv-cant">Cantidad *</label>
+                  <input id="inv-cant" className="form-input" type="number" min="1" value={form.cantidad} onChange={e=>setForm({...form,cantidad:e.target.value})} placeholder="0"/>
                 </div>
                 <div className="form-group full">
-                  <label className="form-label">Motivo / Referencia *</label>
-                  <input className="form-input" value={form.motivo} onChange={e=>setForm({...form,motivo:e.target.value})} placeholder="Ej: Compra a proveedor, Venta #001..."/>
+                  <label className="form-label" htmlFor="inv-motivo">Motivo / Referencia *</label>
+                  <input id="inv-motivo" className="form-input" value={form.motivo} onChange={e=>setForm({...form,motivo:e.target.value})} placeholder="Ej: Compra a proveedor, Venta #001..."/>
                 </div>
               </div>
             </div>
@@ -1145,12 +1145,13 @@ function Ventas({productos, setProductos}) {
             </div>
             <div className="pos-cart-footer">
               <div className="form-group" style={{marginBottom:8}}>
-                <label className="form-label">DNI del cliente</label>
+                <label className="form-label" htmlFor="pos-dni">DNI del cliente</label>
                 <div style={{display:"flex",gap:6}}>
                   <input
+                    id="pos-dni"
                     className="form-input"
                     value={dniCliente}
-                    onChange={e=>setDniCliente(e.target.value.replace(/\D/g,"").slice(0,8))}
+                    onChange={e=>setDniCliente(e.target.value.replaceAll(/\D/g,"").slice(0,8))}
                     placeholder="00000000"
                     maxLength={8}
                     style={{letterSpacing:"2px",fontFamily:"var(--mono)"}}
@@ -1166,12 +1167,12 @@ function Ventas({productos, setProductos}) {
                 </div>
               </div>
               <div className="form-group" style={{marginBottom:10}}>
-                <label className="form-label">Nombre del cliente *</label>
-                <input className="form-input" value={cliente} onChange={e=>setCliente(e.target.value)} placeholder="O escríbelo manualmente"/>
+                <label className="form-label" htmlFor="pos-cliente">Nombre del cliente *</label>
+                <input id="pos-cliente" className="form-input" value={cliente} onChange={e=>setCliente(e.target.value)} placeholder="O escríbelo manualmente"/>
               </div>
               <div className="form-group" style={{marginBottom:12}}>
-                <label className="form-label">Método de Pago</label>
-                <select className="form-input form-select" value={metodo} onChange={e=>setMetodo(e.target.value)}>
+                <label className="form-label" htmlFor="pos-metodo">Método de Pago</label>
+                <select id="pos-metodo" className="form-input form-select" value={metodo} onChange={e=>setMetodo(e.target.value)}>
                   {["Efectivo","Tarjeta","Yape","Plin","Transferencia"].map(m=><option key={m}>{m}</option>)}
                 </select>
               </div>
@@ -1470,7 +1471,7 @@ function Clientes() {
         if(r.ok){ const created=await r.json(); setClientes(cs=>[...cs,fromBackend(created)]); toast(`✅ Cliente ${form.nombre} registrado`); }
         else { const msg=r.status===401||r.status===403?"Sesión expirada, vuelve a iniciar sesión":"Error al registrar ("+r.status+")"; toast(msg,"error"); }
       }
-    } catch(e){ toast("Sin conexión al backend","info"); }
+    } catch { toast("Sin conexión al servidor","info"); }
     setModalOpen(false);
   };
 
@@ -1522,7 +1523,7 @@ function Clientes() {
                         try{
                           if(c.activo) await fetch(`${API}/clientes/${c.id}`,{method:"DELETE",headers:authHeader()});
                           else await fetch(`${API}/clientes/${c.id}`,{method:"PUT",headers:authHeader(),body:JSON.stringify({nombre:c.nombre.split(" ")[0],apellido:c.nombre.split(" ").slice(1).join(" "),numeroDocumento:c.ruc||c.dni||"",tipoDocumento:c.ruc?"RUC":"DNI",telefono:c.telefono||"",email:c.email||"",direccion:c.ciudad||"",activo:true})});
-                        }catch(e){}
+                        }catch(_e){ toast("Sin conexión al servidor","info"); }
                         setClientes(cs=>cs.map(x=>x.id===c.id?{...x,activo:!x.activo}:x));
                         toast(`${c.activo?"❌":"✅"} ${c.nombre}`);
                       }}>{c.activo?"🔴":"🟢"}</button>
@@ -1546,31 +1547,31 @@ function Clientes() {
             <div className="modal-body">
               <div className="form-grid">
                 <div className="form-group">
-                  <label className="form-label">DNI <span style={{color:"var(--text3)",fontWeight:400}}>(8 dígitos)</span></label>
+                  <label className="form-label" htmlFor="cli-dni">DNI <span style={{color:"var(--text3)",fontWeight:400}}>(8 dígitos)</span></label>
                   <div style={{display:"flex",gap:6}}>
-                    <input className="form-input" value={form.dni} onChange={e=>setForm({...form,dni:e.target.value.replace(/\D/g,"").slice(0,8)})} placeholder="00000000" maxLength={8}/>
+                    <input id="cli-dni" className="form-input" value={form.dni} onChange={e=>setForm({...form,dni:e.target.value.replaceAll(/\D/g,"").slice(0,8)})} placeholder="00000000" maxLength={8}/>
                     <button className="btn btn-primary" style={{whiteSpace:"nowrap",padding:"0 14px"}} onClick={buscarDNI} disabled={buscandoDNI}>
                       {buscandoDNI?"⏳":"🔍"} {buscandoDNI?"Buscando...":"Buscar"}
                     </button>
                   </div>
                 </div>
                 <div className="form-group">
-                  <label className="form-label">RUC <span style={{color:"var(--text3)",fontWeight:400}}>(11 dígitos)</span></label>
+                  <label className="form-label" htmlFor="cli-ruc">RUC <span style={{color:"var(--text3)",fontWeight:400}}>(11 dígitos)</span></label>
                   <div style={{display:"flex",gap:6}}>
-                    <input className="form-input" value={form.ruc} onChange={e=>setForm({...form,ruc:e.target.value.replace(/\D/g,"").slice(0,11)})} placeholder="20000000000" maxLength={11}/>
+                    <input id="cli-ruc" className="form-input" value={form.ruc} onChange={e=>setForm({...form,ruc:e.target.value.replaceAll(/\D/g,"").slice(0,11)})} placeholder="20000000000" maxLength={11}/>
                     <button className="btn btn-primary" style={{whiteSpace:"nowrap",padding:"0 14px"}} onClick={buscarRUC} disabled={buscandoRUC}>
                       {buscandoRUC?"⏳":"🔍"} {buscandoRUC?"Buscando...":"Buscar"}
                     </button>
                   </div>
                 </div>
                 <div className="form-group full">
-                  <label className="form-label">Nombre / Razón Social *</label>
-                  <input className="form-input" value={form.nombre} onChange={e=>setForm({...form,nombre:e.target.value})} placeholder="Se completa automáticamente con DNI/RUC"/>
+                  <label className="form-label" htmlFor="cli-nombre">Nombre / Razón Social *</label>
+                  <input id="cli-nombre" className="form-input" value={form.nombre} onChange={e=>setForm({...form,nombre:e.target.value})} placeholder="Se completa automáticamente con DNI/RUC"/>
                 </div>
-                <div className="form-group"><label className="form-label">Email *</label><input className="form-input" type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="juan@email.com"/></div>
-                <div className="form-group"><label className="form-label">Teléfono</label><input className="form-input" value={form.telefono} onChange={e=>setForm({...form,telefono:e.target.value})} placeholder="999 000 000"/></div>
-                <div className="form-group"><label className="form-label">Ciudad</label>
-                  <select className="form-input form-select" value={form.ciudad} onChange={e=>setForm({...form,ciudad:e.target.value})}>
+                <div className="form-group"><label className="form-label" htmlFor="cli-email">Email *</label><input id="cli-email" className="form-input" type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="juan@email.com"/></div>
+                <div className="form-group"><label className="form-label" htmlFor="cli-tel">Teléfono</label><input id="cli-tel" className="form-input" value={form.telefono} onChange={e=>setForm({...form,telefono:e.target.value})} placeholder="999 000 000"/></div>
+                <div className="form-group"><label className="form-label" htmlFor="cli-ciudad">Ciudad</label>
+                  <select id="cli-ciudad" className="form-input form-select" value={form.ciudad} onChange={e=>setForm({...form,ciudad:e.target.value})}>
                     {["Lima","Arequipa","Trujillo","Cusco","Piura","Chiclayo","Iquitos","Puno"].map(c=><option key={c}>{c}</option>)}
                   </select>
                 </div>
@@ -1622,10 +1623,10 @@ function Login({onLogin}) {
           <div className="login-sub">Sistema de Gestión Empresarial</div>
         </div>
         <form onSubmit={submit}>
-          <label style={{fontSize:11,fontWeight:600,color:"var(--text3)",fontFamily:"var(--mono)",display:"block",marginBottom:5}}>USUARIO</label>
-          <input className="login-input" placeholder="admin" value={u} onChange={e=>setU(e.target.value)} autoFocus/>
-          <label style={{fontSize:11,fontWeight:600,color:"var(--text3)",fontFamily:"var(--mono)",display:"block",marginBottom:5}}>CONTRASEÑA</label>
-          <input className="login-input" type="password" placeholder="••••" value={p} onChange={e=>setP(e.target.value)}/>
+          <label htmlFor="login-user" style={{fontSize:11,fontWeight:600,color:"var(--text3)",fontFamily:"var(--mono)",display:"block",marginBottom:5}}>USUARIO</label>
+          <input id="login-user" className="login-input" placeholder="admin" value={u} onChange={e=>setU(e.target.value)} autoFocus/>
+          <label htmlFor="login-pass" style={{fontSize:11,fontWeight:600,color:"var(--text3)",fontFamily:"var(--mono)",display:"block",marginBottom:5}}>CONTRASEÑA</label>
+          <input id="login-pass" className="login-input" type="password" placeholder="••••" value={p} onChange={e=>setP(e.target.value)}/>
           {err&&<div style={{color:"var(--red3)",fontSize:12,marginBottom:8,fontFamily:"var(--mono)"}}>⚠️ {err}</div>}
           <button className="login-btn" type="submit" disabled={loading}>{loading?"⏳ Verificando...":"Ingresar al Sistema →"}</button>
         </form>
@@ -1671,7 +1672,7 @@ export default function App() {
             categoria:p.categoria||"Gama Alta",
             precio:Number(p.precio)||0,
             stock:Number(p.stock)||0,
-            stockMinimo:Number(p.stockMinimo)??3,
+            stockMinimo:Number(p.stockMinimo)||3,
             ventas:p.ventas||0,
             rating:p.rating||0,
             procesador:p.caracteristicas?.procesador||"",
