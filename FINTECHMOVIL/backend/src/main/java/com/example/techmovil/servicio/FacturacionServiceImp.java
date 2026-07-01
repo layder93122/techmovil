@@ -38,6 +38,7 @@ public class FacturacionServiceImp implements FacturacionService {
             }
 
             Producto producto = productoRepository.findById(detalle.getProducto().getId())
+                    .filter(Producto::getActivo)
                     .orElseThrow(() -> new EntityNotFoundException(
                             "El producto con ID " + detalle.getProducto().getId() + " no existe."));
 

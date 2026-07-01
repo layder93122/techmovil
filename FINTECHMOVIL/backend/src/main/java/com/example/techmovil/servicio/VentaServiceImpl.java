@@ -36,6 +36,7 @@ public class VentaServiceImpl extends CrudGenericoServiceImp<Venta, Long> implem
         }
 
         Producto producto = productoRepo.findById(venta.getProducto().getId())
+                .filter(p -> Boolean.TRUE.equals(p.getActivo()))
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Producto no encontrado con el ID especificado"));
 
