@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -127,5 +128,24 @@ class GlobalExceptionHandlerTest {
     @Test
     void handler_EsInstanciable() {
         assertNotNull(handler);
+    }
+
+    @Test
+    void handleDataIntegrityViolation_Retorna400() {
+        DataIntegrityViolationException ex = new DataIntegrityViolationException(
+                "Cannot add or update a child row", new RuntimeException("FK constraint fails"));
+
+        ResponseEntity<CustomResponse> r = handler.handleDataIntegrityViolation(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, r.getStatusCode());
+        assertEquals("Error: Datos invalidos o referencia inexistente", r.getBody().getMessage());
+        assertEquals("FK constraint fails", r.getBody().getDetails());
+    }
+
+    @Test
+    void handleDataIntegrityViolation_RetornaFechaNoNula() {
+        DataIntegrityViolationException ex = new DataIntegrityViolationException("error", new RuntimeException("causa"));
+        ResponseEntity<CustomResponse> r = handler.handleDataIntegrityViolation(ex);
+        assertNotNull(r.getBody().getDatetime());
     }
 }

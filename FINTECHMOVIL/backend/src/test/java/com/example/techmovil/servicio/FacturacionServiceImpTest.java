@@ -128,13 +128,13 @@ class FacturacionServiceImpTest {
 
     @Test
     void findAll_RetornaListaDeFacturasActivas() {
-        when(facturaRepository.findAllByActivoTrue()).thenReturn(Arrays.asList(factura));
+        when(facturaRepository.findAllByActivoTrueWithDetalles()).thenReturn(Arrays.asList(factura));
         assertEquals(1, facturacionService.findAll().size());
     }
 
     @Test
     void findAll_SinFacturas_RetornaListaVacia() {
-        when(facturaRepository.findAllByActivoTrue()).thenReturn(Collections.emptyList());
+        when(facturaRepository.findAllByActivoTrueWithDetalles()).thenReturn(Collections.emptyList());
         assertTrue(facturacionService.findAll().isEmpty());
     }
 
@@ -150,7 +150,7 @@ class FacturacionServiceImpTest {
 
     @Test
     void findById_FacturaExistente_RetornaFactura() {
-        when(facturaRepository.findById(1L)).thenReturn(Optional.of(factura));
+        when(facturaRepository.findByIdWithDetalles(1L)).thenReturn(Optional.of(factura));
 
         Factura resultado = facturacionService.findById(1L);
 
@@ -160,7 +160,7 @@ class FacturacionServiceImpTest {
 
     @Test
     void findById_FacturaNoExistente_LanzaEntityNotFoundException() {
-        when(facturaRepository.findById(99L)).thenReturn(Optional.empty());
+        when(facturaRepository.findByIdWithDetalles(99L)).thenReturn(Optional.empty());
 
         assertThrows(jakarta.persistence.EntityNotFoundException.class,
                 () -> facturacionService.findById(99L));
@@ -168,7 +168,7 @@ class FacturacionServiceImpTest {
 
     @Test
     void delete_FacturaExistente_AnulaYRetornaResponse() {
-        when(facturaRepository.findById(1L)).thenReturn(Optional.of(factura));
+        when(facturaRepository.findByIdWithDetalles(1L)).thenReturn(Optional.of(factura));
         when(facturaRepository.save(any())).thenReturn(factura);
 
         com.example.techmovil.excepciones.CustomResponse response = facturacionService.delete(1L);
@@ -181,7 +181,7 @@ class FacturacionServiceImpTest {
 
     @Test
     void delete_FacturaNoExistente_LanzaEntityNotFoundException() {
-        when(facturaRepository.findById(99L)).thenReturn(Optional.empty());
+        when(facturaRepository.findByIdWithDetalles(99L)).thenReturn(Optional.empty());
 
         assertThrows(jakarta.persistence.EntityNotFoundException.class,
                 () -> facturacionService.delete(99L));
