@@ -1,6 +1,7 @@
 package com.example.techmovil.excepciones;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -49,6 +50,14 @@ public class GlobalExceptionHandler {
                 CustomResponse.builder().statusCode(HttpStatus.BAD_REQUEST.value())
                         .datetime(LocalDateTime.now()).message("Error: La factura no tiene productos")
                         .details(ex.getMessage()).build());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<CustomResponse> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse.builder().statusCode(HttpStatus.BAD_REQUEST.value())
+                        .datetime(LocalDateTime.now()).message("Error: Datos invalidos o referencia inexistente")
+                        .details(ex.getMostSpecificCause().getMessage()).build());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

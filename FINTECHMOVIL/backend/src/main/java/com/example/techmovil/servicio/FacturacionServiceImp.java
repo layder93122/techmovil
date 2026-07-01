@@ -68,12 +68,12 @@ public class FacturacionServiceImp implements FacturacionService {
 
     @Override
     public List<Factura> findAll() {
-        return facturaRepository.findAllByActivoTrue();
+        return facturaRepository.findAllByActivoTrueWithDetalles();
     }
 
     @Override
     public Factura findById(Long id) {
-        return facturaRepository.findById(id)
+        return facturaRepository.findByIdWithDetalles(id)
                 .orElseThrow(() -> new EntityNotFoundException("Factura no encontrada con ID: " + id));
     }
 

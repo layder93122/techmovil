@@ -19,6 +19,7 @@ public class Factura implements Activable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El numero de factura es obligatorio")
     @Column(unique = true, nullable = false)
     private String numeroFactura;
 

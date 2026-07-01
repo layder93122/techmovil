@@ -12,7 +12,8 @@
     { "key": "PRODUCTO_ID", "value": "1", "type": "string" },
     { "key": "VENTA_ID", "value": "1", "type": "string" },
     { "key": "FACTURA_ID", "value": "1", "type": "string" },
-    { "key": "USUARIO_ID", "value": "1", "type": "string" }
+    { "key": "USUARIO_ID", "value": "999999", "type": "string" },
+    { "key": "VENDEDOR_USERNAME", "value": "vendedor_default", "type": "string" }
   ],
   "auth": {
     "type": "bearer",
@@ -695,7 +696,7 @@
             "url": "{{BASE_URL}}/api/facturas/emitir",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"numeroFactura\": \"FAC-000099\",\n  \"cliente\": \"Juan Perez Garcia\",\n  \"detallePago\": {\n    \"metodoPago\": \"YAPE\",\n    \"estadoPago\": \"APROBADO\"\n  },\n  \"detalles\": [\n    {\n      \"producto\": { \"id\": {{PRODUCTO_ID}} },\n      \"cantidad\": 1\n    }\n  ]\n}"
+              "raw": "{\n  \"numeroFactura\": \"FAC-{{$timestamp}}\",\n  \"cliente\": \"Juan Perez Garcia\",\n  \"detallePago\": {\n    \"metodoPago\": \"YAPE\",\n    \"estadoPago\": \"APROBADO\"\n  },\n  \"detalles\": [\n    {\n      \"producto\": { \"id\": {{PRODUCTO_ID}} },\n      \"cantidad\": 1\n    }\n  ]\n}"
             }
           }
         },
@@ -812,12 +813,20 @@
                   "pm.test('Usuario creado con ID', () => {",
                   "  const json = pm.response.json();",
                   "  pm.expect(json).to.have.property('idUsuario');",
-                  "  pm.expect(json.username).to.equal('vendedor01');",
+                  "  pm.expect(json.username).to.equal(pm.collectionVariables.get('VENDEDOR_USERNAME'));",
                   "  pm.collectionVariables.set('USUARIO_ID', json.idUsuario);",
                   "});",
                   "pm.test('Rol asignado correctamente', () => {",
                   "  pm.expect(pm.response.json().rol).to.equal('VENDEDOR');",
                   "});"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set('VENDEDOR_USERNAME', 'vendedor_' + Date.now());"
                 ]
               }
             }
@@ -828,7 +837,7 @@
             "url": "{{BASE_URL}}/api/usuarios",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Pedro Quispe\",\n  \"username\": \"vendedor01\",\n  \"password\": \"pass123\",\n  \"rol\": \"VENDEDOR\"\n}"
+              "raw": "{\n  \"nombre\": \"Pedro Quispe\",\n  \"username\": \"{{VENDEDOR_USERNAME}}\",\n  \"password\": \"pass123\",\n  \"rol\": \"VENDEDOR\"\n}"
             }
           }
         },
@@ -978,7 +987,7 @@
             "url": "{{BASE_URL}}/api/usuarios/{{USUARIO_ID}}",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Pedro Quispe Actualizado\",\n  \"username\": \"vendedor01\",\n  \"password\": \"newpass456\",\n  \"rol\": \"VENDEDOR\"\n}"
+              "raw": "{\n  \"nombre\": \"Pedro Quispe Actualizado\",\n  \"username\": \"{{VENDEDOR_USERNAME}}\",\n  \"password\": \"newpass456\",\n  \"rol\": \"VENDEDOR\"\n}"
             }
           }
         },
