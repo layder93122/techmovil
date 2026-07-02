@@ -7,4 +7,5 @@ import java.util.List;
 @Repository
 public interface UsuarioRepository extends CrudGenericoRepository<Usuario, Long> {
     List<Usuario> findAllByActivoTrue();
+    boolean existsByUsername(String username);
 }
