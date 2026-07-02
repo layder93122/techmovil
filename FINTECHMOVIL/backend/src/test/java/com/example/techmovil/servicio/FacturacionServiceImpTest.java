@@ -105,6 +105,14 @@ class FacturacionServiceImpTest {
     }
 
     @Test
+    void procesarVentaFacturada_ProductoInactivo_LanzaEntityNotFoundException() {
+        producto.setActivo(false);
+        when(productoRepository.findById(1L)).thenReturn(Optional.of(producto));
+        assertThrows(jakarta.persistence.EntityNotFoundException.class,
+                () -> facturacionService.procesarVentaFacturada(factura));
+    }
+
+    @Test
     void procesarVentaFacturada_StockInsuficiente_LanzaException() {
         producto.setStock(1);
         when(productoRepository.findById(1L)).thenReturn(Optional.of(producto));
