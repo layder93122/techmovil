@@ -9,6 +9,7 @@ USE techmovil_db;
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE ventas;
 TRUNCATE TABLE productos;
+TRUNCATE TABLE usuarios;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- =========================================================================
@@ -24,7 +25,14 @@ INSERT INTO productos (id, marca, modelo, precio, stock, stock_minimo, imagen_ur
 VALUES (3, 'Xiaomi', 'Redmi Note 13 Pro Plus', 1850.00, 20, 5, 'https://i01.appmifile.com/v1/MI_1645A5D281E16A8E3EA7E1E7138A1DBC2X/pms_1695103456.40947361.png');
 
 -- =========================================================================
--- 3. INYECCIÓN DE HISTORIAL DE VENTAS DIRECTO A LA TABLA TRANSACCIONAL
+-- 3. USUARIO ADMINISTRADOR (registro de negocio para el modulo de Usuarios;
+--    el login de /api/auth/login usa app.admin.username/password, no esta fila)
+-- =========================================================================
+INSERT INTO usuarios (id_usuario, nombre, username, password, rol, activo)
+VALUES (1, 'Administrador', 'admin', 'admin123', 'ADMIN', true);
+
+-- =========================================================================
+-- 4. INYECCIÓN DE HISTORIAL DE VENTAS DIRECTO A LA TABLA TRANSACCIONAL
 -- =========================================================================
 
 -- Venta en Marzo: 1 Galaxy S24

@@ -79,6 +79,13 @@ class VentaServiceImplTest {
     }
 
     @Test
+    void save_ProductoInactivo_LanzaEntityNotFoundException() {
+        producto.setActivo(false);
+        when(productoRepo.findById(1L)).thenReturn(Optional.of(producto));
+        assertThrows(EntityNotFoundException.class, () -> service.save(venta));
+    }
+
+    @Test
     void save_StockInsuficiente_LanzaStockInsuficienteException() {
         producto.setStock(1);
         when(productoRepo.findById(1L)).thenReturn(Optional.of(producto));
