@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMovil - Nueva Venta</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; }
+        nav { background: #1a1a2e; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+        nav h1 { font-size: 1.4rem; }
+        nav a { color: #a0c4ff; text-decoration: none; margin-left: 20px; }
+        nav a:hover { color: white; }
+        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        h2 { color: #1a1a2e; margin-bottom: 24px; font-size: 1.5rem; }
+        .card { background: white; border-radius: 12px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 6px; color: #333; font-weight: bold; font-size: 0.9rem; }
+        select, input { width: 100%; padding: 11px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        select:focus, input:focus { outline: none; border-color: #4361ee; }
+        .btn-submit { width: 100%; padding: 13px; background: #4361ee; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 8px; }
+        .btn-submit:hover { background: #3451d1; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>📱 TechMovil</h1>
+        <div>
+            <a th:href="@{/home}">Inicio</a>
+            <a th:href="@{/inventario}">Inventario</a>
+            <a th:href="@{/personal}">Personal</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h2>🛒 Registrar Nueva Venta</h2>
+        <div class="card">
+            <form th:action="@{/ventas/guardar}" th:object="${venta}" method="post">
+                <div class="form-group">
+                    <label for="usuario">Vendedor</label>
+                    <select id="usuario" name="usuario.idUsuario">
+                        <option value="">Selecciona un usuario...</option>
+                        <option th:each="u : ${usuarios}" th:value="${u.idUsuario}" th:text="${u.nombre + ' (' + u.username + ')'}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="producto">Producto</label>
+                    <select id="producto" name="producto.id">
+                        <option value="">Selecciona un producto...</option>
+                        <option th:each="p : ${productos}" th:value="${p.id}" th:text="${p.marca + ' ' + p.modelo + ' - S/ ' + p.precio + ' (Stock: ' + p.stock + ')'}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cantidad">Cantidad</label>
+                    <input type="number" id="cantidad" name="cantidad" min="1" value="1">
+                </div>
+                <button type="submit" class="btn-submit">Registrar Venta</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

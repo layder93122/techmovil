@@ -1,0 +1,232 @@
+name: Snyk Security Analysis
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  snyk-backend-deps:
+    name: Snyk — Backend Dependencias (SCA)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
+      - name: Compilar proyecto
+        run: |
+          cd FINTECHMOVIL/backend
+          chmod +x mvnw
+          ./mvnw clean compile test-compile -DskipTests
+
+      - name: Snyk — escaneo de dependencias Maven (SARIF)
+        uses: snyk/actions/maven@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: >
+            --file=FINTECHMOVIL/backend/pom.xml
+            --severity-threshold=high
+            --dev
+            --sarif-file-output=snyk-backend-deps.sarif
+
+      - name: Subir SARIF backend deps a GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('snyk-backend-deps.sarif') != ''
+        with:
+          sarif_file: snyk-backend-deps.sarif
+          category: snyk-backend-dependencies
+
+      - name: Snyk — monitoreo continuo backend
+        uses: snyk/actions/maven@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+          args: >
+            --file=FINTECHMOVIL/backend/pom.xml
+            --dev
+            --project-name=FinTechMovil-Backend
+
+  snyk-backend-code:
+    name: Snyk — Backend Código (SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Instalar Snyk CLI
+        run: npm install -g snyk
+
+      - name: Snyk Code — análisis estático SAST (SARIF)
+        continue-on-error: true
+        run: |
+          cd FINTECHMOVIL/backend
+          snyk code test --sarif > ../../snyk-backend-code.sarif || true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Subir SARIF SAST backend a GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('snyk-backend-code.sarif') != ''
+        with:
+          sarif_file: snyk-backend-code.sarif
+          category: snyk-backend-code
+
+  snyk-backend-container:
+    name: Snyk — Backend Contenedor (Docker)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
+      - name: Compilar JAR para imagen Docker
+        run: |
+          cd FINTECHMOVIL/backend
+          chmod +x mvnw
+          ./mvnw clean package -DskipTests
+
+      - name: Construir imagen Docker
+        run: |
+          cd FINTECHMOVIL/backend
+          docker build -t fintechmovil-backend:${{ github.sha }} .
+
+      - name: Snyk — escaneo de imagen Docker (SARIF)
+        uses: snyk/actions/docker@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: fintechmovil-backend:${{ github.sha }}
+          args: >
+            --file=FINTECHMOVIL/backend/Dockerfile
+            --severity-threshold=high
+            --sarif-file-output=snyk-container.sarif
+
+      - name: Subir SARIF contenedor a GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('snyk-container.sarif') != ''
+        with:
+          sarif_file: snyk-container.sarif
+          category: snyk-container
+
+  snyk-frontend-deps:
+    name: Snyk — Frontend Dependencias (SCA)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: FINTECHMOVIL/frontend/package-lock.json
+
+      - name: Instalar dependencias frontend
+        run: |
+          cd FINTECHMOVIL/frontend
+          npm ci
+
+      - name: Snyk — escaneo frontend prod + dev (SARIF)
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: >
+            --file=FINTECHMOVIL/frontend/package.json
+            --severity-threshold=high
+            --dev
+            --sarif-file-output=snyk-frontend-deps.sarif
+
+      - name: Subir SARIF frontend a GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('snyk-frontend-deps.sarif') != ''
+        with:
+          sarif_file: snyk-frontend-deps.sarif
+          category: snyk-frontend-dependencies
+
+      - name: Snyk — monitoreo continuo frontend
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+          args: >
+            --file=FINTECHMOVIL/frontend/package.json
+            --dev
+            --project-name=FinTechMovil-Frontend
+
+  snyk-frontend-code:
+    name: Snyk — Frontend Código (SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Snyk CLI
+        run: npm install -g snyk
+
+      - name: Snyk Code — análisis estático frontend (SARIF)
+        continue-on-error: true
+        run: |
+          cd FINTECHMOVIL/frontend
+          snyk code test --sarif > ../../snyk-frontend-code.sarif || true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Subir SARIF SAST frontend a GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('snyk-frontend-code.sarif') != ''
+        with:
+          sarif_file: snyk-frontend-code.sarif
+          category: snyk-frontend-code

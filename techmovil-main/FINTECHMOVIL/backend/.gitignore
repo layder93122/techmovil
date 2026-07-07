@@ -1,0 +1,14 @@
+target/
+.env
+*.log
+.idea/
+*.iml
+test-reports/*.xml
+test-reports/*.html
+test-reports/*.json
+!test-reports/.gitkeep
+
+# Archivos basura generados por errores de terminal
+cd
+log.txt
+reset_admin.groovy

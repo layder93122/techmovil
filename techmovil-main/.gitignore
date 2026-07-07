@@ -1,0 +1,14 @@
+node_modules/
+target/
+.gradle/
+.idea/
+.vscode/
+.env
+
+# Archivos basura generados por errores de terminal
+FINTECHMOVIL/backend/cd
+FINTECHMOVIL/backend/log.txt
+reset_admin.groovy
+
+# Reportes generados por corridas de Newman/Postman (no son fuente)
+FINTECHMOVIL/postman-report.html

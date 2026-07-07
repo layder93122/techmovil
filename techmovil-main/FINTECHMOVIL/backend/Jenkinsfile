@@ -1,0 +1,198 @@
+pipeline {
+    agent any
+
+    environment {
+        SONAR_URL            = 'http://host.docker.internal:9000'
+        SONAR_TOKEN_BACKEND  = 'sqa_1efa256077a964dec20556df0ae035b5c7f8b527'
+        SONAR_TOKEN_FRONTEND = 'sqa_200fd7c4c2d5b1cd8c00124db83f9b1e03736699'
+        DOCKER_IMAGE         = 'techmovil:latest'
+        JAVA_TOOL_OPTIONS    = '-Xmx1g'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        // ── TOOLS SETUP ────────────────────────────────────────────────────────
+        stage('Setup — Docker + Node') {
+            steps {
+                sh '''
+                    # Docker CLI
+                    if ! which docker > /dev/null 2>&1; then
+                        apt-get update -qq && apt-get install -y -qq docker.io
+                    fi
+                    docker --version
+
+                    # Node 20
+                    if ! node --version 2>/dev/null | grep -q "v20"; then
+                        curl -fsSL https://deb.nodesource.com/setup_20.x | bash - > /dev/null 2>&1
+                        apt-get install -y -qq nodejs
+                    fi
+                    node --version
+                    npm --version
+                '''
+            }
+        }
+
+        // ── BACKEND ────────────────────────────────────────────────────────────
+        stage('Backend — Tests + Cobertura') {
+            steps {
+                dir('FINTECHMOVIL/backend') {
+                    sh 'chmod +x mvnw'
+                    sh './mvnw clean verify --no-transfer-progress'
+                }
+            }
+            post {
+                always {
+                    junit testResults: 'FINTECHMOVIL/backend/target/surefire-reports/*.xml',
+                          allowEmptyResults: true
+                }
+            }
+        }
+
+        stage('Backend — SonarQube') {
+            steps {
+                dir('FINTECHMOVIL/backend') {
+                    sh """
+                        ./mvnw sonar:sonar \
+                            -Dsonar.host.url=${SONAR_URL} \
+                            -Dsonar.token=${SONAR_TOKEN_BACKEND} \
+                            --no-transfer-progress
+                    """
+                }
+            }
+        }
+
+        stage('Backend — Docker Build') {
+            steps {
+                dir('FINTECHMOVIL/backend') {
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                }
+            }
+        }
+
+        // ── FRONTEND ───────────────────────────────────────────────────────────
+        stage('Frontend — Instalar y Build') {
+            steps {
+                dir('FINTECHMOVIL/frontend') {
+                    sh '''
+                        npm ci --prefer-offline 2>/dev/null || npm install
+                        npm run build
+                    '''
+                }
+            }
+        }
+
+        stage('Frontend — SonarQube') {
+            steps {
+                dir('FINTECHMOVIL/frontend') {
+                    sh '''
+                        ./node_modules/.bin/sonar-scanner \
+                            -Dsonar.host.url=$SONAR_URL \
+                            -Dsonar.token=$SONAR_TOKEN_FRONTEND \
+                            -Dsonar.projectKey=fintechmovil-frontend \
+                            -Dsonar.sources=src \
+                            -Dsonar.exclusions=node_modules/**,dist/**
+                    '''
+                }
+            }
+        }
+
+        // ── PRUEBAS INTEGRALES ─────────────────────────────────────────────
+        stage('Ambiente de Pruebas — Newman (Postman)') {
+            steps {
+                dir('FINTECHMOVIL/backend') {
+                    sh '''
+                        # Instalar Newman si no está disponible
+                        if ! which newman > /dev/null 2>&1; then
+                            npm install -g newman newman-reporter-htmlextra
+                        fi
+
+                        mkdir -p test-reports
+
+                        newman run ../FinTechmovil_Postman_Collection.json \
+                            --env-var BASE_URL=http://localhost:8080 \
+                            --reporters cli,junit,htmlextra \
+                            --reporter-junit-export test-reports/newman-results.xml \
+                            --reporter-htmlextra-export test-reports/newman-report.html \
+                            --delay-request 300 \
+                            --timeout-request 15000 \
+                            --bail || true
+                    '''
+                }
+            }
+            post {
+                always {
+                    junit testResults: 'FINTECHMOVIL/backend/test-reports/newman-results.xml',
+                          allowEmptyResults: true
+                    publishHTML(target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'FINTECHMOVIL/backend/test-reports',
+                        reportFiles: 'newman-report.html',
+                        reportName: 'Pruebas Integrales Postman'
+                    ])
+                }
+            }
+        }
+
+        // ── PRUEBAS DE RENDIMIENTO ─────────────────────────────────────────
+        stage('Ambiente de Pruebas — K6 Smoke') {
+            steps {
+                dir('FINTECHMOVIL/backend') {
+                    sh '''
+                        if ! which k6 > /dev/null 2>&1; then
+                            apt-get install -y gnupg2
+                            gpg -k
+                            gpg --no-default-keyring \
+                                --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+                                --keyserver hkp://keyserver.ubuntu.com:80 \
+                                --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+                            echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" \
+                                | tee /etc/apt/sources.list.d/k6.list
+                            apt-get update -qq && apt-get install -y k6
+                        fi
+
+                        mkdir -p test-reports
+
+                        k6 run \
+                            --env BASE_URL=http://localhost:8080 \
+                            --out json=test-reports/k6-smoke.json \
+                            K6/smoke-test.js || true
+
+                        k6 run \
+                            --env BASE_URL=http://localhost:8080 \
+                            --out json=test-reports/k6-load.json \
+                            K6/all-controllers-test.js || true
+                    '''
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'FINTECHMOVIL/backend/test-reports/*.json',
+                                     allowEmptyArchive: true
+                }
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo '✅ Pipeline OK — Backend + Frontend + Newman + K6 completados.'
+        }
+        failure {
+            echo '❌ Pipeline FALLIDO — revisar el stage rojo.'
+        }
+        always {
+            archiveArtifacts artifacts: 'FINTECHMOVIL/backend/test-reports/**/*',
+                             allowEmptyArchive: true
+            cleanWs()
+        }
+    }
+}
