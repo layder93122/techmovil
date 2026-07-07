@@ -1,0 +1,66 @@
+site_name: Auditoría SDLC · AstraLog (ASTRAMACO III)
+site_description: Entregables de la Unidad 3 — Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog, desarrollado para ASTRAMACO III.
+docs_dir: docs
+
+theme:
+  name: material
+  language: es
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Cambiar a modo oscuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Cambiar a modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - toc.follow
+    - content.code.copy
+    - search.suggest
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+
+nav:
+  - Inicio: index.md
+  - Fase 1 · Preparar y Planificar:
+      - Resumen: fase1/index.md
+      - Project Charter: fase1/project-charter.md
+      - Plan de Auditoría SDLC: fase1/plan-auditoria.md
+      - Checklist SDLC Adaptado: fase1/checklist-sdlc.md
+      - Comunicación de Inicio: fase1/comunicacion-inicio.md
+  - Fase 2 · Describir el Desarrollo:
+      - Resumen: fase2/index.md
+      - Registro de Entrevistas: fase2/registro-entrevistas.md
+      - Registro de Evidencias: fase2/registro-evidencias.md
+      - Papeles de Trabajo: fase2/papeles-trabajo.md
+      - Evidencia de Desarrollo (capturas): fase2/evidencia-desarrollo.md
+  - Fase 3 · Evaluar y Reportar:
+      - Resumen: fase3/index.md
+      - Informe Preliminar: fase3/informe-preliminar.md
+      - Informe Final: fase3/informe-final.md
+      - Matriz de Hallazgos: fase3/matriz-hallazgos.md
+      - Matriz de Riesgos: fase3/matriz-riesgos.md
+  - Fase 4 · Seguimiento:
+      - Resumen: fase4/index.md
+      - Acta de Cierre: fase4/acta-cierre.md
+      - Archivo de Papeles de Trabajo: fase4/archivo-papeles-trabajo.md
+      - Plan de Acción Correctiva: fase4/plan-accion-correctiva.md
