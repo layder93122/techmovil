@@ -1,5 +1,5 @@
 site_name: Auditoría SDLC · Techmovil
-site_description: Entregables de la Unidad 3 — Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil.
+site_description: Entregables de la Unidad 3 (Auditoría SDLC) y documentación técnica real del sistema Techmovil ERP.
 site_url: https://layder93122.github.io/techmovil/
 repo_url: https://github.com/layder93122/techmovil
 repo_name: layder93122/techmovil
@@ -70,3 +70,16 @@ nav:
       - Acta de Cierre: fase4/acta-cierre.md
       - Archivo de Papeles de Trabajo: fase4/archivo-papeles-trabajo.md
       - Plan de Acción Correctiva: fase4/plan-accion-correctiva.md
+  - Documentación Técnica:
+      - Resumen: tecnico/index.md
+      - Guía de Instalación Local: tecnico/guia-instalacion-local.md
+      - Manual de CI/CD: tecnico/manual-cicd.md
+      - Informe SonarQube: tecnico/informe-sonarqube.md
+      - Casos de Prueba IEEE 829: tecnico/casos-prueba-ieee829.md
+      - Informe de Pruebas E2E: tecnico/informe-e2e.md
+      - Informe E2E + Rendimiento K6 (Resumen): tecnico/informe-e2e-k6-resumen.md
+      - Informe de Rendimiento K6: tecnico/informe-rendimiento-k6.md
+      - Informe de Seguridad OWASP: tecnico/informe-seguridad-owasp.md
+      - Manual de Usuario: tecnico/manual-usuario.md
+      - Gestión de Proyecto (Jira): tecnico/gestion-proyecto-jira.md
+      - Guía de Deploy (Railway/Vercel): tecnico/guia-deploy-railway-vercel.md

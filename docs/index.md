@@ -23,6 +23,7 @@ La auditoría tomó como referencia **ISO/IEC 12207:2017**, **ISO/IEC 25010**, *
 - **[Fase 2 · Describir el Proceso de Desarrollo](fase2/index.md)** — Entrevistas, Registro de Evidencias, Papeles de Trabajo y la **galería de capturas reales** (CI/CD, SonarQube, seguridad, manual de usuario, pruebas E2E).
 - **[Fase 3 · Evaluar y Reportar](fase3/index.md)** — **Informe Preliminar** e **Informe Final** de auditoría, Matriz de Hallazgos y Matriz de Riesgos.
 - **[Fase 4 · Seguimiento](fase4/index.md)** — Acta de Cierre, Archivo de Papeles de Trabajo y Plan de Acción Correctiva.
+- **[Documentación Técnica](tecnico/index.md)** — deliverables reales del proyecto Techmovil ERP (no de la auditoría): instalación local, CI/CD, informe SonarQube (196 tests, 85.4% cobertura), casos de prueba IEEE 829, pruebas E2E, rendimiento K6, seguridad OWASP, manual de usuario, gestión Jira y guía de deploy.
 
 ## Sobre el contenido de este sitio
 
