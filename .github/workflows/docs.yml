@@ -1,0 +1,31 @@
+name: Publicar sitio MkDocs
+
+on:
+  push:
+    branches:
+      - main
+      - claude/unit3-audit-mkdocs-clean
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Instalar MkDocs Material
+        run: pip install mkdocs-material
+
+      - name: Publicar en GitHub Pages
+        run: mkdocs gh-deploy --force --clean
