@@ -134,7 +134,6 @@ Con la firma del presente documento, las partes dejan constancia de haber recibi
 | Cargo | Nombre | Fecha |
 |---|---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo | 26/06/2026 |
-| Auditor Técnico |  | 26/06/2026 |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay | 26/06/2026 |
 | Líder del Proyecto Techmovil | Yohan Layder Escarcena Pancca | 26/06/2026 |
 

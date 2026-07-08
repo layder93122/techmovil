@@ -117,7 +117,6 @@ Como oportunidad de mejora, se recomienda **fortalecer la documentación de las 
 | Cargo | Nombre |
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
-| Auditor Técnico |  |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
 Código del Documento: PT-SDLC-TECHMOVIL-001 · Versión: 1.0 · Estado: Aprobado

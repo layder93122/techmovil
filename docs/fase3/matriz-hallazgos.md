@@ -60,6 +60,9 @@ Los hallazgos identificados durante la auditoría se clasifican de la siguiente 
 | H-009 | Implementación | El sistema dispone de procedimientos de instalación; sin embargo, no se evidencia un proceso automatizado de integración y despliegue continuo (CI/CD). | Buenas prácticas DevOps | EV-017, EV-018, EV-019 | Oportunidad de Mejora | La implementación depende de procesos manuales, aumentando el tiempo de despliegue. | Evaluar la incorporación de herramientas de integración y despliegue continuo. |
 | H-010 | Mantenimiento | Se identificó el control de versiones del software, aunque no existe un procedimiento formal para la gestión de incidencias posteriores al despliegue. | ISO/IEC 12207 – Mantenimiento | EV-014, EV-023 | Oportunidad de Mejora | Puede dificultar el seguimiento y resolución de incidentes en producción. | Definir un procedimiento formal para la gestión de incidencias y solicitudes de mantenimiento. |
 
+!!! tip "Evidencia visual de los hallazgos"
+    Las capturas reales que sustentan H-003, H-005, H-006 y H-009 están en **[Evidencia de Desarrollo](../fase2/evidencia-desarrollo.md)** (Fase 2): estructura del proyecto, CI/CD, SonarQube, pruebas de seguridad y — de forma honesta — la ausencia de capturas para pruebas unitarias.
+
 ## 4. Resumen de hallazgos
 
 | Clasificación | Cantidad |
@@ -83,7 +86,6 @@ No obstante, se identificaron oportunidades de mejora relacionadas con la docume
 | Cargo | Nombre |
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
-| Auditor Técnico |  |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
 **Código del Documento:** MH-SDLC-TECHMOVIL-001

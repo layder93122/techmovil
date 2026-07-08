@@ -119,6 +119,9 @@ Durante la auditoría se revisaron los siguientes documentos y artefactos:
 - Reportes SonarCloud.
 - Base de datos MySQL.
 
+!!! tip "Capturas de estos artefactos"
+    Ver las capturas reales de varios de estos artefactos (repositorio, CI/CD, SonarCloud, manual de usuario) en **[Evidencia de Desarrollo](../fase2/evidencia-desarrollo.md)**. Los diagramas C4/UML se referencian en el [Registro de Evidencias](../fase2/registro-evidencias.md) pero no se recibió una imagen de ellos entre los documentos entregados.
+
 ## 7. Resultados de la auditoría
 
 ### 7.1 Resumen de hallazgos
@@ -203,7 +206,6 @@ Las recomendaciones formuladas constituyen una guía para fortalecer la calidad 
 | Cargo | Nombre |
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
-| Auditor Técnico |  |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 | Representante del Proyecto Techmovil | Yohan Layder Escarcena Pancca |
 

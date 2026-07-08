@@ -140,7 +140,6 @@ Finalmente se verificará la implementación de las acciones correctivas propues
 |---|---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo | Planificar, coordinar y dirigir la auditoría. |
 | Auditor de Procesos | Yohan Layder Escarcena Pancca | Evaluar la gestión del proyecto y el cumplimiento del SDLC. |
-| Auditor Técnico |  | Revisar arquitectura, desarrollo, seguridad y calidad del software. |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay | Revisar la documentación técnica y funcional del proyecto. |
 
 ### 6.2 Responsabilidades del Equipo Auditor
@@ -235,7 +234,6 @@ La auditoría será ejecutada por un equipo multidisciplinario encargado de plan
 |---|---|
 | Auditor Líder — Idonis Mijael Paye Trujillo | Dirigir, coordinar y supervisar la ejecución de la auditoría. |
 | Auditor de Procesos — Yohan Layder Escarcena Pancca | Evaluar la gestión del proyecto y el cumplimiento del SDLC. |
-| Auditor Técnico —  | Revisar la arquitectura, desarrollo, seguridad y calidad del software. |
 | Auditor Documental — Kevin Edwin Sucapuca Calcinay | Analizar la documentación técnica, funcional y administrativa del proyecto. |
 | Equipo de Desarrollo (Kevin Edwin Sucapuca Calcinay; Idonis Mijael Paye Trujillo; Yohan Layder Escarcena Pancca) | Proporcionar información, evidencias y soporte durante la auditoría. |
 | Stakeholders de Techmovil | Validar la información requerida y atender las consultas del equipo auditor. |

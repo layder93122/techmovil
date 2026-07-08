@@ -117,7 +117,6 @@ Las acciones propuestas permitirán fortalecer los procesos de desarrollo, docum
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
 | Líder del Proyecto Techmovil | Yohan Layder Escarcena Pancca |
-| Responsable Técnico |  |
 
 ---
 

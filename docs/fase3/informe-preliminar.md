@@ -162,7 +162,6 @@ Las conformidades identificadas superan ampliamente las oportunidades de mejora 
 | Cargo | Nombre |
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
-| Auditor Técnico |  |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
 **Código del Documento:** IPA-SDLC-TECHMOVIL-001

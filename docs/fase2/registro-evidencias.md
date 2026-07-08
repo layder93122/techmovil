@@ -126,7 +126,6 @@ Durante la revisión se verificó la existencia de documentación técnica, repo
 | Cargo | Nombre |
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
-| Auditor Técnico |  |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
 Código del Documento: REV-SDLC-TECHMOVIL-001 · Versión: 1.0 · Estado: Aprobado

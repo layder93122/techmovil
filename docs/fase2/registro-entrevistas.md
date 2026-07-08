@@ -28,12 +28,10 @@ Las entrevistas se desarrollaron mediante reuniones estructuradas entre el equip
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
 | Auditor Técnico | Kevin Edwin Sucapuca Calcinay |
-| Auditor Documental |  |
 | Líder del Proyecto Techmovil | Yohan Layder Escarcena Pancca |
 | Desarrollador Backend | Yohan Layder Escarcena Pancca |
 | Desarrollador Frontend | Idonis Mijael Paye Trujillo |
 | Desarrollador Mobile | Kevin Edwin Sucapuca Calcinay |
-| Responsable de QA |  |
 
 ## 5. Cronograma de entrevistas
 
@@ -191,7 +189,6 @@ Una vez concluidas las entrevistas, el equipo auditor analizó la información r
 | Cargo | Nombre |
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
-| Auditor Técnico |  |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 | Líder del Proyecto | Yohan Layder Escarcena Pancca |
 

@@ -108,7 +108,6 @@ No se identificaron riesgos críticos que comprometan la viabilidad del sistema;
 | Cargo | Nombre |
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
-| Auditor Técnico |  |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
 **Código del Documento:** MR-SDLC-TECHMOVIL-001

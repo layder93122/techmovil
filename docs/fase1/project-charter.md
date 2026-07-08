@@ -295,7 +295,7 @@ La auditoría SDLC del proyecto Techmovil – Solución Logística Centralizada 
 - Identificación del modelo SDLC utilizado durante el desarrollo del sistema Techmovil.
 - Identificación de la arquitectura y del stack tecnológico implementado: arquitectura monolítica modular, backend Java Spring Boot, frontend Angular, aplicación móvil Flutter, base de datos MySQL, autenticación mediante JWT, documentación API con Swagger / OpenAPI.
 - Identificación de los estándares, metodologías y herramientas aplicadas durante el desarrollo: modelo C4, Scrum, CMMI, SonarCloud para análisis de calidad, K6 para pruebas de rendimiento.
-- Identificación de los roles y responsabilidades del equipo de desarrollo equipo de desarrollo y de los representantes de Techmovil involucrados en el proyecto.
+- Identificación de los roles y responsabilidades del equipo de desarrollo y de los representantes de Techmovil involucrados en el proyecto.
 - Elaboración del Plan de Auditoría detallado.
 - Elaboración del Checklist SDLC adaptado al contexto del sistema Techmovil.
 - Comunicación formal del inicio de la auditoría al patrocinador y al equipo auditado.
@@ -331,7 +331,7 @@ La auditoría SDLC del proyecto Techmovil – Solución Logística Centralizada 
 - Elaboración de la Matriz de Hallazgos, documentando para cada hallazgo la descripción, criterio de referencia, evidencia objetiva, causa, impacto, nivel de riesgo y recomendación correspondiente.
 - Elaboración de la Matriz de Riesgos, identificando y evaluando los riesgos derivados de las brechas detectadas durante la auditoría, considerando aspectos relacionados con la calidad, seguridad, mantenibilidad y operación del sistema Techmovil.
 - Elaboración del Informe Preliminar de Auditoría, consolidando los resultados obtenidos, los hallazgos identificados y las recomendaciones iniciales.
-- Revisión del Informe Preliminar con el equipo de desarrollo equipo de desarrollo y los representantes de Techmovil, recopilando observaciones, comentarios y aclaraciones antes de emitir el informe definitivo.
+- Revisión del Informe Preliminar con el equipo de desarrollo y los representantes de Techmovil, recopilando observaciones, comentarios y aclaraciones antes de emitir el informe definitivo.
 - Elaboración del Informe Final de Auditoría, incorporando las observaciones recibidas, las conclusiones finales y las recomendaciones orientadas al fortalecimiento de los procesos de desarrollo, la calidad del software y la mejora continua del sistema Techmovil.
 
 **Entregables:** Matriz de Hallazgos, Matriz de Riesgos, Informe Preliminar de Auditoría, Informe Final de Auditoría.
@@ -342,7 +342,7 @@ La auditoría SDLC del proyecto Techmovil – Solución Logística Centralizada 
 
 **Actividades:**
 
-- Presentación del Informe Final de Auditoría al patrocinador, a los representantes de Techmovil y al equipo de desarrollo equipo de desarrollo, exponiendo los hallazgos, conclusiones y recomendaciones obtenidas durante la auditoría.
+- Presentación del Informe Final de Auditoría al patrocinador, a los representantes de Techmovil y al equipo de desarrollo, exponiendo los hallazgos, conclusiones y recomendaciones obtenidas durante la auditoría.
 - Elaboración del Plan de Acción Correctiva por parte del equipo auditado, definiendo las acciones necesarias para atender las no conformidades y oportunidades de mejora identificadas en el sistema Techmovil.
 - Organización de reuniones o talleres de mejora, cuando sea necesario, para explicar los hallazgos, fortalecer las buenas prácticas de desarrollo y orientar la implementación de las acciones correctivas.
 - Seguimiento a la implementación del Plan de Acción Correctiva, verificando el cumplimiento de las actividades, responsables y plazos establecidos para la mejora del sistema Techmovil.
@@ -425,10 +425,9 @@ La auditoría SDLC del proyecto Techmovil – Solución Logística Centralizada 
 |---|---|---|---|---|---|
 | Idonis Mijael Paye Trujillo | Auditor Líder | 18 h | S/ 0.00 | S/ 0.00 | — |
 | Kevin Edwin Sucapuca Calcinay | Auditor Documental | 14 h | S/ 0.00 | S/ 0.00 | — |
-|  | Auditor Técnico | 14 h | S/ 0.00 | S/ 0.00 | — |
 | Yohan Layder Escarcena Pancca | Líder del Proyecto Techmovil (Equipo Auditado) | 14 h | S/ 0.00 | S/ 0.00 | — |
 | Herramientas utilizadas (GitHub, Jira, SonarCloud, Swagger, K6) | Recursos académicos | — | — | S/ 0.00 | — |
-| **TOTAL** | | **60 h** | | **S/ 0.00** | **100%** |
+| **TOTAL** | | **46 h** | | **S/ 0.00** | **100%** |
 
 ## 15. Riesgos del Proyecto de Auditoría
 
@@ -468,14 +467,14 @@ El proyecto de auditoría se considerará exitosamente completado cuando se cump
 - Se ha recopilado evidencia suficiente, pertinente y confiable para sustentar los hallazgos documentados en la Matriz de Hallazgos.
 - Se han elaborado y revisado todos los entregables establecidos en el Project Charter, incluyendo el Plan de Auditoría, Registro de Evidencias, Papeles de Trabajo, Matriz de Hallazgos, Matriz de Riesgos, Informes de Auditoría, Plan de Acción Correctiva y Acta de Cierre.
 - El Informe Final de Auditoría cubre el cumplimiento de todos los objetivos generales y específicos definidos para la auditoría del sistema Techmovil.
-- El equipo de desarrollo equipo de desarrollo ha elaborado el Plan de Acción Correctiva en respuesta a las observaciones y recomendaciones emitidas durante la auditoría.
+- El equipo de desarrollo ha elaborado el Plan de Acción Correctiva en respuesta a las observaciones y recomendaciones emitidas durante la auditoría.
 - El Acta de Cierre de la Auditoría ha sido elaborada y aprobada por el Auditor Líder y el patrocinador del proyecto.
 - Todos los papeles de trabajo, evidencias y documentación generada durante la auditoría han sido organizados y archivados para futuras consultas o auditorías.
 - El Informe Final de Auditoría cumple con los principios de objetividad, integridad, claridad, confidencialidad y trazabilidad, conforme a las buenas prácticas de auditoría y a los estándares ISO/IEC 12207, ISO/IEC 25010 y CMMI-DEV.
 
 ## 18. Supuestos
 
-- El equipo de desarrollo equipo de desarrollo colaborará activamente con el Equipo Auditor, proporcionando la información, documentación y evidencias requeridas durante la ejecución de la auditoría.
+- El equipo de desarrollo colaborará activamente con el Equipo Auditor, proporcionando la información, documentación y evidencias requeridas durante la ejecución de la auditoría.
 - El patrocinador y el docente supervisor facilitarán los recursos académicos necesarios para el desarrollo de la auditoría conforme al cronograma establecido.
 - La documentación del proyecto Techmovil (Project Charter, documentación de requisitos, diagramas C4, diagramas UML, documentación técnica, repositorios y demás artefactos) es auténtica y representa fielmente el trabajo desarrollado por el equipo del proyecto.
 - El Equipo Auditor cuenta con los conocimientos técnicos y metodológicos necesarios para evaluar el sistema Techmovil, desarrollado con una arquitectura monolítica modular utilizando Spring Boot, Angular, Flutter y MySQL.

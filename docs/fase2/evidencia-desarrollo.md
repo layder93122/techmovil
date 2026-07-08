@@ -5,7 +5,7 @@ Esta página reúne las **capturas reales** recopiladas por el propio equipo de 
 Todas las imágenes fuente completas (incluyendo las que no se muestran en línea aquí) quedan disponibles en `docs/assets/img/` dentro de este repositorio, organizadas por carpeta:
 `config-herramientas/` (CI/CD backend, 35 capturas) · `config-herramientas-front/` (CI/CD frontend, 8) · `sonarqube-cobertura/` (3) · `sonar-analysis/` (2) · `pruebas-seguridad/` (21) · `manual-usuario/` (11) · `e2e-manual/` (11).
 
-## Estructura del desarrollo
+## Estructura del desarrollo {: #estructura-del-desarrollo }
 
 Árbol de directorios del backend, tal como lo documentó el propio equipo en "Pruebas Unitarias" (arquitectura en capas: Controller, Service, Repository, DTO, Model — código de producción separado de las pruebas siguiendo la estructura estándar de Maven):
 
@@ -36,7 +36,7 @@ Captura real del árbol de directorios del **frontend** (Angular, VS Code):
 
 ![Estructura de carpetas del frontend Techmovil en VS Code](../assets/img/config-herramientas-front/frontend-ci_06.png)
 
-## CI/CD — Backend (GitHub Actions)
+## CI/CD — Backend (GitHub Actions) {: #cicd-backend-github-actions }
 
 El equipo backend documentó paso a paso la puesta en marcha de GitHub Actions (`backend-ci.yml` / `backend-integration.yml`), separando pruebas unitarias e integración, y la generación de reportes SonarQube/CNES. Dos capturas representativas:
 
@@ -46,12 +46,12 @@ El equipo backend documentó paso a paso la puesta en marcha de GitHub Actions (
 ![Terminal mostrando el commit y push que renombra los tests a la convención *UnitTest](../assets/img/config-herramientas/backend-ci_16.png)
 *`git push` tras estandarizar el naming de las pruebas a `*UnitTest` (Testcontainers + Java 17).*
 
-## CI/CD — Frontend (GitHub Actions)
+## CI/CD — Frontend (GitHub Actions) {: #cicd-frontend-github-actions }
 
 ![GitHub Actions: workflow "Pruebas Unitarias Frontend" ejecutado en verde](../assets/img/config-herramientas-front/frontend-ci_08.png)
 *Workflow `unitarias.yml` del frontend Angular, corrida exitosa (24s) en la rama `main`.*
 
-## SonarQube y cobertura de código
+## SonarQube y cobertura de código {: #sonarqube-y-cobertura-de-codigo }
 
 ![Dashboard local de SonarQube: Quality Gate Passed, 0 bugs, 0 vulnerabilidades, 43 unit tests](../assets/img/sonarqube-cobertura/sonarqube_01.png)
 *SonarQube local (`backend-astramaco`, rama `main`): Quality Gate **Passed**, 0 bugs, 0 vulnerabilidades, 43 unit tests, calificación A en confiabilidad/seguridad/mantenibilidad.*
@@ -63,7 +63,7 @@ Reporte CNES generado a partir del análisis SonarQube (issues por severidad/tip
 
 ![Gráficas del reporte CNES: issues por severidad y evolución de la deuda técnica](../assets/img/config-herramientas/backend-ci_10.png)
 
-## Pruebas de seguridad
+## Pruebas de seguridad {: #pruebas-de-seguridad }
 
 Batería de pruebas documentada en 7 fases: **(1)** descubrimiento con Nmap, **(2)** revisión de la API REST (Swagger `/swagger-ui/index.html`), **(3)** SQL Injection, **(4)** validación de entradas / XSS, **(5)** fuerza bruta sobre `/api/auth/login`, **(6)** cabeceras HTTP, **(7)** OWASP ZAP baseline scan.
 

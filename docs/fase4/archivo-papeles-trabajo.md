@@ -169,7 +169,6 @@ Toda la documentación generada durante el proceso ha sido organizada, clasifica
 | Cargo | Nombre |
 |---|---|
 | Auditor Líder | Idonis Mijael Paye Trujillo |
-| Auditor Técnico |  |
 | Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
 ---
