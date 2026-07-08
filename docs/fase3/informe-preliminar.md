@@ -1,23 +1,23 @@
 # Informe Preliminar de Auditoría SDLC
 
 !!! info "Ficha del documento"
-    **Código:** IPA-SDLC-ASTRALOG-001
+    **Código:** IPA-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Borrador para revisión
 
     [:material-file-pdf-box: Descargar documento original (PDF)](../assets/entregables/fase3/informe-preliminar-auditoria-sdlc.pdf)
 
 Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC)
-Proyecto: **AstraLog** – Solución Logística Centralizada
+Proyecto: **Techmovil** – Solución Logística Centralizada
 
 ## Control del documento
 
 | Campo | Información |
 |---|---|
-| Código | IPA-SDLC-ASTRALOG-001 |
+| Código | IPA-SDLC-TECHMOVIL-001 |
 | Documento | Informe Preliminar de Auditoría |
-| Proyecto | AstraLog |
-| Organización Auditada | ASTRAMACO III |
+| Proyecto | Techmovil |
+| Organización Auditada | Techmovil |
 | Auditoría | Auditoría SDLC |
 | Versión | 1.0 |
 | Fecha | Junio 2026 |
@@ -32,7 +32,7 @@ Proyecto: **AstraLog** – Solución Logística Centralizada
 
 ## 1. Introducción
 
-En cumplimiento del Plan de Auditoría SDLC aprobado para el proyecto AstraLog, el equipo auditor llevó a cabo la evaluación de los procesos aplicados durante el Ciclo de Vida del Desarrollo de Software (SDLC).
+En cumplimiento del Plan de Auditoría SDLC aprobado para el proyecto Techmovil, el equipo auditor llevó a cabo la evaluación de los procesos aplicados durante el Ciclo de Vida del Desarrollo de Software (SDLC).
 
 La auditoría tuvo como propósito verificar el grado de cumplimiento de los criterios definidos en el Project Charter, considerando como referencia las buenas prácticas de ISO/IEC 12207, ISO/IEC 25010, CMMI-DEV y el Checklist SDLC, mediante la revisión de documentación, entrevistas, evidencias técnicas y papeles de trabajo.
 
@@ -40,11 +40,11 @@ El presente informe consolida los resultados obtenidos hasta esta etapa y será 
 
 ## 2. Objetivo
 
-Presentar de manera preliminar los resultados de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto AstraLog, identificando las conformidades, oportunidades de mejora, no conformidades y riesgos detectados, con el fin de que el equipo auditado pueda revisar la información, formular observaciones y proporcionar aclaraciones antes de la emisión del informe definitivo.
+Presentar de manera preliminar los resultados de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto Techmovil, identificando las conformidades, oportunidades de mejora, no conformidades y riesgos detectados, con el fin de que el equipo auditado pueda revisar la información, formular observaciones y proporcionar aclaraciones antes de la emisión del informe definitivo.
 
 ## 3. Alcance
 
-La auditoría comprendió la revisión de los siguientes procesos del proyecto AstraLog:
+La auditoría comprendió la revisión de los siguientes procesos del proyecto Techmovil:
 
 - Gestión del proyecto.
 - Gestión de requisitos.
@@ -126,7 +126,7 @@ El riesgo con mayor prioridad corresponde a la limitada documentación de prueba
 
 ## 8. Observaciones preliminares
 
-El equipo auditor considera que el proyecto AstraLog presenta un nivel satisfactorio de cumplimiento de los criterios establecidos para el desarrollo de software.
+El equipo auditor considera que el proyecto Techmovil presenta un nivel satisfactorio de cumplimiento de los criterios establecidos para el desarrollo de software.
 
 No obstante, se recomienda fortalecer los siguientes aspectos antes del cierre de la auditoría:
 
@@ -147,13 +147,13 @@ Con base en los resultados obtenidos, se proponen las siguientes acciones:
 
 ## 10. Comentarios del equipo auditado
 
-El presente informe será remitido al equipo del proyecto AstraLog para que, dentro del plazo establecido por el Plan de Auditoría, pueda presentar observaciones, aclaraciones o evidencias adicionales respecto a los resultados obtenidos.
+El presente informe será remitido al equipo del proyecto Techmovil para que, dentro del plazo establecido por el Plan de Auditoría, pueda presentar observaciones, aclaraciones o evidencias adicionales respecto a los resultados obtenidos.
 
 Las observaciones recibidas serán evaluadas por el equipo auditor y, de ser pertinentes, serán incorporadas en el Informe Final de Auditoría.
 
 ## 11. Conclusión preliminar
 
-De manera preliminar, el equipo auditor concluye que el proyecto AstraLog evidencia un adecuado cumplimiento de las prácticas de Ingeniería de Software evaluadas durante la auditoría del SDLC.
+De manera preliminar, el equipo auditor concluye que el proyecto Techmovil evidencia un adecuado cumplimiento de las prácticas de Ingeniería de Software evaluadas durante la auditoría del SDLC.
 
 Las conformidades identificadas superan ampliamente las oportunidades de mejora y la única no conformidad detectada corresponde a un aspecto documental que no compromete la operación ni la funcionalidad del sistema. En consecuencia, el proyecto presenta condiciones favorables para continuar con su evolución, siempre que se implementen las acciones de mejora recomendadas.
 
@@ -161,10 +161,10 @@ Las conformidades identificadas superan ampliamente las oportunidades de mejora 
 
 | Cargo | Nombre |
 |---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman |
-| Auditor Técnico | RAMOS COAQUIRA, Jeimy Paul |
-| Auditor Documental | QUISPE QUISPE, Yunior Benito |
+| Auditor Líder | Idonis Mijael Paye Trujillo |
+| Auditor Técnico |  |
+| Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
-**Código del Documento:** IPA-SDLC-ASTRALOG-001
+**Código del Documento:** IPA-SDLC-TECHMOVIL-001
 **Versión:** 1.0
 **Estado:** Borrador para revisión

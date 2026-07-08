@@ -1,6 +1,6 @@
 # Evidencia de Desarrollo (capturas)
 
-Esta página reúne las **capturas reales** recopiladas por el propio equipo de desarrollo de AstraLog durante la construcción del sistema (repositorio `Backend-AstramacoIII` / `frontend-astramaco-iii`). No son capturas generadas por el equipo auditor: son la evidencia técnica que el equipo auditor revisó para sustentar los [Papeles de Trabajo](papeles-trabajo.md) y el [Registro de Evidencias](registro-evidencias.md) de esta fase.
+Esta página reúne las **capturas reales** recopiladas por el propio equipo de desarrollo de Techmovil durante la construcción del sistema (repositorio `Backend-AstramacoIII` / `frontend-astramaco-iii`). No son capturas generadas por el equipo auditor: son la evidencia técnica que el equipo auditor revisó para sustentar los [Papeles de Trabajo](papeles-trabajo.md) y el [Registro de Evidencias](registro-evidencias.md) de esta fase.
 
 Todas las imágenes fuente completas (incluyendo las que no se muestran en línea aquí) quedan disponibles en `docs/assets/img/` dentro de este repositorio, organizadas por carpeta:
 `config-herramientas/` (CI/CD backend, 35 capturas) · `config-herramientas-front/` (CI/CD frontend, 8) · `sonarqube-cobertura/` (3) · `sonar-analysis/` (2) · `pruebas-seguridad/` (21) · `manual-usuario/` (11) · `e2e-manual/` (11).
@@ -34,7 +34,7 @@ src
 
 Captura real del árbol de directorios del **frontend** (Angular, VS Code):
 
-![Estructura de carpetas del frontend AstraLog en VS Code](../assets/img/config-herramientas-front/frontend-ci_06.png)
+![Estructura de carpetas del frontend Techmovil en VS Code](../assets/img/config-herramientas-front/frontend-ci_06.png)
 
 ## CI/CD — Backend (GitHub Actions)
 
@@ -82,8 +82,8 @@ El backend expone documentación Swagger en `http://localhost:8080/swagger-ui/in
 
 ## Manual de usuario / pantallas del sistema
 
-![Pantalla de inicio de sesión de AstraLog en localhost:4200](../assets/img/manual-usuario/usuario_06.png)
-*Pantalla "Iniciar Sesión" del frontend AstraLog (Angular, `localhost:4200`) documentada en el Manual de Usuario.*
+![Pantalla de inicio de sesión de Techmovil en localhost:4200](../assets/img/manual-usuario/usuario_06.png)
+*Pantalla "Iniciar Sesión" del frontend Techmovil (Angular, `localhost:4200`) documentada en el Manual de Usuario.*
 
 ## Pruebas E2E manuales
 

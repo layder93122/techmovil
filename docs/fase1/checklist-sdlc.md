@@ -1,7 +1,7 @@
 # Checklist SDLC Adaptado
 
 !!! info "Ficha del documento"
-    **Código:** No especificado en el documento fuente (entregable "Checklist SDLC Adaptado a AstraLog")
+    **Código:** No especificado en el documento fuente (entregable "Checklist SDLC Adaptado a Techmovil")
     **Versión:** 1.0
     **Estado:** Emitido
 

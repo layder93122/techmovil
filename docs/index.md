@@ -1,6 +1,8 @@
-# Auditoría SDLC · AstraLog (ASTRAMACO III)
+# Auditoría SDLC · Techmovil
 
-Este sitio reúne los **entregables de la Unidad 3**: la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) realizada por el equipo auditor **CoreSystems Solutions** sobre el sistema **AstraLog — Solución Logística Centralizada**, desarrollado para la empresa **ASTRAMACO III**, como trabajo del curso de Ingeniería de Software II (Universidad Peruana Unión, Ciclo VII‑G1).
+Este sitio reúne los **entregables de la Unidad 3**: la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) realizada sobre el sistema **Techmovil**, como trabajo del curso de Ingeniería de Software II (Universidad Peruana Unión, Ciclo VII‑G1).
+
+**Integrantes:** Yohan Layder Escarcena Pancca · Kevin Edwin Sucapuca Calcinay · Idonis Mijael Paye Trujillo.
 
 La auditoría tomó como referencia **ISO/IEC 12207:2017**, **ISO/IEC 25010**, **CMMI‑DEV** y un Checklist SDLC adaptado, y se ejecutó en 4 fases durante 8 semanas.
 
@@ -13,7 +15,7 @@ La auditoría tomó como referencia **ISO/IEC 12207:2017**, **ISO/IEC 25010**, *
 | No conformidades menores | 1 |
 | No conformidades mayores | 0 |
 
-**Opinión del equipo auditor:** favorable — AstraLog cumple satisfactoriamente los criterios definidos para la auditoría SDLC, con una no conformidad menor relacionada a la **limitada documentación de pruebas unitarias automatizadas** (ver [evidencia de desarrollo](fase2/evidencia-desarrollo.md#pruebas-unitarias-hallazgo)).
+**Opinión del equipo auditor:** favorable — Techmovil cumple satisfactoriamente los criterios definidos para la auditoría SDLC, con una no conformidad menor relacionada a la **limitada documentación de pruebas unitarias automatizadas** (ver [evidencia de desarrollo](fase2/evidencia-desarrollo.md#pruebas-unitarias-hallazgo)).
 
 ## Navegación por fase
 

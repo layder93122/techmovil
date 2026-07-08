@@ -1,23 +1,23 @@
 # Matriz de Hallazgos de Auditoría SDLC
 
 !!! info "Ficha del documento"
-    **Código:** MH-SDLC-ASTRALOG-001
+    **Código:** MH-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Aprobado
 
     [:material-file-pdf-box: Descargar documento original (PDF)](../assets/entregables/fase3/matriz-de-hallazgos.pdf)
 
 Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC)
-Proyecto: **AstraLog** – Solución Logística Centralizada
+Proyecto: **Techmovil** – Solución Logística Centralizada
 
 ## Control del documento
 
 | Campo | Información |
 |---|---|
-| Código | MH-SDLC-ASTRALOG-001 |
+| Código | MH-SDLC-TECHMOVIL-001 |
 | Documento | Matriz de Hallazgos de Auditoría |
-| Proyecto | AstraLog |
-| Organización Auditada | ASTRAMACO III |
+| Proyecto | Techmovil |
+| Organización Auditada | Techmovil |
 | Auditoría | Auditoría SDLC |
 | Versión | 1.0 |
 | Fecha | Junio 2026 |
@@ -32,7 +32,7 @@ Proyecto: **AstraLog** – Solución Logística Centralizada
 
 ## 1. Objetivo
 
-La presente Matriz de Hallazgos tiene como objetivo documentar los resultados obtenidos durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog, identificando el grado de cumplimiento de los criterios de auditoría establecidos, las evidencias revisadas, los impactos asociados y las recomendaciones propuestas para fortalecer la calidad del proyecto.
+La presente Matriz de Hallazgos tiene como objetivo documentar los resultados obtenidos durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil, identificando el grado de cumplimiento de los criterios de auditoría establecidos, las evidencias revisadas, los impactos asociados y las recomendaciones propuestas para fortalecer la calidad del proyecto.
 
 ## 2. Criterios de clasificación
 
@@ -72,7 +72,7 @@ Los hallazgos identificados durante la auditoría se clasifican de la siguiente 
 
 ## 5. Conclusiones generales
 
-Como resultado de la evaluación realizada, se concluye que el proyecto AstraLog presenta un adecuado nivel de cumplimiento de los criterios establecidos para la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC).
+Como resultado de la evaluación realizada, se concluye que el proyecto Techmovil presenta un adecuado nivel de cumplimiento de los criterios establecidos para la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC).
 
 Las evidencias revisadas demuestran la aplicación de buenas prácticas en la gestión del proyecto, el desarrollo del software, la arquitectura del sistema, la seguridad, la gestión de requisitos y el control de versiones.
 
@@ -82,10 +82,10 @@ No obstante, se identificaron oportunidades de mejora relacionadas con la docume
 
 | Cargo | Nombre |
 |---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman |
-| Auditor Técnico | RAMOS COAQUIRA, Jeimy Paul |
-| Auditor Documental | QUISPE QUISPE, Yunior Benito |
+| Auditor Líder | Idonis Mijael Paye Trujillo |
+| Auditor Técnico |  |
+| Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
-**Código del Documento:** MH-SDLC-ASTRALOG-001
+**Código del Documento:** MH-SDLC-TECHMOVIL-001
 **Versión:** 1.0
 **Estado:** Aprobado

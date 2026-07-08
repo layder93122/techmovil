@@ -1,7 +1,7 @@
 # Registro de Evidencias
 
 !!! info "Ficha del documento"
-    **Código:** REV-SDLC-ASTRALOG-001
+    **Código:** REV-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Aprobado
     **Fecha:** Junio 2026
@@ -10,7 +10,7 @@
 
 ## 1. Objetivo
 
-Documentar y organizar todas las evidencias recopiladas durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog, permitiendo sustentar objetivamente las conclusiones, observaciones y hallazgos, y garantizar la trazabilidad entre los criterios evaluados y la información analizada.
+Documentar y organizar todas las evidencias recopiladas durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil, permitiendo sustentar objetivamente las conclusiones, observaciones y hallazgos, y garantizar la trazabilidad entre los criterios evaluados y la información analizada.
 
 ## 2. Alcance
 
@@ -26,7 +26,7 @@ Cada evidencia registrada contiene: código único, área auditada, descripción
 
 | Código | Evidencia | Fuente | Responsable | Estado | Observaciones |
 |---|---|---|---|---|---|
-| EV-001 | Project Charter del proyecto AstraLog | Documentación del Proyecto | Líder del Proyecto | Conforme | Documento disponible y aprobado. |
+| EV-001 | Project Charter del proyecto Techmovil | Documentación del Proyecto | Líder del Proyecto | Conforme | Documento disponible y aprobado. |
 | EV-002 | Product Backlog | Jira | Scrum Master | Conforme | Contiene las historias de usuario del proyecto. |
 | EV-003 | Sprint Backlog | Jira | Scrum Master | Conforme | Se evidencia la planificación por sprints. |
 | EV-004 | Cronograma del Proyecto | Documentación | Líder del Proyecto | Conforme | Cronograma actualizado. |
@@ -51,7 +51,7 @@ Cada evidencia registrada contiene: código único, área auditada, descripción
 | EV-013 | Modelo de Base de Datos MySQL | MySQL Workbench | Arquitecto | Conforme | Modelo lógico disponible. |
 
 !!! warning "Diagramas C4/UML no incluidos como imagen en este sitio"
-    EV-010, EV-011 y EV-012 se verificaron contra la documentación/repositorio propio de AstraLog, pero no llegaron como archivos de imagen entre los documentos entregados para construir este MkDocs. Si el equipo dispone de los `.png`/`.svg` de los diagramas C4 y UML, deben añadirse a `docs/assets/img/arquitectura/` y enlazarse aquí y en [Evidencia de Desarrollo](evidencia-desarrollo.md) para completar el sustento visual de esta fase.
+    EV-010, EV-011 y EV-012 se verificaron contra la documentación/repositorio propio de Techmovil, pero no llegaron como archivos de imagen entre los documentos entregados para construir este MkDocs. Si el equipo dispone de los `.png`/`.svg` de los diagramas C4 y UML, deben añadirse a `docs/assets/img/arquitectura/` y enlazarse aquí y en [Evidencia de Desarrollo](evidencia-desarrollo.md) para completar el sustento visual de esta fase.
 
 ### 4.4 Desarrollo
 
@@ -119,14 +119,14 @@ Ver capturas de las pruebas de penetración (Nmap, OWASP ZAP, XSS, fuerza bruta)
 
 ## 6. Observaciones generales
 
-Durante la revisión se verificó la existencia de documentación técnica, repositorios de código, herramientas de gestión del proyecto y registros de calidad que permiten sustentar el desarrollo del sistema AstraLog. Las evidencias recopiladas sirven como soporte para los [Papeles de Trabajo de Auditoría](papeles-trabajo.md) y para la elaboración del [Informe Final de Auditoría SDLC](../fase3/informe-final.md).
+Durante la revisión se verificó la existencia de documentación técnica, repositorios de código, herramientas de gestión del proyecto y registros de calidad que permiten sustentar el desarrollo del sistema Techmovil. Las evidencias recopiladas sirven como soporte para los [Papeles de Trabajo de Auditoría](papeles-trabajo.md) y para la elaboración del [Informe Final de Auditoría SDLC](../fase3/informe-final.md).
 
 ## 7. Aprobación
 
 | Cargo | Nombre |
 |---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman |
-| Auditor Técnico | RAMOS COAQUIRA, Jeimy Paul |
-| Auditor Documental | QUISPE QUISPE, Yunior Benito |
+| Auditor Líder | Idonis Mijael Paye Trujillo |
+| Auditor Técnico |  |
+| Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
-Código del Documento: REV-SDLC-ASTRALOG-001 · Versión: 1.0 · Estado: Aprobado
+Código del Documento: REV-SDLC-TECHMOVIL-001 · Versión: 1.0 · Estado: Aprobado

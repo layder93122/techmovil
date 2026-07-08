@@ -1,23 +1,23 @@
 # Matriz de Riesgos de Auditoría SDLC
 
 !!! info "Ficha del documento"
-    **Código:** MR-SDLC-ASTRALOG-001
+    **Código:** MR-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Aprobado
 
     [:material-file-pdf-box: Descargar documento original (PDF)](../assets/entregables/fase3/matriz-de-riesgos.pdf)
 
 Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC)
-Proyecto: **AstraLog** – Solución Logística Centralizada
+Proyecto: **Techmovil** – Solución Logística Centralizada
 
 ## Control del documento
 
 | Campo | Información |
 |---|---|
-| Código | MR-SDLC-ASTRALOG-001 |
+| Código | MR-SDLC-TECHMOVIL-001 |
 | Documento | Matriz de Riesgos |
-| Proyecto | AstraLog |
-| Organización Auditada | ASTRAMACO III |
+| Proyecto | Techmovil |
+| Organización Auditada | Techmovil |
 | Auditoría | Auditoría SDLC |
 | Versión | 1.0 |
 | Fecha | Junio 2026 |
@@ -32,7 +32,7 @@ Proyecto: **AstraLog** – Solución Logística Centralizada
 
 ## 1. Objetivo
 
-La presente Matriz de Riesgos tiene como finalidad identificar y evaluar los riesgos derivados de los hallazgos obtenidos durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto AstraLog, determinando su probabilidad, impacto y nivel de riesgo, así como las acciones de tratamiento recomendadas para minimizar sus efectos sobre la calidad y continuidad del sistema.
+La presente Matriz de Riesgos tiene como finalidad identificar y evaluar los riesgos derivados de los hallazgos obtenidos durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto Techmovil, determinando su probabilidad, impacto y nivel de riesgo, así como las acciones de tratamiento recomendadas para minimizar sus efectos sobre la calidad y continuidad del sistema.
 
 ## 2. Metodología de evaluación
 
@@ -99,7 +99,7 @@ Para la valoración de los riesgos se utilizaron los siguientes criterios:
 
 ## 6. Conclusiones
 
-La evaluación de riesgos realizada evidencia que el proyecto AstraLog presenta un nivel adecuado de control sobre la mayoría de sus procesos de desarrollo. Los riesgos identificados se concentran principalmente en aspectos de mejora continua relacionados con la automatización de pruebas, la documentación técnica, la integración continua y la formalización del proceso de mantenimiento.
+La evaluación de riesgos realizada evidencia que el proyecto Techmovil presenta un nivel adecuado de control sobre la mayoría de sus procesos de desarrollo. Los riesgos identificados se concentran principalmente en aspectos de mejora continua relacionados con la automatización de pruebas, la documentación técnica, la integración continua y la formalización del proceso de mantenimiento.
 
 No se identificaron riesgos críticos que comprometan la viabilidad del sistema; sin embargo, la implementación de las acciones de mitigación propuestas permitirá fortalecer la calidad, confiabilidad y mantenibilidad del software en futuras versiones.
 
@@ -107,10 +107,10 @@ No se identificaron riesgos críticos que comprometan la viabilidad del sistema;
 
 | Cargo | Nombre |
 |---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman |
-| Auditor Técnico | RAMOS COAQUIRA, Jeimy Paul |
-| Auditor Documental | QUISPE QUISPE, Yunior Benito |
+| Auditor Líder | Idonis Mijael Paye Trujillo |
+| Auditor Técnico |  |
+| Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
-**Código del Documento:** MR-SDLC-ASTRALOG-001
+**Código del Documento:** MR-SDLC-TECHMOVIL-001
 **Versión:** 1.0
 **Estado:** Aprobado

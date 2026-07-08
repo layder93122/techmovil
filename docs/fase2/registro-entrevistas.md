@@ -1,7 +1,7 @@
 # Registro de Entrevistas
 
 !!! info "Ficha del documento"
-    **Código:** RE-SDLC-ASTRALOG-001
+    **Código:** RE-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Aprobado
     **Fecha:** Junio 2026
@@ -10,30 +10,30 @@
 
 ## 1. Objetivo
 
-Documentar la información obtenida durante las entrevistas realizadas al equipo de desarrollo del proyecto AstraLog, con el propósito de comprender la forma en que fueron ejecutadas las diferentes fases del Ciclo de Vida del Desarrollo de Software (SDLC) y recopilar evidencias que respalden el proceso de auditoría.
+Documentar la información obtenida durante las entrevistas realizadas al equipo de desarrollo del proyecto Techmovil, con el propósito de comprender la forma en que fueron ejecutadas las diferentes fases del Ciclo de Vida del Desarrollo de Software (SDLC) y recopilar evidencias que respalden el proceso de auditoría.
 
 La información recopilada permite validar el cumplimiento de los procesos establecidos, identificar fortalezas, detectar oportunidades de mejora y sustentar los hallazgos presentados en el [Informe Final de Auditoría](../fase3/informe-final.md).
 
 ## 2. Alcance
 
-Las entrevistas comprendieron a los integrantes del equipo responsable del desarrollo del sistema AstraLog y a los responsables de gestión del proyecto, arquitectura, desarrollo, pruebas y documentación, evaluando: gestión del proyecto, modelo SDLC, gestión de requisitos, arquitectura, desarrollo, control de versiones, pruebas, seguridad, documentación, despliegue, gestión de incidencias y aseguramiento de calidad.
+Las entrevistas comprendieron a los integrantes del equipo responsable del desarrollo del sistema Techmovil y a los responsables de gestión del proyecto, arquitectura, desarrollo, pruebas y documentación, evaluando: gestión del proyecto, modelo SDLC, gestión de requisitos, arquitectura, desarrollo, control de versiones, pruebas, seguridad, documentación, despliegue, gestión de incidencias y aseguramiento de calidad.
 
 ## 3. Metodología
 
-Las entrevistas se desarrollaron mediante reuniones estructuradas entre el equipo auditor y los integrantes del proyecto AstraLog, siguiendo un cuestionario previamente definido. Las respuestas fueron contrastadas posteriormente con la documentación del proyecto, el repositorio GitHub, Jira, SonarCloud, los diagramas de arquitectura y las demás evidencias disponibles.
+Las entrevistas se desarrollaron mediante reuniones estructuradas entre el equipo auditor y los integrantes del proyecto Techmovil, siguiendo un cuestionario previamente definido. Las respuestas fueron contrastadas posteriormente con la documentación del proyecto, el repositorio GitHub, Jira, SonarCloud, los diagramas de arquitectura y las demás evidencias disponibles.
 
 ## 4. Participantes
 
 | Rol | Participante |
 |---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman |
-| Auditor Técnico | QUISPE QUISPE, Yunior Benito |
-| Auditor Documental | RAMOS COAQUIRA, Jeimy Paul |
-| Líder del Proyecto AstraLog | APAZA YUCRA, Elvis Jesús |
-| Desarrollador Backend | APAZA YUCRA, Elvis Jesús |
-| Desarrollador Frontend | MAMANI VARGAS, Anthony Kelman |
-| Desarrollador Mobile | QUISPE QUISPE, Yunior Benito |
-| Responsable de QA | RAMOS COAQUIRA, Jeimy Paul |
+| Auditor Líder | Idonis Mijael Paye Trujillo |
+| Auditor Técnico | Kevin Edwin Sucapuca Calcinay |
+| Auditor Documental |  |
+| Líder del Proyecto Techmovil | Yohan Layder Escarcena Pancca |
+| Desarrollador Backend | Yohan Layder Escarcena Pancca |
+| Desarrollador Frontend | Idonis Mijael Paye Trujillo |
+| Desarrollador Mobile | Kevin Edwin Sucapuca Calcinay |
+| Responsable de QA |  |
 
 ## 5. Cronograma de entrevistas
 
@@ -54,13 +54,13 @@ Modelo de desarrollo SDLC · Definición del sistema · Gestión de requisitos �
 
 ### Entrevista N.° 01 — Gestión del Proyecto
 
-**Entrevistado:** Líder del Proyecto AstraLog (Project Manager / Scrum Master) · **Fecha:** 15/06/2026, 09:00–10:00 · **Objetivo:** conocer la metodología utilizada para la planificación, gestión y seguimiento del proyecto.
+**Entrevistado:** Líder del Proyecto Techmovil (Project Manager / Scrum Master) · **Fecha:** 15/06/2026, 09:00–10:00 · **Objetivo:** conocer la metodología utilizada para la planificación, gestión y seguimiento del proyecto.
 
 | N.° | Pregunta | Respuesta |
 |---|---|---|
 | 1 | ¿Qué metodología de desarrollo utilizaron? | Scrum, organizada en sprints con reuniones de planificación, seguimiento y retrospectiva. |
 | 2 | ¿Cómo se gestionaron las tareas del proyecto? | Mediante Jira: Product Backlog, Sprint Backlog y tableros Kanban. |
-| 3 | ¿Quién aprobó los requisitos del sistema? | Definidos según las necesidades de ASTRAMACO III y validados por el docente y el equipo del proyecto. |
+| 3 | ¿Quién aprobó los requisitos del sistema? | Definidos según las necesidades de Techmovil y validados por el docente y el equipo del proyecto. |
 | 4 | ¿Cómo controlaron los cambios durante el desarrollo? | Registrados como nuevas historias de usuario o tareas en Jira antes de implementarse. |
 | 5 | ¿Cómo realizaron el seguimiento del proyecto? | Reuniones semanales para revisar el avance de cada sprint. |
 | 6 | ¿Qué herramienta utilizaron para el control del código? | GitHub, mediante ramas y Pull Requests. |
@@ -78,7 +78,7 @@ Modelo de desarrollo SDLC · Definición del sistema · Gestión de requisitos �
 
 | N.° | Pregunta | Respuesta |
 |---|---|---|
-| 1 | ¿Qué arquitectura implementó AstraLog? | Arquitectura monolítica modular con Spring Boot. |
+| 1 | ¿Qué arquitectura implementó Techmovil? | Arquitectura monolítica modular con Spring Boot. |
 | 2 | ¿Por qué una arquitectura monolítica? | Facilita desarrollo, despliegue y mantenimiento en proyectos académicos con equipos pequeños. |
 | 3 | ¿Cómo está organizado el sistema? | Módulos independientes: autenticación, pedidos, inventario, transportistas y reportes. |
 | 4 | ¿Qué patrón arquitectónico utilizaron? | Modelo C4 para documentar la arquitectura. |
@@ -93,7 +93,7 @@ Modelo de desarrollo SDLC · Definición del sistema · Gestión de requisitos �
 **Conclusión:** existe consistencia entre la arquitectura documentada y la implementación del sistema.
 
 !!! warning "Nota de este sitio"
-    Los diagramas C4/UML mencionados aquí (EV-010, EV-011, EV-012, EV-034 en el [Registro de Evidencias](registro-evidencias.md)) residen en la documentación/repositorio propio del proyecto AstraLog, no se incluyeron como archivos de imagen entre los entregables recibidos para armar este sitio. Si el equipo los tiene disponibles, deben copiarse a `docs/assets/img/arquitectura/` y enlazarse desde [Evidencia de Desarrollo](evidencia-desarrollo.md).
+    Los diagramas C4/UML mencionados aquí (EV-010, EV-011, EV-012, EV-034 en el [Registro de Evidencias](registro-evidencias.md)) residen en la documentación/repositorio propio del proyecto Techmovil, no se incluyeron como archivos de imagen entre los entregables recibidos para armar este sitio. Si el equipo los tiene disponibles, deben copiarse a `docs/assets/img/arquitectura/` y enlazarse desde [Evidencia de Desarrollo](evidencia-desarrollo.md).
 
 ### Entrevista N.° 03 — Desarrollo Backend
 
@@ -190,9 +190,9 @@ Una vez concluidas las entrevistas, el equipo auditor analizó la información r
 
 | Cargo | Nombre |
 |---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman |
-| Auditor Técnico | RAMOS COAQUIRA, Jeimy Paul |
-| Auditor Documental | QUISPE QUISPE, Yunior Benito |
-| Líder del Proyecto | APAZA YUCRA, Elvis Jesús |
+| Auditor Líder | Idonis Mijael Paye Trujillo |
+| Auditor Técnico |  |
+| Auditor Documental | Kevin Edwin Sucapuca Calcinay |
+| Líder del Proyecto | Yohan Layder Escarcena Pancca |
 
-Código del Documento: RE-SDLC-ASTRALOG-001 · Versión: 1.0 · Estado: Aprobado
+Código del Documento: RE-SDLC-TECHMOVIL-001 · Versión: 1.0 · Estado: Aprobado

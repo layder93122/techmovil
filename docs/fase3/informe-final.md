@@ -1,23 +1,23 @@
 # Informe Final de Auditoría SDLC
 
 !!! info "Ficha del documento"
-    **Código:** IFA-SDLC-ASTRALOG-001
+    **Código:** IFA-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Aprobado
 
     [:material-file-pdf-box: Descargar documento original (PDF)](../assets/entregables/fase3/informe-final-auditoria-sdlc.pdf)
 
 Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC)
-Proyecto: **AstraLog** – Solución Logística Centralizada
+Proyecto: **Techmovil** – Solución Logística Centralizada
 
 ## Control del documento
 
 | Campo | Información |
 |---|---|
-| Código | IFA-SDLC-ASTRALOG-001 |
+| Código | IFA-SDLC-TECHMOVIL-001 |
 | Documento | Informe Final de Auditoría SDLC |
-| Proyecto | AstraLog |
-| Organización Auditada | ASTRAMACO III |
+| Proyecto | Techmovil |
+| Organización Auditada | Techmovil |
 | Auditoría | Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) |
 | Versión | 1.0 |
 | Fecha | Junio 2026 |
@@ -32,7 +32,7 @@ Proyecto: **AstraLog** – Solución Logística Centralizada
 
 ## 1. Resumen ejecutivo
 
-Como resultado de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) realizada al proyecto AstraLog, desarrollado para la empresa ASTRAMACO III, se evaluó el grado de cumplimiento de los procesos de desarrollo, documentación, arquitectura, seguridad, calidad y gestión del proyecto, tomando como referencia los estándares ISO/IEC 12207:2017, ISO/IEC 25010, CMMI-DEV y el Checklist SDLC.
+Como resultado de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) realizada al proyecto Techmovil, desarrollado para la empresa Techmovil, se evaluó el grado de cumplimiento de los procesos de desarrollo, documentación, arquitectura, seguridad, calidad y gestión del proyecto, tomando como referencia los estándares ISO/IEC 12207:2017, ISO/IEC 25010, CMMI-DEV y el Checklist SDLC.
 
 La auditoría comprendió la revisión de la documentación del proyecto, entrevistas al equipo de desarrollo, análisis de evidencias técnicas y evaluación de los procesos ejecutados durante el ciclo de vida del software.
 
@@ -40,7 +40,7 @@ Como resultado de la evaluación se concluye que el proyecto presenta un adecuad
 
 ## 2. Objetivo de la auditoría
 
-Evaluar el grado de cumplimiento de los procesos del Ciclo de Vida del Desarrollo de Software (SDLC) aplicados en el proyecto AstraLog, verificando la conformidad de la documentación, arquitectura, desarrollo, pruebas, seguridad y gestión del proyecto respecto a los criterios definidos en el Project Charter de Auditoría.
+Evaluar el grado de cumplimiento de los procesos del Ciclo de Vida del Desarrollo de Software (SDLC) aplicados en el proyecto Techmovil, verificando la conformidad de la documentación, arquitectura, desarrollo, pruebas, seguridad y gestión del proyecto respecto a los criterios definidos en el Project Charter de Auditoría.
 
 ## 3. Alcance
 
@@ -166,18 +166,18 @@ El riesgo prioritario corresponde a la limitada documentación de pruebas unitar
 
 Después de analizar las evidencias recopiladas y evaluar el cumplimiento de los criterios establecidos, el equipo auditor concluye que:
 
-- El proyecto AstraLog presenta un adecuado nivel de madurez en la aplicación de prácticas de Ingeniería de Software.
+- El proyecto Techmovil presenta un adecuado nivel de madurez en la aplicación de prácticas de Ingeniería de Software.
 - La metodología Scrum permitió una gestión organizada del proyecto y un seguimiento continuo de las actividades.
 - La arquitectura monolítica modular implementada mantiene consistencia con la documentación técnica desarrollada.
 - Los mecanismos de autenticación, autorización y control de acceso ofrecen un nivel adecuado de protección para la información del sistema.
 - La utilización de GitHub, Jira y SonarCloud evidencia la adopción de herramientas modernas para el desarrollo y aseguramiento de la calidad.
 - Las oportunidades de mejora identificadas no comprometen la operación actual del sistema, pero su implementación fortalecerá la mantenibilidad, calidad y evolución futura del software.
 
-En consecuencia, el equipo auditor considera que AstraLog cumple satisfactoriamente con los criterios definidos para la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC), recomendando la ejecución del plan de mejoras propuesto.
+En consecuencia, el equipo auditor considera que Techmovil cumple satisfactoriamente con los criterios definidos para la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC), recomendando la ejecución del plan de mejoras propuesto.
 
 ## 10. Recomendaciones
 
-Se recomienda al equipo del proyecto AstraLog:
+Se recomienda al equipo del proyecto Techmovil:
 
 - Documentar de manera formal las pruebas unitarias automatizadas.
 - Implementar una estrategia de Integración Continua y Despliegue Continuo (CI/CD).
@@ -188,13 +188,13 @@ Se recomienda al equipo del proyecto AstraLog:
 
 ## 11. Opinión del equipo auditor
 
-Con base en la evidencia revisada y los procedimientos aplicados durante la auditoría, el equipo auditor emite una **opinión favorable** respecto al cumplimiento de los procesos del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto AstraLog.
+Con base en la evidencia revisada y los procedimientos aplicados durante la auditoría, el equipo auditor emite una **opinión favorable** respecto al cumplimiento de los procesos del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto Techmovil.
 
 Se concluye que el sistema fue desarrollado siguiendo prácticas alineadas con los estándares de referencia utilizados durante la auditoría y que las observaciones identificadas corresponden principalmente a oportunidades de mejora y una no conformidad menor que no compromete la funcionalidad ni la seguridad del sistema.
 
 ## 12. Cierre de la auditoría
 
-Con la emisión del presente Informe Final se da por concluida la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto AstraLog.
+Con la emisión del presente Informe Final se da por concluida la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto Techmovil.
 
 Las recomendaciones formuladas constituyen una guía para fortalecer la calidad del software y apoyar la mejora continua del proceso de desarrollo en futuras versiones del sistema.
 
@@ -202,10 +202,10 @@ Las recomendaciones formuladas constituyen una guía para fortalecer la calidad 
 
 | Cargo | Nombre |
 |---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman |
-| Auditor Técnico | RAMOS COAQUIRA, Jeimy Paul |
-| Auditor Documental | QUISPE QUISPE, Yunior Benito |
-| Representante del Proyecto AstraLog | APAZA YUCRA, Elvis Jesús |
+| Auditor Líder | Idonis Mijael Paye Trujillo |
+| Auditor Técnico |  |
+| Auditor Documental | Kevin Edwin Sucapuca Calcinay |
+| Representante del Proyecto Techmovil | Yohan Layder Escarcena Pancca |
 
 ## 14. Anexos
 
@@ -218,6 +218,6 @@ Carpeta general con todos los documentos de respaldo: [enlace](https://drive.goo
 - **Anexo E.** Matriz de Riesgos — [enlace](https://drive.google.com/file/d/1HvTUBR6MmlYSGdLHdYWjTxqBxcvVYklY/view?usp=drive_link)
 - **Anexo F.** Checklist SDLC — [enlace](https://drive.google.com/file/d/1PZ3gtNw8TRDb1MqTaazRpLnGIff2umPx/view?usp=drive_link)
 
-**Código del Documento:** IFA-SDLC-ASTRALOG-001
+**Código del Documento:** IFA-SDLC-TECHMOVIL-001
 **Versión:** 1.0
 **Estado:** Aprobado

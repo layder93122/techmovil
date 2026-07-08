@@ -1,7 +1,7 @@
 # Papeles de Trabajo de Auditoría
 
 !!! info "Ficha del documento"
-    **Código:** PT-SDLC-ASTRALOG-001
+    **Código:** PT-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Aprobado
     **Fecha:** Junio 2026
@@ -10,15 +10,15 @@
 
 ## 1. Objetivo
 
-Los Papeles de Trabajo constituyen el registro técnico de las actividades realizadas durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog. Documentan los procedimientos aplicados, las evidencias revisadas, los resultados obtenidos y las conclusiones emitidas por el equipo auditor.
+Los Papeles de Trabajo constituyen el registro técnico de las actividades realizadas durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil. Documentan los procedimientos aplicados, las evidencias revisadas, los resultados obtenidos y las conclusiones emitidas por el equipo auditor.
 
 ## 2. Metodología
 
-Cada papel de trabajo documenta un procedimiento específico de auditoría e incluye: objetivo de la revisión, criterio de auditoría, procedimiento aplicado, evidencias revisadas (referenciadas al [Registro de Evidencias](registro-evidencias.md), REV-SDLC-ASTRALOG-001), resultado obtenido, observaciones y conclusión.
+Cada papel de trabajo documenta un procedimiento específico de auditoría e incluye: objetivo de la revisión, criterio de auditoría, procedimiento aplicado, evidencias revisadas (referenciadas al [Registro de Evidencias](registro-evidencias.md), REV-SDLC-TECHMOVIL-001), resultado obtenido, observaciones y conclusión.
 
 ### PT-001 — Gestión del Proyecto
 
-- **Objetivo:** verificar que AstraLog fue planificado y gestionado siguiendo prácticas de gestión de proyectos de software.
+- **Objetivo:** verificar que Techmovil fue planificado y gestionado siguiendo prácticas de gestión de proyectos de software.
 - **Criterio:** existencia de planificación, cronograma, backlog y seguimiento del proyecto.
 - **Procedimiento:** revisión del Project Charter, Product Backlog, Sprint Backlog, cronograma; entrevista al Líder del Proyecto.
 - **Evidencias:** EV-001 a EV-005.
@@ -108,7 +108,7 @@ Cada papel de trabajo documenta un procedimiento específico de auditoría e inc
 
 ## 4. Conclusiones generales
 
-La revisión efectuada evidencia que el proyecto AstraLog fue desarrollado siguiendo prácticas de Ingeniería de Software acordes con la metodología Scrum y apoyado por herramientas de gestión, control de versiones y aseguramiento de la calidad. Se verificó la existencia de documentación técnica, arquitectura, gestión de requisitos, control de versiones, mecanismos de autenticación y registros de pruebas que respaldan el proceso de desarrollo.
+La revisión efectuada evidencia que el proyecto Techmovil fue desarrollado siguiendo prácticas de Ingeniería de Software acordes con la metodología Scrum y apoyado por herramientas de gestión, control de versiones y aseguramiento de la calidad. Se verificó la existencia de documentación técnica, arquitectura, gestión de requisitos, control de versiones, mecanismos de autenticación y registros de pruebas que respaldan el proceso de desarrollo.
 
 Como oportunidad de mejora, se recomienda **fortalecer la documentación de las pruebas unitarias automatizadas** y ampliar el registro de métricas de calidad para futuras versiones del sistema.
 
@@ -116,8 +116,8 @@ Como oportunidad de mejora, se recomienda **fortalecer la documentación de las 
 
 | Cargo | Nombre |
 |---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman |
-| Auditor Técnico | RAMOS COAQUIRA, Jeimy Paul |
-| Auditor Documental | QUISPE QUISPE, Yunior Benito |
+| Auditor Líder | Idonis Mijael Paye Trujillo |
+| Auditor Técnico |  |
+| Auditor Documental | Kevin Edwin Sucapuca Calcinay |
 
-Código del Documento: PT-SDLC-ASTRALOG-001 · Versión: 1.0 · Estado: Aprobado
+Código del Documento: PT-SDLC-TECHMOVIL-001 · Versión: 1.0 · Estado: Aprobado

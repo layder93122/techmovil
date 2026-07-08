@@ -1,7 +1,7 @@
 # Plan de Auditoría SDLC
 
 !!! info "Ficha del documento"
-    **Código:** PA-SDLC-ASTRALOG-001
+    **Código:** PA-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Aprobado
 
@@ -11,36 +11,36 @@
 
 | Campo | Información |
 |---|---|
-| Código | PA-SDLC-ASTRALOG-001 |
+| Código | PA-SDLC-TECHMOVIL-001 |
 | Nombre del Documento | Plan de Auditoría SDLC |
-| Proyecto | AstraLog |
-| Organización Auditada | ASTRAMACO III |
+| Proyecto | Techmovil |
+| Organización Auditada | Techmovil |
 | Versión | 1.0 |
 | Estado | Aprobado |
 | Fecha | Junio 2026 |
-| Elaborado por | Equipo Auditor: QUISPE QUISPE, Yunior Benito; MAMANI VARGAS, Anthony Kelman; RAMOS COAQUIRA, Jeimy Paul; APAZA YUCRA, Elvis Jesus |
+| Elaborado por | Equipo Auditor: Kevin Edwin Sucapuca Calcinay; Idonis Mijael Paye Trujillo; Yohan Layder Escarcena Pancca |
 | Revisado por | Docente Ruben Roque Sucari |
-| Aprobado por | Responsable del Proyecto, APAZA YUCRA, Elvis Jesus |
+| Aprobado por | Responsable del Proyecto, Yohan Layder Escarcena Pancca |
 
 ### Historial de Versiones
 
 | Versión | Fecha | Descripción | Autor |
 |---|---|---|---|
-| 1.0 | Junio 2026 | Creación inicial del Plan de Auditoría SDLC | Equipo Auditor: QUISPE QUISPE, Yunior Benito; MAMANI VARGAS, Anthony Kelman; RAMOS COAQUIRA, Jeimy Paul; APAZA YUCRA, Elvis Jesus |
+| 1.0 | Junio 2026 | Creación inicial del Plan de Auditoría SDLC | Equipo Auditor: Kevin Edwin Sucapuca Calcinay; Idonis Mijael Paye Trujillo; Yohan Layder Escarcena Pancca |
 
 ## 1. Información General
 
 ### 1.1 Nombre de la Auditoría
 
-Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del Sistema AstraLog.
+Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del Sistema Techmovil.
 
 ### 1.2 Sistema Auditado
 
-AstraLog – Solución Logística Centralizada.
+Techmovil – Solución Logística Centralizada.
 
 ### 1.3 Organización Auditada
 
-ASTRAMACO III
+Techmovil
 
 ### 1.4 Tipo de Auditoría
 
@@ -48,7 +48,7 @@ Auditoría de Sistemas de Información enfocada en el Ciclo de Vida del Desarrol
 
 ### 1.5 Auditor Líder
 
-Equipo Auditor – CoreSystems Solutions - MAMANI VARGAS, Anthony Kelman
+Equipo Auditor – equipo de desarrollo - Idonis Mijael Paye Trujillo
 
 ### 1.6 Duración
 
@@ -72,13 +72,13 @@ Por definir.
 
 ## 2. Objetivo del Plan de Auditoría
 
-El presente Plan de Auditoría tiene como finalidad establecer la planificación, organización y metodología para la ejecución de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog, desarrollado para la empresa ASTRAMACO III. El plan permitirá evaluar el cumplimiento de los procesos de desarrollo, la calidad del software, la documentación, la seguridad, las pruebas y la aplicación de buenas prácticas de Ingeniería de Software, tomando como referencia los estándares ISO/IEC 12207, ISO/IEC 25010 y CMMI-DEV.
+El presente Plan de Auditoría tiene como finalidad establecer la planificación, organización y metodología para la ejecución de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil, desarrollado para la empresa Techmovil. El plan permitirá evaluar el cumplimiento de los procesos de desarrollo, la calidad del software, la documentación, la seguridad, las pruebas y la aplicación de buenas prácticas de Ingeniería de Software, tomando como referencia los estándares ISO/IEC 12207, ISO/IEC 25010 y CMMI-DEV.
 
 ## 3. Alcance del Plan de Auditoría
 
 ### 3.1 Alcance General
 
-La presente auditoría comprende la evaluación del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog, desarrollado para la empresa ASTRAMACO III, verificando el cumplimiento de los procesos, controles, documentación y buenas prácticas aplicadas durante las fases de planificación, análisis, diseño, desarrollo, pruebas, implementación, mantenimiento, seguridad y calidad del software.
+La presente auditoría comprende la evaluación del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil, desarrollado para la empresa Techmovil, verificando el cumplimiento de los procesos, controles, documentación y buenas prácticas aplicadas durante las fases de planificación, análisis, diseño, desarrollo, pruebas, implementación, mantenimiento, seguridad y calidad del software.
 
 La auditoría abarcará la revisión de la documentación del proyecto, la evidencia técnica disponible, los procesos de desarrollo y los mecanismos implementados para garantizar la calidad del sistema, tomando como referencia los estándares ISO/IEC 12207:2017, ISO/IEC 25010, CMMI-DEV y el Checklist SDLC definido para el proyecto.
 
@@ -101,7 +101,7 @@ La auditoría evaluará los siguientes componentes del proyecto:
 
 ## 4. Criterios de Auditoría
 
-La evaluación del proyecto AstraLog será realizada considerando los siguientes criterios:
+La evaluación del proyecto Techmovil será realizada considerando los siguientes criterios:
 
 | Norma / Modelo | Propósito |
 |---|---|
@@ -138,10 +138,10 @@ Finalmente se verificará la implementación de las acciones correctivas propues
 
 | Cargo | Responsable | Responsabilidad |
 |---|---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman | Planificar, coordinar y dirigir la auditoría. |
-| Auditor de Procesos | APAZA YUCRA, Elvis Jesus | Evaluar la gestión del proyecto y el cumplimiento del SDLC. |
-| Auditor Técnico | RAMOS COAQUIRA, Jeimy Paul | Revisar arquitectura, desarrollo, seguridad y calidad del software. |
-| Auditor Documental | QUISPE QUISPE, Yunior Benito | Revisar la documentación técnica y funcional del proyecto. |
+| Auditor Líder | Idonis Mijael Paye Trujillo | Planificar, coordinar y dirigir la auditoría. |
+| Auditor de Procesos | Yohan Layder Escarcena Pancca | Evaluar la gestión del proyecto y el cumplimiento del SDLC. |
+| Auditor Técnico |  | Revisar arquitectura, desarrollo, seguridad y calidad del software. |
+| Auditor Documental | Kevin Edwin Sucapuca Calcinay | Revisar la documentación técnica y funcional del proyecto. |
 
 ### 6.2 Responsabilidades del Equipo Auditor
 
@@ -157,7 +157,7 @@ El equipo auditor será responsable de:
 
 ### 6.3 Responsabilidades del Equipo Auditado
 
-El equipo del proyecto AstraLog deberá:
+El equipo del proyecto Techmovil deberá:
 
 - Facilitar la documentación requerida.
 - Brindar acceso a las evidencias del proyecto.
@@ -170,7 +170,7 @@ El equipo del proyecto AstraLog deberá:
 
 ### 7.1 Cronograma General
 
-La auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog se desarrollará durante un período estimado de ocho (08) semanas, distribuidas en cuatro fases: preparación y planificación, ejecución, análisis e informe, y seguimiento y cierre. El cronograma permitirá organizar las actividades del equipo auditor, controlar el avance de la auditoría y garantizar el cumplimiento de los objetivos establecidos en el presente Plan de Auditoría.
+La auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil se desarrollará durante un período estimado de ocho (08) semanas, distribuidas en cuatro fases: preparación y planificación, ejecución, análisis e informe, y seguimiento y cierre. El cronograma permitirá organizar las actividades del equipo auditor, controlar el avance de la auditoría y garantizar el cumplimiento de los objetivos establecidos en el presente Plan de Auditoría.
 
 **Tabla 7.1. Cronograma General de la Auditoría**
 
@@ -223,7 +223,7 @@ El avance de la auditoría será monitoreado mediante reuniones periódicas del 
 
 ### 8.1 Objetivo
 
-Los recursos descritos en esta sección corresponden a los medios humanos, tecnológicos, documentales y logísticos necesarios para ejecutar la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog, garantizando la correcta recopilación de evidencias, el análisis de la información y la elaboración de los informes de auditoría.
+Los recursos descritos en esta sección corresponden a los medios humanos, tecnológicos, documentales y logísticos necesarios para ejecutar la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil, garantizando la correcta recopilación de evidencias, el análisis de la información y la elaboración de los informes de auditoría.
 
 ### 8.2 Recursos Humanos
 
@@ -233,12 +233,12 @@ La auditoría será ejecutada por un equipo multidisciplinario encargado de plan
 
 | Recurso | Función |
 |---|---|
-| Auditor Líder — MAMANI VARGAS, Anthony Kelman | Dirigir, coordinar y supervisar la ejecución de la auditoría. |
-| Auditor de Procesos — APAZA YUCRA, Elvis Jesus | Evaluar la gestión del proyecto y el cumplimiento del SDLC. |
-| Auditor Técnico — RAMOS COAQUIRA, Jeimy Paul | Revisar la arquitectura, desarrollo, seguridad y calidad del software. |
-| Auditor Documental — QUISPE QUISPE, Yunior Benito | Analizar la documentación técnica, funcional y administrativa del proyecto. |
-| Equipo de Desarrollo (QUISPE QUISPE, Yunior Benito; MAMANI VARGAS, Anthony Kelman; RAMOS COAQUIRA, Jeimy Paul; APAZA YUCRA, Elvis Jesus) | Proporcionar información, evidencias y soporte durante la auditoría. |
-| Stakeholders de ASTRAMACO III | Validar la información requerida y atender las consultas del equipo auditor. |
+| Auditor Líder — Idonis Mijael Paye Trujillo | Dirigir, coordinar y supervisar la ejecución de la auditoría. |
+| Auditor de Procesos — Yohan Layder Escarcena Pancca | Evaluar la gestión del proyecto y el cumplimiento del SDLC. |
+| Auditor Técnico —  | Revisar la arquitectura, desarrollo, seguridad y calidad del software. |
+| Auditor Documental — Kevin Edwin Sucapuca Calcinay | Analizar la documentación técnica, funcional y administrativa del proyecto. |
+| Equipo de Desarrollo (Kevin Edwin Sucapuca Calcinay; Idonis Mijael Paye Trujillo; Yohan Layder Escarcena Pancca) | Proporcionar información, evidencias y soporte durante la auditoría. |
+| Stakeholders de Techmovil | Validar la información requerida y atender las consultas del equipo auditor. |
 
 ### 8.3 Recursos Tecnológicos
 
@@ -260,7 +260,7 @@ Para el desarrollo de la auditoría se utilizarán herramientas que permitan acc
 
 ### 8.4 Recursos Documentales
 
-La auditoría requerirá el acceso a la documentación generada durante el desarrollo del sistema AstraLog, la cual servirá como evidencia para evaluar el cumplimiento del SDLC.
+La auditoría requerirá el acceso a la documentación generada durante el desarrollo del sistema Techmovil, la cual servirá como evidencia para evaluar el cumplimiento del SDLC.
 
 **Tabla 8.3 Recursos Documentales**
 
@@ -303,7 +303,7 @@ El uso adecuado de los recursos humanos, tecnológicos, documentales y logístic
 
 ### 9.1 Objetivo
 
-La gestión de riesgos tiene como finalidad identificar, analizar, evaluar y establecer acciones de tratamiento para aquellos eventos que puedan afectar el desarrollo y cumplimiento de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog. La aplicación de esta gestión permitirá minimizar el impacto de posibles incidentes sobre el cronograma, el alcance, la calidad de los resultados y la disponibilidad de las evidencias requeridas.
+La gestión de riesgos tiene como finalidad identificar, analizar, evaluar y establecer acciones de tratamiento para aquellos eventos que puedan afectar el desarrollo y cumplimiento de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil. La aplicación de esta gestión permitirá minimizar el impacto de posibles incidentes sobre el cronograma, el alcance, la calidad de los resultados y la disponibilidad de las evidencias requeridas.
 
 ### 9.2 Metodología para la Gestión de Riesgos
 
@@ -362,7 +362,7 @@ La supervisión y control de los riesgos identificados será responsabilidad del
 
 ### 10.1 Objetivo
 
-Los productos esperados corresponden a los documentos, registros y resultados que serán generados durante la ejecución de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog. Estos productos constituirán la evidencia formal del trabajo realizado por el equipo auditor y servirán como base para la toma de decisiones y la implementación de acciones de mejora.
+Los productos esperados corresponden a los documentos, registros y resultados que serán generados durante la ejecución de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil. Estos productos constituirán la evidencia formal del trabajo realizado por el equipo auditor y servirán como base para la toma de decisiones y la implementación de acciones de mejora.
 
 ### 10.2 Productos de la Auditoría
 
@@ -373,7 +373,7 @@ Como resultado de la ejecución del presente Plan de Auditoría, se espera obten
 | N.° | Producto | Descripción |
 |---|---|---|
 | 1 | Plan de Auditoría SDLC | Documento que establece los objetivos, alcance, metodología, cronograma, recursos y organización de la auditoría. |
-| 2 | Checklist SDLC Adaptado a AstraLog | Lista de verificación basada en ISO/IEC 12207, ISO/IEC 25010, CMMI-DEV y buenas prácticas de Ingeniería de Software para evaluar el cumplimiento del SDLC. |
+| 2 | Checklist SDLC Adaptado a Techmovil | Lista de verificación basada en ISO/IEC 12207, ISO/IEC 25010, CMMI-DEV y buenas prácticas de Ingeniería de Software para evaluar el cumplimiento del SDLC. |
 | 3 | Papeles de Trabajo de Auditoría | Registros que documentan las actividades realizadas, evidencias recopiladas, observaciones y resultados obtenidos durante la auditoría. |
 | 4 | Matriz de Hallazgos | Documento que consolida los hallazgos identificados, clasificándolos según su criticidad, evidencia, criterio y causa. |
 | 5 | Informe Preliminar de Auditoría | Documento que presenta los resultados iniciales de la auditoría para su revisión y validación por parte de los responsables del proyecto. |
@@ -400,9 +400,9 @@ Los productos resultantes de la auditoría serán entregados a los siguientes in
 
 | Destinatario | Propósito |
 |---|---|
-| Equipo de Desarrollo de AstraLog (QUISPE QUISPE, Yunior Benito; MAMANI VARGAS, Anthony Kelman; RAMOS COAQUIRA, Jeimy Paul) | Conocer los hallazgos y aplicar las acciones de mejora correspondientes. |
-| Responsable del Proyecto — APAZA YUCRA, Elvis Jesus | Supervisar el cumplimiento de las recomendaciones y gestionar las acciones correctivas. |
-| Stakeholders de ASTRAMACO III | Validar el estado del sistema y conocer los resultados de la auditoría. |
+| Equipo de Desarrollo de Techmovil (Kevin Edwin Sucapuca Calcinay; Idonis Mijael Paye Trujillo; ) | Conocer los hallazgos y aplicar las acciones de mejora correspondientes. |
+| Responsable del Proyecto — Yohan Layder Escarcena Pancca | Supervisar el cumplimiento de las recomendaciones y gestionar las acciones correctivas. |
+| Stakeholders de Techmovil | Validar el estado del sistema y conocer los resultados de la auditoría. |
 | Docente del Curso — Ruben Roque Sucari | Evaluar el desarrollo de la auditoría y verificar el cumplimiento de los objetivos académicos. |
 
 ### 10.5 Criterios de Aceptación
@@ -414,17 +414,17 @@ Los productos de la auditoría serán considerados aceptados cuando cumplan las 
 - Sean revisados y validados por el Auditor Líder.
 - Cumplan con los criterios establecidos en el presente Plan de Auditoría.
 - Sean entregados dentro de los plazos definidos en el cronograma.
-- Incluyan las recomendaciones necesarias para fortalecer la calidad y el cumplimiento del SDLC del sistema AstraLog.
+- Incluyan las recomendaciones necesarias para fortalecer la calidad y el cumplimiento del SDLC del sistema Techmovil.
 
 ### 10.6 Resultado Esperado
 
-Al finalizar la auditoría, se espera disponer de un conjunto de documentos técnicos que permitan evaluar objetivamente el grado de cumplimiento del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog, identificar fortalezas, oportunidades de mejora y riesgos asociados al proceso de desarrollo, así como proporcionar recomendaciones que contribuyan a incrementar la calidad, seguridad, mantenibilidad y confiabilidad del sistema implementado para ASTRAMACO III.
+Al finalizar la auditoría, se espera disponer de un conjunto de documentos técnicos que permitan evaluar objetivamente el grado de cumplimiento del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil, identificar fortalezas, oportunidades de mejora y riesgos asociados al proceso de desarrollo, así como proporcionar recomendaciones que contribuyan a incrementar la calidad, seguridad, mantenibilidad y confiabilidad del sistema implementado para Techmovil.
 
 ## 11. Control Documental y Firmas de Aprobación
 
 ### 11.1 Control Documental
 
-El presente documento constituye el Plan de Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog, desarrollado para la empresa ASTRAMACO III. Este documento forma parte del expediente de auditoría y establece la planificación, organización y metodología que guiarán la ejecución del proceso de auditoría. Toda modificación realizada a este documento deberá registrarse en el historial de versiones y contar con la aprobación del Auditor Líder, garantizando la trazabilidad, integridad y control de la documentación durante el desarrollo de la auditoría.
+El presente documento constituye el Plan de Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil, desarrollado para la empresa Techmovil. Este documento forma parte del expediente de auditoría y establece la planificación, organización y metodología que guiarán la ejecución del proceso de auditoría. Toda modificación realizada a este documento deberá registrarse en el historial de versiones y contar con la aprobación del Auditor Líder, garantizando la trazabilidad, integridad y control de la documentación durante el desarrollo de la auditoría.
 
 ### 11.2 Control de Distribución
 
@@ -434,10 +434,10 @@ Las copias del presente documento serán distribuidas únicamente a las personas
 
 | N.° | Destinatario | Cargo | Medio de Entrega |
 |---|---|---|---|
-| 1 | MAMANI VARGAS, Anthony Kelman | Auditor Líder — Responsable de la Auditoría | Documento Digital (PDF/Word) |
-| 2 | QUISPE QUISPE, Yunior Benito; MAMANI VARGAS, Anthony Kelman; RAMOS COAQUIRA, Jeimy Paul | Equipo Auditor — Auditores | Documento Digital (PDF/Word) |
-| 3 | APAZA YUCRA, Elvis Jesus | Líder del Proyecto AstraLog — Responsable del Proyecto | Documento Digital (PDF) |
-| 4 | APAZA YUCRA, Elvis Jesus | Representante de ASTRAMACO III — Organización Auditada | Documento Digital (PDF) |
+| 1 | Idonis Mijael Paye Trujillo | Auditor Líder — Responsable de la Auditoría | Documento Digital (PDF/Word) |
+| 2 | Kevin Edwin Sucapuca Calcinay; Idonis Mijael Paye Trujillo;  | Equipo Auditor — Auditores | Documento Digital (PDF/Word) |
+| 3 | Yohan Layder Escarcena Pancca | Líder del Proyecto Techmovil — Responsable del Proyecto | Documento Digital (PDF) |
+| 4 | Yohan Layder Escarcena Pancca | Representante de Techmovil — Organización Auditada | Documento Digital (PDF) |
 | 5 | Ruben Roque Sucari | Docente del Curso — Supervisor Académico | Documento Digital (PDF/Word) |
 
 ### 11.3 Control de Cambios
@@ -452,27 +452,27 @@ Cualquier actualización al Plan de Auditoría deberá ser registrada en la sigu
 
 ### 11.4 Aprobación del Documento
 
-La aprobación del presente documento confirma que el contenido ha sido revisado y que cumple con los objetivos, alcance y metodología definidos para la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema AstraLog.
+La aprobación del presente documento confirma que el contenido ha sido revisado y que cumple con los objetivos, alcance y metodología definidos para la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del sistema Techmovil.
 
 **Tabla 11.3 Registro de Aprobaciones**
 
 | Cargo | Nombre |
 |---|---|
-| Elaborado por (Equipo Auditor) | QUISPE QUISPE, Yunior Benito; MAMANI VARGAS, Anthony Kelman; RAMOS COAQUIRA, Jeimy Paul (firma pendiente) |
-| Revisado por (Auditor Líder) | APAZA YUCRA, Elvis Jesus (firma pendiente) |
-| Aprobado por (Responsable del Proyecto AstraLog) | APAZA YUCRA, Elvis Jesus (firma pendiente) |
+| Elaborado por (Equipo Auditor) | Kevin Edwin Sucapuca Calcinay; Idonis Mijael Paye Trujillo;  (firma pendiente) |
+| Revisado por (Auditor Líder) | Yohan Layder Escarcena Pancca (firma pendiente) |
+| Aprobado por (Responsable del Proyecto Techmovil) | Yohan Layder Escarcena Pancca (firma pendiente) |
 | Validado por (Docente del Curso) | Ruben Roque Sucari (firma pendiente) |
 
 ### 11.5 Confidencialidad
 
-La información contenida en el presente Plan de Auditoría es de uso exclusivo para el desarrollo de la Auditoría SDLC del sistema AstraLog. Su reproducción, distribución o divulgación parcial o total deberá contar con la autorización del Auditor Líder y del responsable del proyecto, garantizando la confidencialidad de la información técnica y documental evaluada durante el proceso de auditoría.
+La información contenida en el presente Plan de Auditoría es de uso exclusivo para el desarrollo de la Auditoría SDLC del sistema Techmovil. Su reproducción, distribución o divulgación parcial o total deberá contar con la autorización del Auditor Líder y del responsable del proyecto, garantizando la confidencialidad de la información técnica y documental evaluada durante el proceso de auditoría.
 
 ### 11.6 Conservación del Documento
 
-El Plan de Auditoría SDLC, junto con los demás documentos generados durante el proceso de auditoría, será almacenado en formato digital dentro del repositorio documental del proyecto, manteniendo el control de versiones y la trazabilidad de las modificaciones realizadas. Los documentos permanecerán disponibles como evidencia del proceso de auditoría y podrán ser utilizados como referencia para futuras auditorías, procesos de mejora continua o actividades académicas relacionadas con el proyecto AstraLog.
+El Plan de Auditoría SDLC, junto con los demás documentos generados durante el proceso de auditoría, será almacenado en formato digital dentro del repositorio documental del proyecto, manteniendo el control de versiones y la trazabilidad de las modificaciones realizadas. Los documentos permanecerán disponibles como evidencia del proceso de auditoría y podrán ser utilizados como referencia para futuras auditorías, procesos de mejora continua o actividades académicas relacionadas con el proyecto Techmovil.
 
 ---
 
-**Código del Documento:** PA-SDLC-ASTRALOG-001 · **Versión:** 1.0 · **Estado:** Aprobado · **Fecha de Emisión:** Junio 2026
+**Código del Documento:** PA-SDLC-TECHMOVIL-001 · **Versión:** 1.0 · **Estado:** Aprobado · **Fecha de Emisión:** Junio 2026
 
 **Próxima Revisión:** Según cronograma de auditoría o cuando se presenten cambios significativos en el alcance o metodología del proceso de auditoría.

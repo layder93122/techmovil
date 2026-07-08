@@ -1,6 +1,6 @@
 # Fase 2 · Describir el Proceso de Desarrollo en Detalle (Describe the Development Process)
 
-En esta fase el equipo auditor levantó, de primera mano, cómo se ejecutó realmente el ciclo de vida de desarrollo del sistema **AstraLog** para **ASTRAMACO III**: se entrevistó al equipo de desarrollo, se revisó la documentación técnica, el repositorio GitHub, el tablero Jira y los reportes de SonarCloud, y se recolectaron las evidencias que sustentan los hallazgos de la Fase 3.
+En esta fase el equipo auditor levantó, de primera mano, cómo se ejecutó realmente el ciclo de vida de desarrollo del sistema **Techmovil** para **Techmovil**: se entrevistó al equipo de desarrollo, se revisó la documentación técnica, el repositorio GitHub, el tablero Jira y los reportes de SonarCloud, y se recolectaron las evidencias que sustentan los hallazgos de la Fase 3.
 
 El resultado de esta fase son tres documentos de auditoría (Registro de Entrevistas, Registro de Evidencias y Papeles de Trabajo) más una página adicional de este sitio — **Evidencia de Desarrollo** — donde se incrustan las capturas reales recopiladas por el equipo de desarrollo (Swagger/CI-CD, SonarQube, pruebas de seguridad, manual de usuario, pruebas E2E) para que el sustento visual de la auditoría quede accesible en un solo lugar.
 

@@ -1,28 +1,28 @@
 # Plan de Acción Correctiva
 
 !!! info "Ficha del documento"
-    **Código:** PAC-SDLC-ASTRALOG-001
+    **Código:** PAC-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Aprobado
 
     [:material-file-pdf-box: Descargar documento original (PDF)](../assets/entregables/fase4/plan-de-accion-correctiva.pdf)
 
 Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC)
-Proyecto: AstraLog – Solución Logística Centralizada
+Proyecto: Techmovil – Solución Logística Centralizada
 
 ## Control del documento
 
 | Campo | Información |
 |---|---|
-| Código | PAC-SDLC-ASTRALOG-001 |
+| Código | PAC-SDLC-TECHMOVIL-001 |
 | Documento | Plan de Acción Correctiva |
-| Proyecto | AstraLog |
-| Organización Auditada | ASTRAMACO III |
+| Proyecto | Techmovil |
+| Organización Auditada | Techmovil |
 | Auditoría | Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) |
 | Versión | 1.0 |
 | Fecha | Junio 2026 |
 | Elaborado por | Equipo Auditor |
-| Responsable de Implementación | Equipo de Desarrollo AstraLog |
+| Responsable de Implementación | Equipo de Desarrollo Techmovil |
 | Estado | Aprobado |
 
 ### Historial de versiones
@@ -33,13 +33,13 @@ Proyecto: AstraLog – Solución Logística Centralizada
 
 ## 1. Objetivo
 
-El presente Plan de Acción Correctiva tiene como objetivo establecer las acciones que deberán ejecutarse para atender las oportunidades de mejora y la no conformidad identificada durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto AstraLog, fortaleciendo la calidad, mantenibilidad, seguridad y confiabilidad del sistema.
+El presente Plan de Acción Correctiva tiene como objetivo establecer las acciones que deberán ejecutarse para atender las oportunidades de mejora y la no conformidad identificada durante la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto Techmovil, fortaleciendo la calidad, mantenibilidad, seguridad y confiabilidad del sistema.
 
 ## 2. Alcance
 
-Este plan comprende las acciones correctivas derivadas de los hallazgos documentados en la Matriz de Hallazgos (MH-SDLC-ASTRALOG-001) y de los riesgos identificados en la Matriz de Riesgos (MR-SDLC-ASTRALOG-001).
+Este plan comprende las acciones correctivas derivadas de los hallazgos documentados en la Matriz de Hallazgos (MH-SDLC-TECHMOVIL-001) y de los riesgos identificados en la Matriz de Riesgos (MR-SDLC-TECHMOVIL-001).
 
-Las acciones deberán ser ejecutadas por el equipo de desarrollo del proyecto AstraLog bajo el seguimiento del equipo auditor.
+Las acciones deberán ser ejecutadas por el equipo de desarrollo del proyecto Techmovil bajo el seguimiento del equipo auditor.
 
 ## 3. Plan de acción correctiva
 
@@ -63,7 +63,7 @@ Leyenda: ● Actividad programada.
 
 ## 5. Mecanismo de seguimiento
 
-El cumplimiento de las acciones correctivas será verificado mediante reuniones periódicas entre el equipo auditor y el equipo de desarrollo del proyecto AstraLog.
+El cumplimiento de las acciones correctivas será verificado mediante reuniones periódicas entre el equipo auditor y el equipo de desarrollo del proyecto Techmovil.
 
 Durante el seguimiento se revisarán los avances de cada acción, las evidencias generadas y el estado de cumplimiento de los compromisos establecidos.
 
@@ -103,11 +103,11 @@ La ejecución del presente Plan de Acción Correctiva permitirá:
 - Optimizar el proceso de despliegue mediante prácticas de integración continua.
 - Formalizar la gestión de incidencias y mantenimiento del sistema.
 - Reducir los riesgos identificados durante la auditoría.
-- Favorecer la mejora continua del proyecto AstraLog.
+- Favorecer la mejora continua del proyecto Techmovil.
 
 ## 9. Conclusiones
 
-El presente Plan de Acción Correctiva constituye el mecanismo mediante el cual el equipo del proyecto AstraLog atenderá los hallazgos identificados durante la Auditoría SDLC.
+El presente Plan de Acción Correctiva constituye el mecanismo mediante el cual el equipo del proyecto Techmovil atenderá los hallazgos identificados durante la Auditoría SDLC.
 
 Las acciones propuestas permitirán fortalecer los procesos de desarrollo, documentación, pruebas, mantenimiento e implementación, contribuyendo a la mejora continua del sistema y al cumplimiento de las buenas prácticas de Ingeniería de Software.
 
@@ -115,11 +115,10 @@ Las acciones propuestas permitirán fortalecer los procesos de desarrollo, docum
 
 | Cargo | Nombre |
 |---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman |
-| Líder del Proyecto AstraLog | APAZA YUCRA, Elvis Jesús |
-| Responsable Técnico | RAMOS COAQUIRA, Jeimy Paul |
-| Representante de ASTRAMACO III | APAZA QUISPE, María de los Andes |
+| Auditor Líder | Idonis Mijael Paye Trujillo |
+| Líder del Proyecto Techmovil | Yohan Layder Escarcena Pancca |
+| Responsable Técnico |  |
 
 ---
 
-**Código del Documento:** PAC-SDLC-ASTRALOG-001 · **Versión:** 1.0 · **Estado:** Aprobado
+**Código del Documento:** PAC-SDLC-TECHMOVIL-001 · **Versión:** 1.0 · **Estado:** Aprobado

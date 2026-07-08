@@ -1,23 +1,23 @@
 # Acta de Cierre de Auditoría SDLC
 
 !!! info "Ficha del documento"
-    **Código:** ACA-SDLC-ASTRALOG-001
+    **Código:** ACA-SDLC-TECHMOVIL-001
     **Versión:** 1.0
     **Estado:** Aprobado
 
     [:material-file-pdf-box: Descargar documento original (PDF)](../assets/entregables/fase4/acta-de-cierre-auditoria.pdf)
 
 Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC)
-Proyecto: AstraLog – Solución Logística Centralizada
+Proyecto: Techmovil – Solución Logística Centralizada
 
 ## Control del documento
 
 | Campo | Información |
 |---|---|
-| Código | ACA-SDLC-ASTRALOG-001 |
+| Código | ACA-SDLC-TECHMOVIL-001 |
 | Documento | Acta de Cierre de Auditoría |
-| Proyecto | AstraLog |
-| Organización Auditada | ASTRAMACO III |
+| Proyecto | Techmovil |
+| Organización Auditada | Techmovil |
 | Auditoría | Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) |
 | Versión | 1.0 |
 | Fecha | Junio 2026 |
@@ -32,19 +32,19 @@ Proyecto: AstraLog – Solución Logística Centralizada
 
 ## 1. Objetivo
 
-La presente Acta tiene como finalidad dejar constancia del cierre formal de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) realizada al proyecto AstraLog, desarrollado para la empresa ASTRAMACO III, registrando la presentación de los resultados, la aceptación del Informe Final de Auditoría y el compromiso de ejecución del Plan de Acción Correctiva.
+La presente Acta tiene como finalidad dejar constancia del cierre formal de la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) realizada al proyecto Techmovil, desarrollado para la empresa Techmovil, registrando la presentación de los resultados, la aceptación del Informe Final de Auditoría y el compromiso de ejecución del Plan de Acción Correctiva.
 
 ## 2. Datos generales
 
 | Concepto | Información |
 |---|---|
-| Proyecto Auditado | AstraLog – Solución Logística Centralizada |
-| Organización Auditada | ASTRAMACO III |
+| Proyecto Auditado | Techmovil – Solución Logística Centralizada |
+| Organización Auditada | Techmovil |
 | Tipo de Auditoría | Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) |
 | Fecha de Inicio de la Auditoría | Junio 2026 |
 | Fecha de Cierre de la Auditoría | Junio 2026 |
 | Equipo Auditor | Equipo Auditor SDLC |
-| Responsable del Proyecto | Líder del Proyecto AstraLog |
+| Responsable del Proyecto | Líder del Proyecto Techmovil |
 
 ## 3. Documentos emitidos durante la auditoría
 
@@ -88,11 +88,11 @@ Como resultado del proceso de auditoría se obtuvo el siguiente resumen:
 | Riesgos Medios | 5 |
 | Riesgos Bajos | 2 |
 
-El equipo auditor concluye que el proyecto AstraLog presenta un adecuado nivel de cumplimiento de las buenas prácticas de Ingeniería de Software y de los criterios definidos para la Auditoría SDLC.
+El equipo auditor concluye que el proyecto Techmovil presenta un adecuado nivel de cumplimiento de las buenas prácticas de Ingeniería de Software y de los criterios definidos para la Auditoría SDLC.
 
 ## 5. Plan de acción correctiva
 
-Como parte del cierre de la auditoría, el equipo del proyecto AstraLog acepta la implementación del Plan de Acción Correctiva (PAC-SDLC-ASTRALOG-001), comprometiéndose a ejecutar las acciones establecidas para atender las oportunidades de mejora y la no conformidad menor identificadas durante la auditoría.
+Como parte del cierre de la auditoría, el equipo del proyecto Techmovil acepta la implementación del Plan de Acción Correctiva (PAC-SDLC-TECHMOVIL-001), comprometiéndose a ejecutar las acciones establecidas para atender las oportunidades de mejora y la no conformidad menor identificadas durante la auditoría.
 
 Las acciones serán ejecutadas conforme al cronograma definido y estarán sujetas a seguimiento hasta su verificación y cierre.
 
@@ -109,11 +109,11 @@ El equipo auditor deja constancia de que:
 - Se acordó el Plan de Acción Correctiva.
 - Se entregó toda la documentación generada durante la auditoría.
 
-En consecuencia, la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto AstraLog se declara formalmente concluida.
+En consecuencia, la Auditoría del Ciclo de Vida del Desarrollo de Software (SDLC) del proyecto Techmovil se declara formalmente concluida.
 
 ## 7. Compromisos del equipo auditado
 
-El equipo del proyecto AstraLog se compromete a:
+El equipo del proyecto Techmovil se compromete a:
 
 - Ejecutar las acciones correctivas dentro de los plazos establecidos.
 - Mantener actualizada la documentación técnica del sistema.
@@ -123,7 +123,7 @@ El equipo del proyecto AstraLog se compromete a:
 
 ## 8. Observaciones finales
 
-El equipo auditor reconoce la disposición y colaboración brindada por el equipo de desarrollo de AstraLog durante todas las fases de la auditoría.
+El equipo auditor reconoce la disposición y colaboración brindada por el equipo de desarrollo de Techmovil durante todas las fases de la auditoría.
 
 Las recomendaciones emitidas tienen como finalidad fortalecer la calidad, mantenibilidad, seguridad y evolución del sistema, promoviendo la mejora continua de los procesos de desarrollo de software.
 
@@ -133,11 +133,10 @@ Con la firma del presente documento, las partes dejan constancia de haber recibi
 
 | Cargo | Nombre | Fecha |
 |---|---|---|
-| Auditor Líder | MAMANI VARGAS, Anthony Kelman | 26/06/2026 |
-| Auditor Técnico | RAMOS COAQUIRA, Jeimy Paul | 26/06/2026 |
-| Auditor Documental | QUISPE QUISPE, Yunior Benito | 26/06/2026 |
-| Líder del Proyecto AstraLog | APAZA YUCRA, Elvis Jesús | 26/06/2026 |
-| Representante de ASTRAMACO III | APAZA QUISPE, Maria de los Andes | 26/06/2026 |
+| Auditor Líder | Idonis Mijael Paye Trujillo | 26/06/2026 |
+| Auditor Técnico |  | 26/06/2026 |
+| Auditor Documental | Kevin Edwin Sucapuca Calcinay | 26/06/2026 |
+| Líder del Proyecto Techmovil | Yohan Layder Escarcena Pancca | 26/06/2026 |
 
 ## 10. Anexos
 
@@ -155,4 +154,4 @@ Se adjuntan como respaldo del presente Acta los siguientes documentos:
 
 ---
 
-**Código del Documento:** ACA-SDLC-ASTRALOG-001 · **Versión:** 1.0 · **Estado:** Aprobado
+**Código del Documento:** ACA-SDLC-TECHMOVIL-001 · **Versión:** 1.0 · **Estado:** Aprobado
