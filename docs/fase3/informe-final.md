@@ -120,7 +120,7 @@ Durante la auditoría se revisaron los siguientes documentos y artefactos:
 - Base de datos MySQL.
 
 !!! tip "Capturas de estos artefactos"
-    Ver las capturas reales de varios de estos artefactos (repositorio, CI/CD, SonarCloud, manual de usuario) en **[Evidencia de Desarrollo](../fase2/evidencia-desarrollo.md)**. Los diagramas C4/UML se referencian en el [Registro de Evidencias](../fase2/registro-evidencias.md) pero no se recibió una imagen de ellos entre los documentos entregados.
+    Ver las capturas reales de varios de estos artefactos (repositorio, CI/CD, SonarCloud, manual de usuario) en **[Evidencia de Desarrollo](../fase2/evidencia-desarrollo.md)**. Los diagramas C4/UML se referencian en el [Registro de Evidencias](../fase2/registro-evidencias.md) y están disponibles en **[Diagramas de Arquitectura](../tecnico/arquitectura.md)**, generados a partir del código fuente real del sistema.
 
 ## 7. Resultados de la auditoría
 

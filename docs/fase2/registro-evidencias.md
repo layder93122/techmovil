@@ -50,8 +50,8 @@ Cada evidencia registrada contiene: código único, área auditada, descripción
 | EV-012 | Diagramas UML | PlantUML | Arquitecto | Conforme | Diagramas consistentes con la implementación. |
 | EV-013 | Modelo de Base de Datos MySQL | MySQL Workbench | Arquitecto | Conforme | Modelo lógico disponible. |
 
-!!! warning "Diagramas C4/UML no incluidos como imagen en este sitio"
-    EV-010, EV-011 y EV-012 se verificaron contra la documentación/repositorio propio de Techmovil, pero no llegaron como archivos de imagen entre los documentos entregados para construir este MkDocs. Si el equipo dispone de los `.png`/`.svg` de los diagramas C4 y UML, deben añadirse a `docs/assets/img/arquitectura/` y enlazarse aquí y en [Evidencia de Desarrollo](evidencia-desarrollo.md) para completar el sustento visual de esta fase.
+!!! success "Diagramas C4/UML disponibles"
+    EV-010, EV-011 y EV-012 se verificaron contra la documentación/repositorio propio de Techmovil. Los documentos originales de esta auditoría no incluían una imagen de esos diagramas, así que se generaron a partir del código fuente real del backend (`AuthControlador`, `JwtFilter`, `VentaServiceImpl`, `ProductoController`) — ver **[Diagramas de Arquitectura](../tecnico/arquitectura.md)**: diagrama de contenedores, flujo de autenticación JWT y flujo de inventario/venta.
 
 ### 4.4 Desarrollo
 

@@ -21,7 +21,7 @@ A continuación se listan los cuatro documentos que integran esta fase, con el I
 
 Los hallazgos de esta fase se sustentan en capturas reales, no solo en texto — ver **[Evidencia de Desarrollo (Fase 2)](../fase2/evidencia-desarrollo.md)**:
 
-- **H-003 (Arquitectura, Conformidad):** el Registro de Evidencias referencia diagramas C4/UML (EV-010 a EV-012), pero **no se incluyó una imagen de esos diagramas** entre los entregables recibidos — ver la advertencia en [Evidencia de Desarrollo → Estructura del desarrollo](../fase2/evidencia-desarrollo.md#estructura-del-desarrollo).
+- **H-003 (Arquitectura, Conformidad):** el Registro de Evidencias referencia diagramas C4/UML (EV-010 a EV-012) — ver **[Diagramas de Arquitectura](../tecnico/arquitectura.md)**: diagrama general de contenedores, flujo de autenticación JWT y flujo de inventario/venta, generados a partir del código fuente real.
 - **H-006 (Calidad y Pruebas, No Conformidad Menor):** confirmado con evidencia visual — ver [Evidencia de Desarrollo → Pruebas unitarias, hallazgo](../fase2/evidencia-desarrollo.md#pruebas-unitarias-hallazgo).
 - **H-009 (Implementación / CI-CD, Oportunidad de Mejora):** ver las capturas reales de GitHub Actions en [Evidencia de Desarrollo → CI/CD Backend](../fase2/evidencia-desarrollo.md#cicd-backend-github-actions) y [CI/CD Frontend](../fase2/evidencia-desarrollo.md#cicd-frontend-github-actions).
 - **Seguridad (H-005) y calidad de código:** ver [OWASP ZAP / pruebas de seguridad](../fase2/evidencia-desarrollo.md#pruebas-de-seguridad) y [SonarQube y cobertura](../fase2/evidencia-desarrollo.md#sonarqube-y-cobertura-de-codigo).

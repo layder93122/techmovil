@@ -36,6 +36,9 @@ Captura real del árbol de directorios del **frontend** (Angular, VS Code):
 
 ![Estructura de carpetas del frontend Techmovil en VS Code](../assets/img/config-herramientas-front/frontend-ci_06.png)
 
+!!! success "Diagrama general de arquitectura, flujo de autenticación y flujo de inventario"
+    Ver **[Diagramas de Arquitectura](../tecnico/arquitectura.md)** (sección Documentación Técnica): diagrama de contenedores C4, secuencia de autenticación JWT y flujo de venta/control de stock, generados a partir del código fuente real del backend.
+
 ## CI/CD — Backend (GitHub Actions) {: #cicd-backend-github-actions }
 
 El equipo backend documentó paso a paso la puesta en marcha de GitHub Actions (`backend-ci.yml` / `backend-integration.yml`), separando pruebas unitarias e integración, y la generación de reportes SonarQube/CNES. Dos capturas representativas:

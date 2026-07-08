@@ -10,6 +10,7 @@ Las cifras clave que aparecen de forma recurrente en estos documentos — 196 te
 
 ## Índice de documentos
 
+- [Diagramas de Arquitectura](arquitectura.md) — Diagrama general de contenedores, flujo de autenticación JWT y flujo de inventario/venta, construidos a partir del código fuente real (`AuthControlador`, `JwtFilter`, `VentaServiceImpl`, `ProductoController`).
 - [Guía de Instalación Local](guia-instalacion-local.md) — Puesta en marcha completa del sistema (backend, frontend, base de datos, Postman, SonarQube, K6) en un entorno local, paso a paso.
 - [Manual de CI/CD](manual-cicd.md) — Configuración del pipeline de integración y despliegue continuo con GitHub Actions, Docker Compose, SonarQube y despliegue en Railway/Vercel.
 - [Informe de Pruebas E2E (Manuales)](informe-e2e.md) — Detalle de los casos de prueba End-to-End ejecutados manualmente sobre los módulos de Autenticación, Productos, Inventario, Ventas POS, Reportes y Clientes.

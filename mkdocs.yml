@@ -35,7 +35,11 @@ theme:
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - tables
   - toc:
       permalink: true
@@ -72,6 +76,7 @@ nav:
       - Plan de Acción Correctiva: fase4/plan-accion-correctiva.md
   - Documentación Técnica:
       - Resumen: tecnico/index.md
+      - Diagramas de Arquitectura: tecnico/arquitectura.md
       - Guía de Instalación Local: tecnico/guia-instalacion-local.md
       - Manual de CI/CD: tecnico/manual-cicd.md
       - Informe SonarQube: tecnico/informe-sonarqube.md
